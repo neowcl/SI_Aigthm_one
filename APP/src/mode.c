@@ -214,6 +214,7 @@ uint32_t rc_integral_CEDV = 0;
 4425,4448,4465} ;
 
 
+
 // 为什么计算放电开始的内阻没有用到 单位放大缩小 ？ 
 
 /*     void Calc_FCC_CEDV()      */
@@ -1022,6 +1023,10 @@ uint16_t QMaxUpdateJudge_CEDV(uint8_t InitSOC, uint8_t EndSOC)
     // qmax_CEDV_temp = QmaxCapcity_Calc*25/36/dropSoc/100 ;   // (dropSoc/100)  = soc / 100        
     // qmax_CEDV_temp = QmaxCapcity_Calc*1/36/dropSoc/4 ;   // (dropSoc/100)  = soc / 100   
     qmax_CEDV_temp = QmaxCapcity_Calc/dropSoc/144 ;   // (dropSoc/100)  = soc / 100   
+
+
+    // 6350
+    // 6355
     // t_com31_out = qmax_CEDV_temp ;
 
 
@@ -1198,9 +1203,6 @@ void QMax_Calc_CEDV(void)
                                     Qamx1InitSOC = aidxq1;
                                 }
                             }
-
-
-             
                             f_Qmax_start = ON;
                             f_Qmax_end = OFF;
                             at_endqmax_cnt = 0;
@@ -1262,8 +1264,6 @@ void QMax_Calc_CEDV(void)
                                 }
                                 t_com9b_out = aidxq1;         //
                                 t_com9c_out = PackQamxEndSOC; // 
-
-
                             SOC_CEDV =  PackQamxEndSOC ;   // f_relax time sufficient time , update SOC .
 
                            //  Record_lrc_w_CEDV = SOC_CEDV * qmax_CEDV/100*14400 ;
@@ -1310,12 +1310,12 @@ void QMax_Calc_CEDV(void)
                         // qmax_CEDV2 = QMaxUpdateJudge_CEDV(Qamx2InitSOC, Qamx2EndSOC);
                         // qmax_CEDV3 = QMaxUpdateJudge_CEDV(Qamx3InitSOC, Qamx3EndSOC);
                         // qmax_CEDV4 = QMaxUpdateJudge_CEDV(Qamx4InitSOC, Qamx4EndSOC);
-
                         //  Record_lrc_w_CEDV_fcc_show = qmax_CEDV * 14400 * SOC_CEDV_show /100;
 
 
-                        Record_lrc_w_CEDV =  (uint32_t)qmax_CEDV*SOC_CEDV*144+(uint32_t)qmax_CEDV*SOC_CEDV*71/50; // capcity + capcity /100 ;
 
+
+                        Record_lrc_w_CEDV =  (uint32_t)qmax_CEDV*SOC_CEDV*144+(uint32_t)qmax_CEDV*SOC_CEDV*71/50; // capcity + capcity /100 ;
 
                         Record_lrc_w_CEDV_fcc_show = (int32_t)(((long)qmax_CEDV * 144) * SOC_CEDV_show);
                         Record_lrc_w_CEDV_fcc_show_last = Record_lrc_w_CEDV_fcc_show ;
@@ -1568,8 +1568,7 @@ void Calc_FCC_CEDV(void)  // read four , % -1.5 0 1 2 3 4 ....101 res  , calc on
                t_com32_out = fcc_CEDV_Ture;
                t_com31_out = qmax_CEDV;
               // t_com8b_out = fcc_use_qmax;
-               
-
+            
                break;
             }
             else
@@ -1652,7 +1651,7 @@ void Calc_fulchg_dsg_cap(void)
 
 	//if (((CellTemp > 15) && (CellTemp <= 45)) && ((beilv >= 10) && (beilv <= 70)))  // must charge or dsg .
 	//{// chg clear . dsg : use 
-		if (V_min > D_Discharge_0_voltage)   
+		if (V_min >= D_Discharge_0_voltage)   
 		{
 			if (!f_charge) // must dsg not relax 
 			{
@@ -1685,7 +1684,6 @@ void Calc_fulchg_dsg_cap(void)
 					// ful_dsg_cap_FCC = ful_dsg_cap/3600;  // single 
 
                     ful_dsg_cap_FCC = ful_dsg_cap/14400;   //14400 
-
 					fcc_CEDV_Ture = ful_dsg_cap_FCC  ; //update 0_voltage FCC 
                     t_com32_out = fcc_CEDV_Ture;
 				}

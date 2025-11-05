@@ -207,9 +207,9 @@ const _ST_SMB scom_no_tbl[] =
         {0x02, (uint8_t *)&(_DAStatus1.CellVoltage2)},       // 0x3e
         {0x02, (uint8_t *)&(_DAStatus1.CellVoltage1)},       // 0x3f
         {0x02, (uint8_t *)&_OptCommand2},                       // 0x40 CellVoltage1()
-        {0x02, (uint8_t *)NULL},                             // 0x41 CellVoltage2()
-        {0x02, (uint8_t *)NULL},                             // 0x42 CellVoltage3()
-        {0x02, (uint8_t *)NULL},                             // 0x43 CellVoltage4()
+        {0x02, (uint8_t *)&t_com41_out},                             // 0x41 CellVoltage2()
+        {0x02, (uint8_t *)&t_com42_out},                             // 0x42 CellVoltage3()
+        {0x02, (uint8_t *)&t_com43_out},                             // 0x43 CellVoltage4()
         {0x35, (uint8_t *)t_com44.data},                     // 0x44
         {0x20, (uint8_t *)&t_com45_out},                             // 0x45
         {0x02, (uint8_t *)NULL},                             // 0x46
