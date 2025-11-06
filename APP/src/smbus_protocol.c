@@ -53,6 +53,12 @@ uint16_t t_com1e_out ;
 uint16_t t_com1f_out ;
 
 
+uint16_t pi_sum_time=0;
+uint16_t pi_temp_time=0;
+
+
+
+
 uint16_t t_com31_out ;
 uint16_t t_com32_out ;
 uint16_t t_com33_out ;
@@ -251,8 +257,8 @@ const _ST_SMB scom_no_tbl[] =
         {0x02, (uint8_t *)&t_com6a},                         // 0x6a
         {0x02, (uint8_t *)&t_com6b},                         // 0x6b
         {0x02, (uint8_t *)&t_com6c},                         // 0x6c
-        {0x02, (uint8_t *)NULL},                             // 0x6d
-        {0x02, (uint8_t *)NULL},                             // 0x6e
+        {0x02, (uint8_t *)&pi_sum_time},                             // 0x6d
+        {0x02, (uint8_t *)&pi_temp_time},                             // 0x6e
         {0x02, (uint8_t *)NULL},                             // 0x6f
         {0x20, (uint8_t *)&D_Manufacturer_Info_B01}, // 0x70 ManufacturerInfo()
         {sizeof(_DAStatus1), (uint8_t *)&_DAStatus1},        // 0x71 DAStatus1()

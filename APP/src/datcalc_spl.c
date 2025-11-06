@@ -534,8 +534,8 @@ void Dsg_Update_FCC(void)
 	// t_com31_out =  aidx;
 	// t_com8b_out = awork1  ;
 	// t_com8c_out   = awork2 ;
-	// t_com8d_out = awork3  ;
-	// t_com8e_out   = awork4 ;
+ ;
+
 	
 
 	// dsg_upd_facd32_inner = (dsg_upd_facd32_inner+1000)/ 2 ;
@@ -543,13 +543,13 @@ void Dsg_Update_FCC(void)
 	dsg_upd_facd32_inner = (dsg_upd_facd32_inner+save_fac_dsg_upd)/ 2 ;
 
 
-	t_com32_out = dsg_upd_facd32_inner;
+	
 	// old_factor = save_fac_dsg_upd;		  // to show out information   old factor
 	// new_factor = dsg_upd_facd32_inner;	  // new factor
 	// old_fcc = FCC_up_dsg_last32bit_inner; // to show out information    old fcc
 	temp_result = (dsg_upd_facd32_inner * 10) / (save_fac_dsg_upd/ 10);
 
-	// t_com33_out = save_fac_dsg_upd ;
+	
 
 	FCC_dsg_up = temp_result * (save_dsg_upd_fcc/100) + temp_result * (save_dsg_upd_fcc % 100 / 10) / 10 + temp_result * (save_dsg_upd_fcc % 10) / 100;
 
@@ -667,9 +667,7 @@ void Dsg_Update_work(void)
 	}
 
 
-	// t_com3c_out =  f_ful_chg_once ;
-	// t_com32_out =  count_3s_b;
-	// t_com33_out =  f_count3s_en ;
+	
 	// t_com39_out = f_count3s_en_b ;
 	// t_com3a_out   =  leiji/3600 ;
 
@@ -734,9 +732,7 @@ void Dsg_Update_work(void)
 	f_relax_last_dsgupdate_use = f_relax ; 
 	f_charge_last_dsgupdate_use = f_charge ;
 
-	// t_com31_out =  count_3s ;
-	// t_com32_out =  count_3s_b;
-	// t_com33_out =  f_count3s_en ;
+	
 	// t_com39_out = f_count3s_en_b ;
 	// t_com3a_out   =  leiji/3600 ;
 
@@ -744,82 +740,6 @@ void Dsg_Update_work(void)
 
 
 
-// void Calc_Temp_Rsoc(uint16_t Voltage_temp)
-// {
-// 	uint8_t	aidx; 
-// 	for( aidx=0;  Voltage_temp>= OCV_SOC[aidx+1] && aidx < 19; aidx++ );
-// 	if( Voltage_temp <= OCV_SOC[0] )							// Smaller than 0% voltage ?
-// 	{
-// 		temp_Si_rsoc= 0 ;
-// 	} 
-// 	else 
-// 	{
-// 		if( Voltage_temp >= OCV_SOC[20] )						// Bigger than 100% voltage ?
-// 		{
-// 			// if(f_fullchg == ON)
-// 			// {														
-// 				temp_Si_rsoc = 100 ;
-// 			// }
-// 			// else
-// 			// {
-// 			// 	temp_rsoc = 99 ;
-// 			// }
-// 		} 
-// 		else
-// 		{													// Not 0% and Not 99%
-// 			// aresult = (uint8_t)((long)(INITCAP_TBL[aidx+1] - 5*aidx)
-// 			// 			* (V_min - INITV_TBL[aidx])
-// 			// 			/ (INITV_TBL[aidx+1] - INITV_TBL[aidx])
-// 			// 			+ 5*aidx);
-// 			temp_Si_rsoc = (uint8_t)(( Voltage_temp - OCV_SOC[aidx])*5/(OCV_SOC[aidx+1] - OCV_SOC[aidx]))+(5*aidx);
-// 		}
-// 	}
-// }
-
-// void Calc_Vol_Cha(void)
-// {
-// 	float Chazuo  ;
-// 	float Chayou  ;
-// 	uint16_t DOD  ; 
-
-// 	float temp_t_com31_out  ;
-// 	float temp_t_com32_out  ;
-
-// 	float Calc_Vol_Cha_a1 = -0.0568  ; 
-// 	float Calc_Vol_Cha_b1 =  3.9363  ; 
-// 	float Calc_Vol_Cha_c1 = 2.6427   ;
-
-// 	float Calc_Vol_Cha_a2 =  -0.0174 ; 
-// 	float Calc_Vol_Cha_b2 =  1.2454  ; 
-// 	float Calc_Vol_Cha_c2 = 49.5613  ;
-
-// 	DOD = 100 - temp_Si_rsoc  ; 
-// 	temp_t_com31_out= DOD*DOD*(-0.0568) ;
-// 	temp_t_com31_out = (uint16_t)(temp_t_com31_out*100) ; 
-// 	// t_com31_out = (uint16_t)temp_t_com31_out ;
-
-// 	temp_t_com32_out = DOD*(Calc_Vol_Cha_b1) ;
-// 	// t_com32_out = (uint16_t)temp_t_com32_out ;
-
-// 	Chazuo =DOD*DOD*(Calc_Vol_Cha_a1) +DOD*(Calc_Vol_Cha_b1) +Calc_Vol_Cha_c1  ;
-// 	Chayou =DOD*DOD*(Calc_Vol_Cha_a2)  +DOD*(Calc_Vol_Cha_b2) +Calc_Vol_Cha_c2  ;
-
-// 	if(DOD<=34)
-// 	{
-// 		Voltage_new_Si =(uint16_t) (Chazuo +Voltage() );
-// 	}else
-// 	{
-// 		Voltage_new_Si =(uint16_t)(Chayou +Voltage() ) ;
-// 	}
-// }
-
-// void Calc_Si_Soc(void)
-// {
-// 	Calc_Temp_Rsoc(V_min);
-// 	Calc_Vol_Cha() ;
-// 	Calc_Temp_Rsoc(Voltage_new_Si);
-// 	// t_com39_out =  temp_Si_rsoc_out ;
-// }
 
 
 
@@ -1284,9 +1204,7 @@ void Calc_HoseiRC(uint32_t	lrc)
 
 			dis_fac_cpl = t_com0d*DSG_SMOOTH_MUL +t_com0d/DSG_SMOOTH_DIV ;   
 
-// 	uint16_t t_com31_out ;
-// uint16_t t_com32_out ;
-// uint16_t t_com33_out ;
+
 			if (t_com0d < D_CP_L) // t_com0d = rsoc  D_CP_L = 6 ;
 			{
 				if (dis_fac_cpl < 30)
@@ -1314,8 +1232,8 @@ void Calc_HoseiRC(uint32_t	lrc)
 			}
 		}
  
-		// t_com32_out = dis_fac_cpl ;
-		// t_com33_out =lrc ;
+		
+
 		Record_lrc_w  -= dis_fac_cpl*lrc/100;   // muti 
 
 		// t_com39_out = Record_lrc_w /3600/4 ;
@@ -1915,7 +1833,7 @@ void Make_Relearning_cpl(uint8_t acp)
 	
 		Calc_factor_of_fcc(temperature_temp_use); // update fcc , fcc factor and save into  save_fac_dsg_upd
 
-		t_com8d_out = save_fac_dsg_upd ;
+		// t_com8d_out = save_fac_dsg_upd ;
 
 		f_bigger_than_zero = 1;
 		//CellTemp_last_time_update= (t_com08 -2731)/10;
@@ -2226,18 +2144,13 @@ void Calc_CPVolt(void)
 
 
 
-	// t_com90_out =  aidx;  // 
-	// t_com91_out = awork1  ;
-	t_com92_out   = awork2 ;
-	t_com93_out = awork3  ;
+
 	t_com94_out   = awork4 ;
 	t_com95_out  =  tcph_v;
 	t_com96_out  =  tcpl_v ;
 
-	// t_com90_out =  P_aidx;  // 
-	// t_com91_out = Pa1  ;
-	// t_com92_out   = Pa2 ;
-	// t_com93_out = Pa3  ;
+	
+
 	// t_com94_out   = Pa4 ;
 	// t_com95_out  =  tcph_v;
 	// t_com96_out  =  tcpl_v ;
@@ -2385,6 +2298,8 @@ void Calc_RC(void)
 	{
 		D_0PVOLT = D_Discharge_0_voltage;
 	}
+
+	t_com93_out =  D_0PVOLT ;
  
 	if (f_relax)   // now releax , 1 second come into 1 times .  
 	{
@@ -3016,8 +2931,7 @@ void Init_Cap(void)
 	
 	lrc_w_last  = Record_lrc_w ;
 
-	// t_com31_out  = CellTemp ;
-	// t_com32_out = CellTemp_last_time_update ;
+
 	CellTemp_last_time_update= CellTemp ;
 	t_com0dsoclast = t_com0d ;  // RelativeStateOfCharge// RelativeStateOfCharge=t_com0d; 20230409 updated part 1 
 	Make_RC();												// Calculate RemainingCapacity
