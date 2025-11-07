@@ -934,7 +934,7 @@ void Calc_k_CEDV(void) // use leiji style
                 // jisuan neizu
                 //  calc_k_res() ;
                 calc_RES_soc_jisuan = SOC_CEDV;
-                t_com97_out = calc_RES_soc_jisuan;
+               // t_com97_out = calc_RES_soc_jisuan;
 
                 V_OCV = SOC_OCV_103_TBL[SOC_CEDV];    //4360  -  4208 = 152 
                 t_com8c_out = V_OCV;
@@ -1521,8 +1521,8 @@ void Calc_FCC_CEDV(void)  // read four , % -1.5 0 1 2 3 4 ....101 res  , calc on
              //   t_com4d_out = Res_Temp_CEDV_Inner[6];  
 
              
-               t_com4c_out =  SOC_OCV_103_TBL[soc_to_res_index]  ;
-               t_com4d_out =  Ts_max ;
+               t_com97_out =  SOC_OCV_103_TBL[soc_to_res_index]  ;
+               t_com98_out =  Ts_max ;
              t_com93_out =  soc_to_res_index ;
                 t_com95_out   =  I_abs  ; 
                t_com96_out = Res_Temp_CEDV_Inner_turn  ;
@@ -1551,7 +1551,7 @@ void Calc_FCC_CEDV(void)  // read four , % -1.5 0 1 2 3 4 ....101 res  , calc on
 
             //    t_com95_out = twork1_out;
             //    t_com98_out = twork2_out;
-                  t_com98_out = Res_Temp_CEDV_Inner[8];
+              //     t_com98_out = Res_Temp_CEDV_Inner[8];
 
                // t_com97_out = Res_Temp_CEDV_Inner[7];
               
