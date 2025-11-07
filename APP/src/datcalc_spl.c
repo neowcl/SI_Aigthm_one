@@ -2138,26 +2138,12 @@ void Calc_CPVolt(void)
 	// - degC interpolation -
 	tcpl_v = twork1 + (uint16_t)((((long)twork2 - twork1)*awork3/awork4)) - tinreg;
 	//tcpl_v = 3600 ;
-
-
-
-
-
-
-
-	t_com94_out   = awork4 ;
-	t_com95_out  =  tcph_v;
-	t_com96_out  =  tcpl_v ;
-
 	
-
-	// t_com94_out   = Pa4 ;
 	// t_com95_out  =  tcph_v;
 	// t_com96_out  =  tcpl_v ;
-
-
-
-
+	
+	// t_com95_out  =  tcph_v;
+	// t_com96_out  =  tcpl_v ;
 
 	/*******************************IdeaRC******************************************************/
 	if (aidx >= 10 && awork1 > awork2) // > C-Rate4 ?
@@ -2299,7 +2285,7 @@ void Calc_RC(void)
 		D_0PVOLT = D_Discharge_0_voltage;
 	}
 
-	t_com93_out =  D_0PVOLT ;
+	
  
 	if (f_relax)   // now releax , 1 second come into 1 times .  
 	{

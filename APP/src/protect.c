@@ -2641,9 +2641,9 @@ void plugged_IN(void)
     // t_com1d_out =  rsoc_pi   ;
     // t_com1e_out = f_pi_pinghua;  
    //  t_com1f_out =  pi_count ;
-    t_com41_out  = Record_lrc_w_pi /14400 ;
-    t_com42_out  = f_pi_mode_last ;
-    t_com43_out  = Record_lrc_w_pi %14400 ;
+    // t_com41_out  = Record_lrc_w_pi /14400 ;
+    // t_com42_out  = f_pi_mode_last ;
+    // t_com43_out  = Record_lrc_w_pi %14400 ;
     f_pi_mode_last =   f_pi_mode ;
 
 }

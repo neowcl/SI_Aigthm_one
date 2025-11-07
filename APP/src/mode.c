@@ -209,14 +209,12 @@ uint32_t rc_integral_CEDV = 0;
 240,240,240,239,239,238,239,238,238,239,237,237,237,236,235,235,235,234,233,231,\
 225,225,225,}  ;
 
- uint16_t  SOC_OCV_103_TBL[103] = {3100,3200,3392,3497,3568,3621,3655,3666,3671,3674,3676,3677,3680,3687,3695,3702,3708,3714,3722,3727,\
+uint16_t  SOC_OCV_103_TBL[103] = {3100,3200,3392,3497,3568,3621,3655,3666,3671,3674,3676,3677,3680,3687,3695,3702,3708,3714,3722,3727,\
 3732,3735,3739,3745,3749,3755,3759,3764,3769,3773,3778,3782,3785,3789,3793,3796,3801,3804,3808,3813,\
 3818,3822,3827,3832,3837,3842,3848,3854,3860,3866,3873,3880,3887,3895,3903,3914,3926,3940,3954,3965,\
 3975,3986,3996,4006,4016,4027,4037,4048,4058,4069,4080,4091,4103,4114,4126,4138,4149,4162,4173,4186,\
 4198,4211,4223,4235,4248,4259,4272,4283,4295,4307,4318,4329,4339,4349,4360,4370,4379,4390,4400,4412,\
 4425,4448,4465} ;
-
-
 
 // 为什么计算放电开始的内阻没有用到 单位放大缩小 ？ 
 
@@ -746,8 +744,6 @@ void QMax_Calc(void)
         awork4_CEDV = awork4 ;
 
 
-
-
         twork1_out = twork1 ;
         twork2_out = twork2 ; 
 
@@ -900,9 +896,8 @@ void Calc_k_CEDV(void) // use leiji style
                 }
                 else
                 {
-    
                     calc_RES_soc_chabiao = SOC_CEDV;
-                    t_com96_out = calc_RES_soc_chabiao;
+                    // t_com96_out = calc_RES_soc_chabiao;
 
                     Calc_b_aidx();
                     Calc_soc_to_res(b_aidx, calc_RES_soc_chabiao); //
@@ -920,7 +915,7 @@ void Calc_k_CEDV(void) // use leiji style
 
                 calc_RES_soc_chabiao = SOC_CEDV;
 
-                t_com96_out = calc_RES_soc_chabiao;
+                // t_com96_out = calc_RES_soc_chabiao;
                 Calc_b_aidx();
                 Calc_soc_to_res(b_aidx, calc_RES_soc_chabiao); //
 
@@ -941,7 +936,7 @@ void Calc_k_CEDV(void) // use leiji style
                 calc_RES_soc_jisuan = SOC_CEDV;
                 t_com97_out = calc_RES_soc_jisuan;
 
-                V_OCV = SOC_OCV_103_TBL[SOC_CEDV];
+                V_OCV = SOC_OCV_103_TBL[SOC_CEDV];    //4360  -  4208 = 152 
                 t_com8c_out = V_OCV;
 
                 if (I_abs != 0)
@@ -1507,6 +1502,7 @@ void Calc_FCC_CEDV(void)  // read four , % -1.5 0 1 2 3 4 ....101 res  , calc on
             judge_greater_than_0_add_k =  SOC_OCV_103_TBL[soc_to_res_index] \
             - (uint16_t)((long)I_abs * Res_Temp_CEDV_Inner_turn_new/10000) - D_Discharge_0_voltage ;  //  D_0PVOLT  staitc      
       
+           
             // if (judge_greater_than_0 < 0)
             // {
             //     // t_com4d_out =10000+judge_greater_than_0  ;
@@ -1521,8 +1517,18 @@ void Calc_FCC_CEDV(void)  // read four , % -1.5 0 1 2 3 4 ....101 res  , calc on
            // if (judge_greater_than_0 >= 0)
            if (judge_greater_than_0_add_k >= 0)
             {
-               t_com4c_out = D_Design_Capacity_mAh;
-               t_com4d_out = Res_Temp_CEDV_Inner[6];  
+               // t_com4c_out = D_Design_Capacity_mAh;
+             //   t_com4d_out = Res_Temp_CEDV_Inner[6];  
+
+             
+               t_com4c_out =  SOC_OCV_103_TBL[soc_to_res_index]  ;
+               t_com4d_out =  Ts_max ;
+             t_com93_out =  soc_to_res_index ;
+                t_com95_out   =  I_abs  ; 
+               t_com96_out = Res_Temp_CEDV_Inner_turn  ;
+                t_com1f_out = Res_Temp_CEDV_Inner_turn_new;
+
+
             //    t_com7e_out = I_abs;
             //    t_com7f_out = D_Discharge_0_voltage;
             //    t_com80_out = soc_to_res_index;
@@ -1540,8 +1546,6 @@ void Calc_FCC_CEDV(void)  // read four , % -1.5 0 1 2 3 4 ....101 res  , calc on
 
             // //    t_com90_out = Res_Temp_CEDV_Inner[0];
             // //    t_com91_out = Res_Temp_CEDV_Inner[1];
-    
-    
             // //    t_com95_out = Res_Temp_CEDV_Inner[5];
             // //       t_com98_out = Res_Temp_CEDV_Inner[8];
 
@@ -1551,7 +1555,7 @@ void Calc_FCC_CEDV(void)  // read four , % -1.5 0 1 2 3 4 ....101 res  , calc on
 
                // t_com97_out = Res_Temp_CEDV_Inner[7];
               
-                t_com1f_out = Res_Temp_CEDV_Inner_turn_new;
+                
                Res_Temp_CEDV_Inner_out = Res_Temp_CEDV_Inner_turn;
                fcc_CEDV_Ture = (uint16_t)(long)qmax_CEDV * (102 - soc_to_res_index) / 102;
 
@@ -1593,9 +1597,10 @@ void Make_RC_CEDV(void)
     t_com42_out = t_com0f_CEDV_show;
 
      twork2 = (uint16_t)(Record_lrc_w_CEDV / (60*60*4));   // CEDV at most = 102 .
-    if (twork2 >= qmax_CEDV+qmax_CEDV/50-1 )  // cause soc_CEDV index : less than 102 , can reach 101 .
+   //  if (twork2 >= qmax_CEDV+qmax_CEDV/50-1 )  // cause soc_CEDV index : less than 102 , can reach 101 .
+  if (twork2 >= qmax_CEDV )  // cause soc_CEDV index : less than 102 , can reach 101 .
     {
-        t_com0f_CEDV = qmax_CEDV+qmax_CEDV/50-1;
+        t_com0f_CEDV = qmax_CEDV;
     }
     else
     {
@@ -1680,7 +1685,7 @@ void Calc_fulchg_dsg_cap(void)
 				}
 				else
 				{
- 
+
 					f_study_d3_ful = OFF;
 					ful_dsg_cap = 0;
 
@@ -1688,7 +1693,7 @@ void Calc_fulchg_dsg_cap(void)
 			}
 		}
 
-	  t_com95_out = f_study_d3_ful;
+	 //  t_com95_out = f_study_d3_ful;
 }
 
 
@@ -1927,7 +1932,6 @@ static void FullCharge_CEDV(void)
         Record_lrc_w_CEDV =  (uint32_t)qmax_CEDV*14686;
         SOC_CEDV = 101;     // soc_CEDV =101 ; 
        //  t_com0f_CEDV = qmax_CEDV+ qmax_CEDV/100; // Update RemainingCapacity()  // to do 20250919
-
     }
 
     if (f_fullchg_CEDV == OFF) // FULLY_CHARGED == OFF ?
@@ -1965,7 +1969,6 @@ void FullCharge_Chk_CEDV(void)
         f_fullchg_CEDV = OFF;
     }
 
-    
  
     if (f_charge == ON && f_chg) // Charging current detection ?
     {
