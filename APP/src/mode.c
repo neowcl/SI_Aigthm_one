@@ -1519,11 +1519,9 @@ void Calc_FCC_CEDV(void)  // read four , % -1.5 0 1 2 3 4 ....101 res  , calc on
             {
                // t_com4c_out = D_Design_Capacity_mAh;
              //   t_com4d_out = Res_Temp_CEDV_Inner[6];  
-
-             
                t_com97_out =  SOC_OCV_103_TBL[soc_to_res_index]  ;
                t_com98_out =  Ts_max ;
-             t_com93_out =  soc_to_res_index ;
+               t_com93_out =  soc_to_res_index ;
                 t_com95_out   =  I_abs  ; 
                t_com96_out = Res_Temp_CEDV_Inner_turn  ;
                 t_com1f_out = Res_Temp_CEDV_Inner_turn_new;
@@ -1669,7 +1667,7 @@ void Calc_fulchg_dsg_cap(void)
 				if (f_study_d3_ful == ON)  
 				{
 
-               
+        
 					// can go here , must have updated cpl . 
 					//cause  f_study_d3_ful == ON means have f_study_d2 have dupdated ..
 					ful_dsg_cap += I_abs;
@@ -1686,8 +1684,8 @@ void Calc_fulchg_dsg_cap(void)
 				else
 				{
 
-					f_study_d3_ful = OFF;
-					ful_dsg_cap = 0;
+					// f_study_d3_ful = OFF;
+					// ful_dsg_cap = 0;
 
 				}
 			}
@@ -1900,6 +1898,15 @@ void Calc_RSOC_CEDV(void)
 static void FullCharge_CEDV(void)
 {
     uint16_t twork;
+
+
+    //  if (D_Control_flag_1_DIS_DSG_Releaning == OFF) // Dischg relearn not disable ?
+    // {
+    //     f_study_d = ON; // Set discharge relearn flag
+    //     f_study_d1 = ON;
+    //     f_study_d2 = ON;
+        f_study_d3_ful = ON;  //fulchg and ful dsg .
+    // }
  
    // if (Ts_max < D_FCC_relearn_temp_limit || f_study_c == OFF) // Less than relearn limit temp  // or Charge relearn flag=OFF ?
     if (Ts_max < D_FCC_relearn_temp_limit ) 
