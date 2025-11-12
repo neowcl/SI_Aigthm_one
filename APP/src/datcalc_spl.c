@@ -163,85 +163,12 @@ uint8_t  Count_13s_rsoc_1  ;
 uint8_t temptime_D_Discharge_0_voltage_Delay ;
  uint8_t  Count_13s_rsoc_2  ;
 
-// DSG_INNER_RES1   DSG_INNER_RES;
 
 
-// uint16_t  inner_res_dsg_100 ;  // t_com2a
-// uint16_t  temp_dsg_inner_res;  // t_com2b
-
-// uint16_t Vol3[5] ;
 
 uint8_t irsoc_last ;
 
-// void Calc_inner_3res(void)
-// {
-// 	uint32_t restemp;
 
-// 	if (t_com0d != 100 || f_fullchg == OFF || f_charge == ON)
-// 	{
-// 		f_cnt_30m_start = 0;
-// 	}
-
-// 	if (f_fullchg && f_chg_last_state1 == ON && f_charge == OFF && f_relax == ON)
-// 	{
-
-// 		f_cnt_30m_start = 1; // 1. fullchg 2. last state chg 3. this state relax
-// 	}
-
-// 	f_chg_last_state1 = f_charge;
-// 	// //1. fullchg 2. last state chg 3. this state relax , start count
-// 	if (f_cnt_30m_start == 1)
-// 	{
-// 		cnt_30m++;
-// 		if (cnt_30m >= 1795)
-// 		{
-// 			Vol3[cnt5_i] = Voltage(); //
-// 			//	Cur3[cnt5_i] = t_com0a;
-// 			cnt5_i++;
-// 			if (cnt5_i >= 5)
-// 			{
-// 				cnt5_i = 0;
-// 			}
-// 			if (cnt_30m >= 1800)
-// 			{
-// 				cnt_30m = 1800;
-// 				if (f_relex3_last == ON && f_discharge == ON)
-// 				{
-// 					save_volstart_dsg_inner = Vol3[cnt5_i];
-// 					// save_curstart_inner = I_abs ;
-// 					f_start_save = 1;
-// 				}
-// 				if (f_start_save == 1 && f_discharge == ON)
-// 				{
-// 					cnt5_j++;
-// 				}
-
-// 				if (cnt5_j >= 5)
-// 				{
-// 					cnt5_i = 0;
-// 					cnt5_j = 0;
-// 					cnt_30m = 0;
-// 					f_start_save = 0;
-// 					f_cnt_30m_start = 0;
-// 					// save_curend_dsg_inner = I_abs ;
-// 					// save_volend_dsg_inner = t_com09  ;
-
-
-
-// 					// if (I_abs > t_com18 / 10 && I_abs < t_com18 / 2) // t_com18  Design Capacity
-// 					if (I_abs > D_Design_Capacity_mAh / 10 && I_abs < D_Design_Capacity_mAh / 2) // t_com18  Design Capacity
-// 					{
-// 						// (volt start - vol end ) / I_abs
-// 						restemp = save_volstart_dsg_inner - save_volend_dsg_inner;
-// 						inner_res_dsg_100 = restemp*1000 / I_abs;
-// 						temp_dsg_inner_res = CellTemp;
-// 					}
-// 				}
-// 			}
-// 		}
-// 	}
-// 	f_relex3_last = f_relax ;
-// }
 
 
 /*""FUNC COMMENT""**********************************************************

@@ -151,7 +151,7 @@ uint16_t fcc_use_qmax  ;
 /*  full charge  */
 uint16_t tfc_cnt_CEDV = 0;
 uint32_t rc_integral_CEDV = 0;
-	uint16_t ful_dsg_cap_FCC;
+uint16_t ful_dsg_cap_FCC;
  /*  full charge  */
 
  uint16_t  Res_C1T1[103] = {3943,3943,3943,3943,3943,3943,3943,3943,3943,3943,3943,3943,3943,3943,2964,2703,2506,2333,2208,2079,\
@@ -1520,7 +1520,7 @@ void Calc_FCC_CEDV(void)  // read four , % -1.5 0 1 2 3 4 ....101 res  , calc on
                // t_com4c_out = D_Design_Capacity_mAh;
              //   t_com4d_out = Res_Temp_CEDV_Inner[6];  
                t_com97_out =  SOC_OCV_103_TBL[soc_to_res_index]  ;
-               t_com98_out =  Ts_max ;
+              //  t_com98_out =  Ts_max ;
                t_com93_out =  soc_to_res_index ;
                 t_com95_out   =  I_abs  ; 
                t_com96_out = Res_Temp_CEDV_Inner_turn  ;
@@ -1619,9 +1619,7 @@ void Calc_fulchg_dsg_cap(void)
 
 	static int32_t ful_dsg_cap;
 	static uint8_t  Count_xiao_beilv_3s ;
-
-  
-
+    static uint8_t  Count_10s ;
 	// t_com2d_f_study_d3_ful = f_study_d3_ful  ;
 	// t_com2e_ful_dsg_cap = ful_dsg_cap / 3600 ;  //single 
 
@@ -1634,14 +1632,8 @@ void Calc_fulchg_dsg_cap(void)
 	if ((f_charge == ON) && (Current() > 0)) // Charging ?
 	{
         ful_dsg_cap = 0 ;
-		if (f_fullchg == OFF)
-		{
-			f_study_d3_ful = OFF;
-          //   ful_dsg_cap = 0 ;
-		}
 	}
  
-
 	//if (((CellTemp > 15) && (CellTemp <= 45)) && ((beilv >= 10) && (beilv <= 70)))  // must charge or dsg .
 	//{// chg clear . dsg : use 
 		if (V_min >= D_Discharge_0_voltage)   
@@ -1653,10 +1645,15 @@ void Calc_fulchg_dsg_cap(void)
 					ful_dsg_cap += I_abs;
                     t_com8e_out = ful_dsg_cap/14400;
 
+                    Count_10s++ ;
+                    if(Count_10s>=10)
+                    {
+                        t_com98_out++ ;
+                    }
+                    
 				}else
 				{
                     t_com8b_out = 2;
-					f_study_d3_ful = OFF;
 					ful_dsg_cap = 0;
 				}
 			} // else  no need else , cause f_charge will clear all 
@@ -1664,22 +1661,17 @@ void Calc_fulchg_dsg_cap(void)
 		{
 			if (!f_charge)
 			{
-				if (f_study_d3_ful == ON)  
+				if (f_study_d3_ful == ON)    //98 
 				{
-
-        
 					// can go here , must have updated cpl . 
 					//cause  f_study_d3_ful == ON means have f_study_d2 have dupdated ..
 					ful_dsg_cap += I_abs;
 					f_study_d3_ful = OFF;
 					// ful_dsg_cap_FCC = ful_dsg_cap/3600;  // single 
-
                     ful_dsg_cap_FCC = ful_dsg_cap/14400;   //14400 
 					fcc_CEDV_Ture = ful_dsg_cap_FCC  ; //update 0_voltage FCC 
                     t_com32_out = fcc_CEDV_Ture;
                     f_fulchg_fuldsg = 1 ;
-
-
 				}
 				else
 				{
@@ -1707,8 +1699,25 @@ void Calc_RC_CEDV(void)
 	uint16_t	twork;
     static uint16_t VoltagetoRSOCcount_CEDV;
 
-    uint16_t	I_abs_qmax_chu_fcc;
+    uint32_t	cur_qmax_chu_fcc;
     uint16_t	qmax_chu_fcc = 10000;
+
+    // if (f_fullchg_CEDV == OFF) // No OVER_CHARGED_ALARM ?
+    // {
+    //     // f_study_d = OFF;				// Clear discharge relearn flag
+    //     // f_study_d1 = OFF;
+    //     // f_study_d2 = OFF;
+    //     f_study_d3_ful = OFF;
+    // }
+	if ((f_charge == ON) && (Current() > 0)) // Charging ?
+	{
+		if (f_fullchg_CEDV== OFF)
+		{
+			f_study_d3_ful = OFF;
+          //   ful_dsg_cap = 0 ;
+		}
+	}
+
 
     if (0 != fcc_CEDV_Ture)
     {
@@ -1719,24 +1728,26 @@ void Calc_RC_CEDV(void)
         qmax_chu_fcc = 10000;
     }
 
-    Calc_fulchg_dsg_cap();
+    Calc_fulchg_dsg_cap(); //
 
-    I_abs_qmax_chu_fcc = I_abs*(qmax_chu_fcc/10000) + I_abs*(qmax_chu_fcc%10000/1000)/10+ \
+    cur_qmax_chu_fcc = I_abs*(qmax_chu_fcc/10000) + I_abs*(qmax_chu_fcc%10000/1000)/10+ \
          I_abs*(qmax_chu_fcc%1000/100)/100 + I_abs*(qmax_chu_fcc%100/10)/1000+  \
          I_abs*(qmax_chu_fcc%10)/10000   ;
 
-    // t_com8e_out =  I_abs_qmax_chu_fcc ;
+    // t_com8e_out =  cur_qmax_chu_fcc ;
     
 	if (Current() > 0) 
     {
         VoltagetoRSOCcount_CEDV = 0 ;
        // Record_lrc_w_CEDV_fcc_show += I_abs   ;
-       Record_lrc_w_CEDV_fcc_show += I_abs_qmax_chu_fcc;  // when 
+     //   Record_lrc_w_CEDV_fcc_show += cur_qmax_chu_fcc;  // when 
+        Record_lrc_w_CEDV_fcc_show += cur_qmax_chu_fcc*99/100;  // when 
+
         Record_lrc_w_CEDV += I_abs ;
 
     }else   // Current()<=0 
     {
-        Record_lrc_w_CEDV_fcc_show -= I_abs_qmax_chu_fcc ;
+        Record_lrc_w_CEDV_fcc_show -= cur_qmax_chu_fcc ;
         Record_lrc_w_CEDV -= I_abs ;
 
 		// if(V_min < D_Discharge_0_voltage)		// lower than 0% voltage ? D_0PVOLT
@@ -1754,7 +1765,6 @@ void Calc_RC_CEDV(void)
                //  t_com0f_CEDV = 0 ;
 			    SOC_CEDV_show = 0  ;
               //   SOC_CEDV = 0 ;  soc right bubian .
-
 				return;
 			}
 		}else
