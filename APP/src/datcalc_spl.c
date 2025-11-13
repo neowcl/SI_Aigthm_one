@@ -280,7 +280,10 @@ static void Calc_NormalRC(uint32_t	lrc)
 	// {
 	// 	lrc /= 2;							// Correction coefficient = 0.5
 	// }
-	Record_lrc_w -= lrc;							// Substruct correction value
+
+	// discharge  fangdian shijian bugou 
+	// 1000 seconds leiji shiji shijan  992.5 seconds     7.5/1000  = 1/133 =1/130 
+	Record_lrc_w -= (lrc+lrc/130);							// Substruct correction value
 
 	// lwork = (long)t_com10  * D_CP_L * 144;				// Calculate CP_L capacity
 	// if( Record_lrc_w < lwork )						// Correction cap < CP_L cap ?

@@ -1648,6 +1648,7 @@ void Calc_fulchg_dsg_cap(void)
                     Count_10s++ ;
                     if(Count_10s>=10)
                     {
+                        Count_10s = 0 ;
                         t_com98_out++ ;
                     }
                     
@@ -1981,7 +1982,7 @@ void FullCharge_Chk_CEDV(void)
     
     uint16_t twork;
 
-    if (SOC_CEDV_show < 100)
+    if (SOC_CEDV_show < 99)
     {
         f_fullchg_CEDV = OFF;
     }
