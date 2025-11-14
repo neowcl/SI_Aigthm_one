@@ -1620,6 +1620,7 @@ void Calc_fulchg_dsg_cap(void)
 	static int32_t ful_dsg_cap;
 	static uint8_t  Count_xiao_beilv_3s ;
     static uint8_t  Count_10s ;
+    uint16_t I_abs_ful ;
 	// t_com2d_f_study_d3_ful = f_study_d3_ful  ;
 	// t_com2e_ful_dsg_cap = ful_dsg_cap / 3600 ;  //single 
 
@@ -1633,6 +1634,12 @@ void Calc_fulchg_dsg_cap(void)
 	{
         ful_dsg_cap = 0 ;
 	}
+
+    if ((f_charge==1)||(f_relax ==1 ) )// must dsg not relax 
+    {
+        Count_10s = 0 ;
+    }
+
  
 	//if (((CellTemp > 15) && (CellTemp <= 45)) && ((beilv >= 10) && (beilv <= 70)))  // must charge or dsg .
 	//{// chg clear . dsg : use 
@@ -1642,17 +1649,23 @@ void Calc_fulchg_dsg_cap(void)
 			{
 				if (f_study_d3_ful == ON)
 				{
-					ful_dsg_cap += I_abs;
+
+                    I_abs_ful = I_abs +I_abs/130 ;
+					ful_dsg_cap +=I_abs_ful ;
                     t_com8e_out = ful_dsg_cap/14400;
 
-                    Count_10s++ ;
-                    if(Count_10s>=10)
+                    if (f_relax == 0)
                     {
-                        Count_10s = 0 ;
-                        t_com98_out++ ;
+                        Count_10s++;
+                        if (Count_10s >= 10)
+                        {
+                            Count_10s = 0;
+                            t_com98_out++;
+                        }
                     }
-                    
-				}else
+
+
+                }else
 				{
                     t_com8b_out = 2;
 					ful_dsg_cap = 0;
@@ -1730,6 +1743,10 @@ void Calc_RC_CEDV(void)
     }
 
     Calc_fulchg_dsg_cap(); //
+
+
+    // dianliu is wrong .
+    // should  I_abs + I_abs / 130 ; time not true .
 
     cur_qmax_chu_fcc = I_abs*(qmax_chu_fcc/10000) + I_abs*(qmax_chu_fcc%10000/1000)/10+ \
          I_abs*(qmax_chu_fcc%1000/100)/100 + I_abs*(qmax_chu_fcc%100/10)/1000+  \
