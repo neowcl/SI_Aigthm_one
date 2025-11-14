@@ -1618,9 +1618,11 @@ void Calc_fulchg_dsg_cap(void)
 	uint8_t beilv;
 
 	static int32_t ful_dsg_cap;
+    static int32_t ful_dsg_cap_2;
 	static uint8_t  Count_xiao_beilv_3s ;
     static uint8_t  Count_10s ;
     uint16_t I_abs_ful ;
+
 	// t_com2d_f_study_d3_ful = f_study_d3_ful  ;
 	// t_com2e_ful_dsg_cap = ful_dsg_cap / 3600 ;  //single 
 
@@ -1629,6 +1631,31 @@ void Calc_fulchg_dsg_cap(void)
 	// static uint16_t ful_dsg_cap_FCC;
 
 	// beilv = (uint16_t)((long)I_abs * 100/D_Design_Capacity_mAh);  //D_Design_Capacity_mAh  _DesignCapacity
+
+
+
+
+
+    // only for test
+
+
+    if(!f_charge)
+    {
+        I_abs_ful = I_abs + I_abs/130 ;
+		ful_dsg_cap_2 +=I_abs_ful ;
+        t_com8f_out = ful_dsg_cap_2/14400;
+    }
+
+if((f_charge)||(V_min <= D_0PVOLT))
+{
+    ful_dsg_cap_2 = 0 ;
+}
+
+
+
+
+
+
 
 	if ((f_charge == ON) && (Current() > 0)) // Charging ?
 	{
@@ -1649,8 +1676,7 @@ void Calc_fulchg_dsg_cap(void)
 			{
 				if (f_study_d3_ful == ON)
 				{
-
-                    I_abs_ful = I_abs +I_abs/130 ;
+                    I_abs_ful = I_abs + I_abs/130 ;
 					ful_dsg_cap +=I_abs_ful ;
                     t_com8e_out = ful_dsg_cap/14400;
 
