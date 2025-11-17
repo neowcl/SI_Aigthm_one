@@ -51,7 +51,7 @@ extern void Calc_CC(void);						// CycleCount() calc
 extern void Init_Cap(void);						// Initial capacity calc
 extern void Calc_RSOC(void);
 extern void Calc_iRSOC(void);
-
+extern void Calc_CPVolt(void);
 // - Internal functions - 
 void FCC_Limit_Chk(void);						// FCC Limit check function
 

@@ -21,7 +21,7 @@ uint8_t buchang_con_cnt_CE;
 uint16_t temp_Cur_CE;
 uint16_t chg_smooth_cur_CE;
 //  chg pinghua CEDV
-
+uint32_t	cur_qmax_chu_fcc;
 
 
 uint8_t old_rsoc;
@@ -70,7 +70,7 @@ uint8_t f_chg_dsg_confirmed = 0 ;
 // uint16_t calc_Res_k_Init_voltage4 ;
 
 uint16_t qmax_CEDV_temp;
-
+  uint8_t f_cp_l_last_CEDV ;
 
 
 uint8_t f_CHG_CEDV = 0;
@@ -1813,7 +1813,7 @@ void Calc_HoseiRC_CEDV(uint32_t	lrc)
 {
 	long	lwork;
 
-    static  uint8_t f_cp_l_last_CEDV ;
+
     static uint16_t  dis_fac_cpl_CEDV ;
 
 
@@ -1849,17 +1849,17 @@ void Calc_HoseiRC_CEDV(uint32_t	lrc)
             //else
              if (SOC_CEDV_show > D_CP_L)
 			{
-				if (dis_fac_cpl <= 109)
+				if (dis_fac_cpl_CEDV <= 109)
 				{
-					dis_fac_cpl = 100 ; // Subtruct correction value
+					dis_fac_cpl_CEDV = 100 ; // Subtruct correction value
 				}
-				else if (dis_fac_cpl >= 400) // 5---92
+				else if (dis_fac_cpl_CEDV >= 400) // 5---92
 				{
-					dis_fac_cpl = 400;
+					dis_fac_cpl_CEDV = 400;
 				}
 			}else
 			{
-				dis_fac_cpl = 100 ;
+				dis_fac_cpl_CEDV = 100 ;
 			}
 		}
  
@@ -1869,7 +1869,7 @@ void Calc_HoseiRC_CEDV(uint32_t	lrc)
         // Record_lrc_w_CEDV_fcc_show -= cur_qmax_chu_fcc ;
         //                     Record_lrc_w_CEDV -= I_abs ;
 
-		Record_lrc_w_CEDV_fcc_show -= dis_fac_cpl*cur_qmax_chu_fcc/100;   // muti 
+		Record_lrc_w_CEDV_fcc_show -= dis_fac_cpl_CEDV*cur_qmax_chu_fcc/100;   // muti 
          Record_lrc_w_CEDV -= I_abs ;
 
 		// t_com39_out = Record_lrc_w /3600/4 ;
@@ -2032,7 +2032,7 @@ void Calc_RC_CEDV(void)
 	uint16_t	twork;
     static uint16_t VoltagetoRSOCcount_CEDV;
 
-    uint32_t	cur_qmax_chu_fcc;
+    
     uint16_t	qmax_chu_fcc = 10000;
 
 
