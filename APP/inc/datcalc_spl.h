@@ -82,6 +82,19 @@ extern uint16_t DF_IRsoc_temp;
 extern uint8_t f_ful_chg_once ;
 extern uint8_t irsoc_last ;
 
+extern uint8_t bit_chg_smooth;
+#define f_pinghua_conditon     	DEF_BIT0(&bit_chg_smooth)
+#define f_pinghua_work     		 DEF_BIT1(&bit_chg_smooth)
+
+
+
+extern uint8_t bit_rc_use;
+#define f_cp_h_fccupdated    	DEF_BIT0(&bit_rc_use)
+#define f_cp_l_fccupdated    		 DEF_BIT1(&bit_rc_use)
+#define f_fulchg_dsg_updated    		 DEF_BIT2(&bit_rc_use)
+#define f_bigger_than_zero     		 DEF_BIT3(&bit_rc_use)
+#define f_cp_l_last     		 DEF_BIT4(&bit_rc_use)
+
 // dsg inner  resis
 // typedef struct
 // {

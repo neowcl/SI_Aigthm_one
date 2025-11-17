@@ -47,6 +47,10 @@ extern uint16_t fcc_use_qmax  ;
 // extern uint32_t qmax_chu_fcc;
 
 
+extern uint8_t bit_chg_smooth_CE;
+#define f_pinghua_conditon_CE     	DEF_BIT0(&bit_chg_smooth_CE)
+#define f_pinghua_work_CE   		 DEF_BIT1(&bit_chg_smooth_CE)
+
 #define f_Qmax_start   DEF_BIT0(&QmaxControl) // Qmax start SOC
 #define f_Qmax_end     DEF_BIT1(&QmaxControl) // Qmax end SOC
 #define f_QmaxUpFsh     DEF_BIT1(&QmaxControl) // Qmax Update Finish

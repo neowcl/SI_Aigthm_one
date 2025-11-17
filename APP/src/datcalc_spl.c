@@ -90,82 +90,83 @@ uint16_t save_dsg_upd_fcc;
 uint32_t leiji;
 uint8_t count_3s;
 uint8_t count_3s_b ;
+
+uint8_t Count_13s_rsoc_2;
+
+
+
+
 uint8_t f_count3s_en;
 uint8_t  f_count3s_en_b ;
 uint8_t f_ful_chg_once ;
-uint8_t f_chg_last2 ;
+
 uint8_t f_relax_last;
-uint8_t f_start_add_chg ;
+
 uint8_t f_discharge_last2;
 
 uint8_t f_relax_last_dsgupdate_use ;
 uint8_t f_charge_last_dsgupdate_use  ;
 
 
-// pinghua work
-uint8_t f_pinghua_conditon;
-uint8_t pinghua_soc_start;
-uint8_t buchang_conditon_cnt;
-uint8_t f_pinghua_work;
-uint16_t temp_Current;
-uint16_t chg_pinghua_current;
 
-// uint8_t f_start_save;
-uint8_t f_cp_h_fccupdated ;
-uint8_t	f_cp_l_fccupdated ;
-uint8_t f_fulchg_dsg_updated;
+
+// extern uint8_t chg_smooth_CEDV;
+// #define f_Smooth_Condi    	DEF_BIT0(&chg_smooth_CEDV)
+// #define f_smooth_Start      DEF_BIT1(&chg_smooth_CEDV)
+// #define f_Smooth_Condi    	DEF_BIT2(&chg_smooth_CEDV)
+// #define f_smooth_Start      DEF_BIT3(&chg_smooth_CEDV)
+// #define f_Smooth_Condi    	DEF_BIT4(&chg_smooth_CEDV)
+// #define f_smooth_Start      DEF_BIT5(&chg_smooth_CEDV)
+// #define f_Smooth_Condi    	DEF_BIT6(&chg_smooth_CEDV)
+// #define f_smooth_Start      DEF_BIT7(&chg_smooth_CEDV)
+
+
+
+// pinghuawork 
+uint8_t bit_chg_smooth;
+// #define f_pinghua_conditon     	DEF_BIT0(&bit_chg_smooth)
+// #define f_pinghua_work     		 DEF_BIT1(&bit_chg_smooth)
+
+uint8_t pinghua_soc_start;
+uint8_t buchang_con_cnt;
+uint16_t temp_Cur;
+uint16_t chg_smooth_cur;
+
+
+
+uint8_t bit_rc_use;
+// #define f_cp_h_fccupdated    	DEF_BIT0(&bit_rc_use)
+// #define f_cp_l_fccupdated    		 DEF_BIT1(&bit_rc_use)
+// #define f_fulchg_dsg_updated    		 DEF_BIT2(&bit_rc_use)
+// #define f_bigger_than_zero     		 DEF_BIT3(&bit_rc_use)
+// #define f_cp_l_last     		 DEF_BIT4(&bit_rc_use)
+
+
+// uint8_t f_cp_h_fccupdated ;
+// uint8_t	f_cp_l_fccupdated ;
+// uint8_t f_fulchg_dsg_updated;
+// uint8_t f_bigger_than_zero ;
 int32_t lrc_w_last ;
 int8_t CellTemp_last_time_update ; 
-uint8_t f_bigger_than_zero ;
+
 
 // uint16_t outer_tinreg ;
 // uint16_t inner_res_old_buchang_vol;
 // uint16_t inner_res_buchang_vol;
 // uint16_t f_calc_inner_3res_work = 0;
+// uint8_t f_cp_l_last ;
 
 int16_t dis_fac_cpl = 100  ; // discharge factor when reach cpl voltage .
 // int16_t t_com0dsoclast ; 
-uint8_t f_cp_l_last ;
+
 
 
 int8_t CellTemp_use_rsoc;
 
-// uint16_t	Voltage_new_Si ; 
-// uint16_t	temp_Si_rsoc; 
-// uint16_t temp_Si_rsoc_out ;
-
-
-// dsg inner  resis
-// uint8_t f_cnt_30m_start;
-// // uint8_t f_cnt_30m_start;
-// uint8_t f_chg_last_state1;
-// uint8_t f_relex3_last;
-// uint8_t f_start_save;
-// uint16_t cnt_30m;
-// uint8_t cnt5_i;
-// uint8_t cnt5_j;
-// uint16_t save_volstart_dsg_inner;
-// uint16_t save_volend_dsg_inner;
-// uint16_t  inner_res_dsg_100 ; 
-// uint16_t  temp_dsg_inner_res;  
-
-
-//  uint16_t t_com0f_keep ;
- // uint16_t count_hold94_100_soc100 ;
- // uint8_t  f_count_hold94_100_soc100 ;
- // uint8_t  f_gs_fc_last ;
-//  uint16_t t_com0f_out_show ;
-// uint8_t f_relax1_fc1_soc100_state ;
-// uint8_t f_break_relax ;
-// uint8_t f_incount ;
 
 uint8_t  Count_13s_rsoc_1  ;
 uint8_t temptime_D_Discharge_0_voltage_Delay ;
- uint8_t  Count_13s_rsoc_2  ;
-
-
-
-
+//  uint8_t  Count_13s_rsoc_2  ;
 uint8_t irsoc_last ;
 
 
@@ -563,13 +564,10 @@ void Dsg_Update_FCC(void)
 
 void Dsg_Update_work(void)
 {
-	// if (f_chg_last2 == 0 && f_charge == 1) // 在任何温度？
-	// {
-	// 	f_start_add_chg = 1;
-	// }
+	
 
-	// f_chg_last2 = 
-	// if (f_start_add_chg == 1 && f_charge == 1)
+
+	
 	if ( f_charge == 1)
 	{
 		leiji += I_abs;
@@ -947,17 +945,17 @@ void chg_pinghua(void)
 		{
 			if (f_pinghua_conditon == 0)
 			{
-				temp_Current = Current();
+				temp_Cur = Current();
 				f_pinghua_conditon = 1;
 				pinghua_soc_start = t_com0d;
 			}
-			//if (f_pinghua_conditon == 1 && buchang_conditon_cnt < D_PINGHUA_TIME) // must have this , or the next circle will not come in .
-			if (f_pinghua_conditon == 1 && buchang_conditon_cnt < D_PINGHUA_TIME) // must have this , or the next circle will not come in .
+			//if (f_pinghua_conditon == 1 && buchang_con_cnt < D_PINGHUA_TIME) // must have this , or the next circle will not come in .
+			if (f_pinghua_conditon == 1 && buchang_con_cnt < D_PINGHUA_TIME) // must have this , or the next circle will not come in .
 			{
-				buchang_conditon_cnt++; // condition reach  + 1
+				buchang_con_cnt++; // condition reach  + 1
 			}
-			// if (f_pinghua_work == 0 && f_pinghua_conditon == 1 && buchang_conditon_cnt == 40 && (temp_Current - t_com0a >= D_PINGHUA_CUR_RANGE ))
-			if (f_pinghua_work == 0 && f_pinghua_conditon == 1 && buchang_conditon_cnt >= 40 && (temp_Current - Current() >= D_PINGHUA_CUR_RANGE))
+			// if (f_pinghua_work == 0 && f_pinghua_conditon == 1 && buchang_con_cnt == 40 && (temp_Cur - t_com0a >= D_PINGHUA_CUR_RANGE ))
+			if (f_pinghua_work == 0 && f_pinghua_conditon == 1 && buchang_con_cnt >= 40 && (temp_Cur - Current() >= D_PINGHUA_CUR_RANGE))
 			// use conditon == 1 , in case come into again when condition reach
 			{
 				// about  100-t_com2c) * FCC /39
@@ -965,9 +963,9 @@ void chg_pinghua(void)
 			}
 			if (t_com0d < 100 && f_pinghua_work == 1)
 			{
-				// chg_pinghua_current = (uint32_t)(100 - pinghua_soc_start) * t_com0f/D_CHG_PINGHUA_FACTOR; // chg_buchang_value = (100-t_com2c) * FCC /100 *3600 /1400;
+				// chg_smooth_cur = (uint32_t)(100 - pinghua_soc_start) * t_com0f/D_CHG_PINGHUA_FACTOR; // chg_buchang_value = (100-t_com2c) * FCC /100 *3600 /1400;
 				// 	  // can not use 100 -t_com2c , it will make the real less .   cur = cap / t .
-				chg_pinghua_current = (uint32_t)(100 - pinghua_soc_start) * t_com10/D_PINGHUA_CAP;
+				chg_smooth_cur = (uint32_t)(100 - pinghua_soc_start) * t_com10/D_PINGHUA_CAP;
 			}
 			else
 			{
@@ -978,14 +976,14 @@ void chg_pinghua(void)
 		{
 			f_pinghua_conditon = 0;
 			f_pinghua_work = 0;
-			buchang_conditon_cnt = 0;
+			buchang_con_cnt = 0;
 		}
 	}
 	else
 	{
 		f_pinghua_conditon = 0;
 		f_pinghua_work = 0;
-		buchang_conditon_cnt = 0;
+		buchang_con_cnt = 0;
 	}
 }
 /*""FUNC COMMENT""***************************************************
@@ -1072,7 +1070,7 @@ void Calc_HoseiRC(uint32_t	lrc)
 {
 	long	lwork;
 	// if( Record_lrc_w != lrccr_w )						// Correction cap. != Chg rel.cap ?
-	static uint8_t  Count_13s_rsoc_2  ;
+	// static uint8_t  Count_13s_rsoc_2  ;
 	// {
 	// 	if( lrccr_w < 16 )						// Charge rel.cap = 0 ?
 	// 	{
@@ -2069,11 +2067,7 @@ void Calc_CPVolt(void)
 	tcpl_v = twork1 + (uint16_t)((((long)twork2 - twork1)*awork3/awork4)) - tinreg;
 	//tcpl_v = 3600 ;
 	
-	// t_com95_out  =  tcph_v;
-	// t_com96_out  =  tcpl_v ;
 	
-	// t_com95_out  =  tcph_v;
-	// t_com96_out  =  tcpl_v ;
 
 	/*******************************IdeaRC******************************************************/
 	if (aidx >= 10 && awork1 > awork2) // > C-Rate4 ?
@@ -2293,8 +2287,8 @@ void Calc_RC(void)
 			chg_pinghua();
 			if (f_pinghua_work == 1)
 			{
-				// lrc_w += chg_pinghua_current - divi_by_1k * 3;
-				Record_lrc_w += chg_pinghua_current ;
+				// lrc_w += chg_smooth_cur - divi_by_1k * 3;
+				Record_lrc_w += chg_smooth_cur ;
 			}
 			else
 			{
@@ -2378,7 +2372,7 @@ void Calc_RC(void)
 		} 
 		else 
 		{										// Now discharging
-			Calc_CPVolt();						// Calculate CP_x voltage
+			//Calc_CPVolt();						// Calculate CP_x voltage
 			lwork = I_abs;						// Make data for RC integration
 			if( adlogc == 9 )					// Consumption current piles up 10 times ?
 			{
