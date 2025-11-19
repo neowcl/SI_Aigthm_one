@@ -1873,10 +1873,10 @@ void chg_pinghua_CEDV(void)
 void Calc_HoseiRC_CEDV(uint32_t	lrc)
 {
 	long	lwork;
-
+    t_com10_out =  dis_fac_cpl ;
 
     static uint16_t  dis_fac_cpl_CEDV ;
-
+    uint16_t soc_temp_CE;
 
 	if( f_cp_l == ON )							// CP_L not detected ?
 	{									// CP_L detected ?
@@ -1892,10 +1892,20 @@ void Calc_HoseiRC_CEDV(uint32_t	lrc)
 			// }
 
             // CEDV  only make speed faster 
-			dis_fac_cpl_CEDV = SOC_CEDV_show*DSG_SMOOTH_MUL +SOC_CEDV_show/DSG_SMOOTH_DIV ;   
+		//	dis_fac_cpl_CEDV = SOC_CEDV_show*DSG_SMOOTH_MUL +SOC_CEDV_show/DSG_SMOOTH_DIV ;
+
+            if (0 != D_CP_L)
+            {
+                soc_temp_CE = SOC_CEDV_show ;
+                dis_fac_cpl = soc_temp_CE * 100 / D_CP_L;
+            }
+            else
+            {
+                dis_fac_cpl = 100;
+            }
 
 
-			// if (SOC_CEDV_show< D_CP_L) // SOC_CEDV_show = rsoc  D_CP_L = 6 ;
+            // if (SOC_CEDV_show< D_CP_L) // SOC_CEDV_show = rsoc  D_CP_L = 6 ;
 			// {
 			// 	if (dis_fac_cpl < 30)
 			// 	{

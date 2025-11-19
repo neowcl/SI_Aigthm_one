@@ -838,7 +838,7 @@ void Calc_RSOC(void)
 
 void Calc_iRSOC(void)
 {
-	 uint16_t twork;uint
+	 uint16_t twork;
 	// RSOC = RemainingCapacity / FullChargeCapacity * 100
 	// Calc RSOC and store to temporary area.
 	// The result is rounded off.
@@ -1125,29 +1125,28 @@ void Calc_HoseiRC(uint32_t	lrc)
 
 			// dis_fac_cpl = t_com0d*DSG_SMOOTH_MUL +t_com0d/DSG_SMOOTH_DIV ;   
 
-			if( 0! =  D_CP_L)
+			if( 0!= D_CP_L)
 			{
 				soc_temp = t_com0d ;
-				dis_fac_cpl  = t_com0d *100 /D_CP_L ;
+				dis_fac_cpl  = soc_temp *100 /D_CP_L ;
 
 			}else
 			{
 				dis_fac_cpl  = 100 ;
 			}
 	
-			// if (t_com0d < D_CP_L) // t_com0d = rsoc  D_CP_L = 6 ;
-			// {
-			// 	if (dis_fac_cpl < 30)
-			// 	{
-			// 		dis_fac_cpl = 30 ; // Subtruct correction value
-			// 	}
-			// 	else if( dis_fac_cpl >= 109 ) // 5---92
-			// 	{
-			// 		dis_fac_cpl= 100 ;
-			// 	}
-			// }
-			// else 
-			if (t_com0d > D_CP_L)
+			if (t_com0d < D_CP_L) // t_com0d = rsoc  D_CP_L = 6 ;
+			{
+				if (dis_fac_cpl < 30)
+				{
+					dis_fac_cpl = 30 ; // Subtruct correction value
+				}
+				else if( dis_fac_cpl >= 109 ) // 5---92
+				{
+					dis_fac_cpl= 100 ;
+				}
+			}
+			else if (t_com0d > D_CP_L)
 			{
 				if (dis_fac_cpl <= 109)
 				{
@@ -1830,6 +1829,7 @@ uint16_t Calc_InReg(void)
 	uint8_t	awork1,awork2;
 	uint16_t	twork1,twork2;
 	uint8_t	al1;
+	
 												// Search the index
 	for( al1=0; _CycleCount>=INREG_CYCLE[al1] && al1<5; al1++ );
 												// Set each correction data
@@ -1918,6 +1918,8 @@ void Calc_CPVolt(void)
 	uint16_t	tinreg;
 	int32_t ccwork;
 	int32_t dcwork;
+
+	uint32_t	res_chabiao,res_jisuan;
 
 	//Calc [C]x100 from current
 	twork1 = (uint16_t)((long)I_abs * 100 / D_Design_Capacity_mAh);
@@ -2068,6 +2070,28 @@ void Calc_CPVolt(void)
 	
 	// - degC interpolation -
 	tcpl_v = twork1 + (uint16_t)((((long)twork2 - twork1)*awork3/awork4)) - tinreg;
+
+
+	// to do 
+
+
+	res_chabiao = calc_k_res_chabiao ;
+	res_jisuan = calc_k_res_jisuan ;
+ 
+	if( res_jisuan >res_chabiao) 
+	{
+		tcpl_v = tcpl_v - (res_jisuan-res_chabiao)* I_abs/10000 ;
+
+		if(tcpl_v <=D_0PVOLT+30)
+		{
+			tcpl_v = D_0PVOLT+30 ;
+		}
+	}
+
+	
+	
+
+
 	//tcpl_v = 3600 ;
 	
 	

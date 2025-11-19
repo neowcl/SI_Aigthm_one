@@ -107,6 +107,9 @@ uint16_t t_com8d_out ;
 uint16_t t_com8e_out ;
 uint16_t t_com8f_out ;
 
+uint16_t t_com10_out ;
+
+
 uint16_t t_com90_out ;
 uint16_t t_com91_out ;
 uint16_t t_com92_out ;
@@ -164,7 +167,8 @@ const _ST_SMB scom_no_tbl[] =
         {0x02, (uint8_t *)&t_com0d},                         // 0x0d RelativeStateOfCharge()
         {0x02, (uint8_t *)&t_com0e},                         // 0x0e AbsoluteStateOfCharge()
         {0x02, (uint8_t *)&t_com0fCap},                      // 0x0f RemainingCapacity()
-        {0x02, (uint8_t *)&t_com10Cap},                      // 0x10 FullChargeCapacity()
+        // {0x02, (uint8_t *)&t_com10Cap},                      // 0x10 FullChargeCapacity()
+         {0x02, (uint8_t *)&t_com10_out},                      // 0x10 FullChargeCapacity()
         {0x02, (uint8_t *)&_RunTimeToEmpty},                 // 0x11 RunTimeToEmpty()
         {0x02, (uint8_t *)&_AverageTimeToEmpty},             // 0x12 AverageTimeToEmpty()
         {0x02, (uint8_t *)&_AverageTimeToFull},              // 0x13 AverageTimeToFull()

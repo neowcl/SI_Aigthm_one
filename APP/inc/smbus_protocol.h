@@ -176,6 +176,8 @@ extern uint16_t t_com8d_out ;
 extern uint16_t t_com8e_out ;
 extern uint16_t t_com8f_out ;
 
+
+extern uint16_t t_com10_out ;
 extern uint16_t t_com90_out ;
 extern uint16_t t_com91_out ;
 extern uint16_t t_com92_out ;
