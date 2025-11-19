@@ -258,7 +258,12 @@ void AlarmWarning_Check(void)
         // Condition: CLEAR RSOC
         if (D_SOC_Flag_Config_A_TCCLEARRSOC)
         {
-            if (t_com0d <= D_TC_Clear_RSOC_Threshold)
+            // if (t_com0d <= D_TC_Clear_RSOC_Threshold)
+            // {
+            //     f_gs_tc = OFF;
+            // }
+
+            if (SOC_CEDV_show<= D_TC_Clear_RSOC_Threshold)
             {
                 f_gs_tc = OFF;
             }
@@ -277,15 +282,26 @@ void AlarmWarning_Check(void)
         // Condition: SET RSOC
         if (D_SOC_Flag_Config_A_TCSETRSOC)
         {
-            if (t_com0d >= D_TC_Set_RSOC_Threshold)
+            // if (t_com0d >= D_TC_Set_RSOC_Threshold)
+            // {
+            //     f_gs_tc = ON;
+            // }
+             if (SOC_CEDV_show >= D_TC_Set_RSOC_Threshold)
             {
                 f_gs_tc = ON;
             }
+
+            
         }
         // Condition: SET VCT
         if (D_SOC_Flag_Config_A_TCSETVCT)
         {
-            if (f_VCT)
+            // if (f_VCT)
+            // {
+            //     f_gs_tc = ON;
+            // }
+
+            if (f_VCT_CEDV)
             {
                 f_gs_tc = ON;
             }
@@ -305,7 +321,12 @@ void AlarmWarning_Check(void)
         // Condition: CLEAR RSOC
         if (D_SOC_Flag_Config_B_FCCLEARRSOC)
         {
-            if (t_com0d <= D_FC_Clear_RSOC_Threshold)
+            // if (t_com0d <= D_FC_Clear_RSOC_Threshold)
+            // {
+            //     f_gs_fc = OFF;
+            // }
+
+             if (SOC_CEDV_show <= D_FC_Clear_RSOC_Threshold)
             {
                 f_gs_fc = OFF;
             }
@@ -324,15 +345,29 @@ void AlarmWarning_Check(void)
         // Condition: SET RSOC
         if (D_SOC_Flag_Config_B_FCSETRSOC)
         {
-            if (t_com0d >= D_FC_Set_RSOC_Threshold)
+            // if (t_com0d >= D_FC_Set_RSOC_Threshold)
+            // {
+            //     f_gs_fc = ON;
+            // }
+
+
+            if (SOC_CEDV_show >= D_FC_Set_RSOC_Threshold)
             {
                 f_gs_fc = ON;
             }
+            
         }
+
+
+
         // Condition: SET VCT
         if (D_SOC_Flag_Config_A_FCSETVCT)
         {
-            if (f_VCT)
+            // if (f_VCT)
+            // {
+            //     f_gs_fc = ON;
+            // }
+            if (f_VCT_CEDV)
             {
                 f_gs_fc = ON;
             }
@@ -352,7 +387,12 @@ void AlarmWarning_Check(void)
         // Condition: CLEAR RSOC
         if (D_SOC_Flag_Config_A_TDCLEARRSOC)
         {
-            if (t_com0d >= D_TD_Clear_RSOC_Threshold)
+            // if (t_com0d >= D_TD_Clear_RSOC_Threshold)
+            // {
+            //     f_gs_td = OFF;
+            // }
+
+             if (SOC_CEDV_show >= D_TD_Clear_RSOC_Threshold)
             {
                 f_gs_td = OFF;
             }
@@ -371,7 +411,12 @@ void AlarmWarning_Check(void)
         // Condition: SET RSOC
         if (D_SOC_Flag_Config_A_TDSETRSOC)
         {
-            if (t_com0d <= D_TD_Set_RSOC_Threshold)
+            // if (t_com0d <= D_TD_Set_RSOC_Threshold)
+            // {
+            //     f_gs_td = ON;
+            // }
+
+              if (SOC_CEDV_show <= D_TD_Set_RSOC_Threshold)
             {
                 f_gs_td = ON;
             }
@@ -391,7 +436,12 @@ void AlarmWarning_Check(void)
         // Condition: CLEAR RSOC
         if (D_SOC_Flag_Config_B_FDCLEARRSOC)
         {
-            if (t_com0d >= D_FD_Clear_RSOC_Threshold)
+            // if (t_com0d >= D_FD_Clear_RSOC_Threshold)
+            // {
+            //     f_gs_fd = OFF;
+            // }
+
+            if (SOC_CEDV_show >= D_FD_Clear_RSOC_Threshold)
             {
                 f_gs_fd = OFF;
             }
@@ -410,7 +460,12 @@ void AlarmWarning_Check(void)
         // Condition: SET RSOC
         if (D_SOC_Flag_Config_B_FDSETRSOC)
         {
-            if (t_com0d <= D_FD_Set_RSOC_Threshold)
+            // if (t_com0d <= D_FD_Set_RSOC_Threshold)
+            // {
+            //     f_gs_fd = ON;
+            // }
+
+            if (SOC_CEDV_show <= D_FD_Set_RSOC_Threshold)
             {
                 f_gs_fd = ON;
             }
@@ -451,7 +506,8 @@ void AlarmWarning_Check(void)
     else
     {
         BatteryStatus(FC) = OFF;
-        // f_VCT = OFF; // battery charge termination f_VCT = ON;
+         f_VCT = OFF; // battery charge termination f_VCT = ON;
+        f_VCT_CDEV = OFF ;
         f_fullchg = OFF;
         f_fullchg_CEDV = OFF ;
 
@@ -469,7 +525,8 @@ void AlarmWarning_Check(void)
         BatteryStatus(FD) = OFF;
     }
 
-    if (t_com0fCap <= _RemainingCapacityAlarm)
+    // if (t_com0fCap <= _RemainingCapacityAlarm)
+    if (t_com0f_CEDV_show <= _RemainingCapacityAlarm)
     {
         if (BatteryStatus(DSG))
         {
@@ -1593,7 +1650,7 @@ void Make_RC_CEDV(void)
 	tworka = (uint16_t)(Record_lrc_w_CEDV_fcc_show/(60*60*4));			// RC = RC_W / (60min*60sec*4)
    
     // if( twork > fcc_CEDV_Ture  )						// RC > FCC ?
-    if (tworka > qmax_CEDV)
+    if (tworka >= qmax_CEDV)
     {
 
         t_com0f_CEDV_show = fcc_use_qmax; // RC = FCC
@@ -2031,8 +2088,6 @@ void Calc_RC_CEDV(void)
 	uint32_t	lwork;
 	uint16_t	twork;
     static uint16_t VoltagetoRSOCcount_CEDV;
-
-    
     uint16_t	qmax_chu_fcc = 10000;
 
 
@@ -2086,9 +2141,9 @@ void Calc_RC_CEDV(void)
 			else
 			{
 				// Record_lrc_w_CEDV +=  cur_qmax_chu_fcc;
-                 Record_lrc_w_CEDV_fcc_show += I_abs;
+                Record_lrc_w_CEDV_fcc_show += I_abs;
 			}
-             Record_lrc_w_CEDV += I_abs ;
+                Record_lrc_w_CEDV += I_abs ;
 			
 
         VoltagetoRSOCcount_CEDV = 0 ;
@@ -2380,7 +2435,7 @@ static void FullCharge_CEDV(void)
     }
     f_fullchg_CEDV = ON; // Set FULLY_CHARGED
     // f_ful_chg_once = 1 ;
-    f_VCT = ON;
+   //  f_VCT = ON;
     //	acccv_cnt = 0;								// Clear CC/CV time counter
    // t_com0c = 0;     // Clear MaxError
     //lmaxerr_cnt = 0; // Clear MaxError counter
@@ -2397,15 +2452,15 @@ void FullCharge_Chk_CEDV(void)
     
     uint16_t twork;
 
-    if (SOC_CEDV_show < 99)  // t_com0d = soc < 99 
-    {
-        f_fullchg_CEDV = OFF;
-    }
+    // if (SOC_CEDV_show < 99)  // t_com0d = soc < 99 
+    // {
+    //     f_fullchg_CEDV = OFF;
+    // }
 
-      if (SOC_CEDV_show < 100)
-    {
-        f_VCT = OFF;
-    }
+    //   if (SOC_CEDV_show < 100)
+    // {
+    //     f_VCT = OFF;
+    // }
  
     if (f_charge == ON && f_chg) // Charging current detection ?
     {
@@ -2697,10 +2752,10 @@ void FullCharge_Chk(void)
     static uint32_t rc_integral = 0;
     uint16_t twork;
 
-    if (t_com0d < 100)
-    {
-        f_VCT = OFF;
-    }
+    // if (t_com0d < 100)
+    // {
+    //     f_VCT = OFF;
+    // }
 
     // if(f_pi_mode)  // step into pimode , not dsg update .
 	// {

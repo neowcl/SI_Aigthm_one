@@ -1004,7 +1004,17 @@ void LifeTime(void)
        
         LT_Status();
         
-        if (f_VCT)
+        // if (f_VCT)
+        // {
+        //     if (!vtc_Flg)
+        //     {
+        //         LifeTimes_No_Valid_Charge_Term++;
+        //         LifeTimes_Last_Valid_Charge_Term = _CycleCount;
+        //     }
+        // }
+
+       //  vtc_Flg = f_VCT;
+         if (f_VCT_CEDV)
         {
             if (!vtc_Flg)
             {
@@ -1012,7 +1022,8 @@ void LifeTime(void)
                 LifeTimes_Last_Valid_Charge_Term = _CycleCount;
             }
         }
-        vtc_Flg = f_VCT;
+
+        vtc_Flg = f_VCT_CEDV;
 
         if (f_sleep)
         {

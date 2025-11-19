@@ -103,7 +103,8 @@ typedef struct
   uint32_t NCT : 1;
   uint32_t ERM : 1;
   uint32_t ERETM : 1;
-  uint32_t RSVD1 : 10;
+  uint32_t VCT_CEDV : 1;
+  uint32_t RSVD1 : 9;
 } CHARGING_STATUS; // ChargingStatus 0X0055
 
 typedef union
@@ -135,6 +136,8 @@ extern ChargingStatus nChargingStatus;
 #define f_NCT nChargingStatus.ChargingStatus_f.NCT
 #define f_ERM nChargingStatus.ChargingStatus_f.ERM
 #define f_ERETM nChargingStatus.ChargingStatus_f.ERETM
+#define f_VCT_CEDV nChargingStatus.ChargingStatus_f.VCT_CEDV
+
 
 typedef struct
 {
