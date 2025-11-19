@@ -44,6 +44,8 @@ extern uint16_t t_com0f_CEDV;
 extern uint8_t SOC_CEDV ; 
 extern int32_t dsg_CEDV_Record_lrc_w_update_k ;
 extern uint16_t fcc_use_qmax  ;
+
+
 // extern uint32_t qmax_chu_fcc;
 
 

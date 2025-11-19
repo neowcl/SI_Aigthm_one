@@ -12,6 +12,10 @@ uint16_t IntTempK;
 uint8_t f_rsoc_hold;
 // uint16_t k_CEDV  ;
 
+
+
+
+
 //  chg pinghua CEDV
 uint8_t bit_chg_smooth_CE;
 
@@ -507,7 +511,7 @@ void AlarmWarning_Check(void)
     {
         BatteryStatus(FC) = OFF;
          f_VCT = OFF; // battery charge termination f_VCT = ON;
-        f_VCT_CDEV = OFF ;
+        f_VCT_CEDV = OFF ;
         f_fullchg = OFF;
         f_fullchg_CEDV = OFF ;
 

@@ -103,7 +103,7 @@ typedef struct
   uint32_t NCT : 1;
   uint32_t ERM : 1;
   uint32_t ERETM : 1;
-  uint32_t VCT_CEDV : 1;
+   uint32_t VCT_CEDV : 1;
   uint32_t RSVD1 : 9;
 } CHARGING_STATUS; // ChargingStatus 0X0055
 
