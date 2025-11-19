@@ -548,7 +548,6 @@ void Dsg_Update_FCC(void)
 
 	// t_com0e = (uint16_t)((long)t_com0f*2000 / D_Design_Capacity_mAh + 10)/20; 
 	
-	
 	t_com10 = FCC_dsg_up;
 	leiji = 0;
 	count_3s = 0;
@@ -564,9 +563,6 @@ void Dsg_Update_FCC(void)
 
 void Dsg_Update_work(void)
 {
-	
-
-
 	
 	if ( f_charge == 1)
 	{
@@ -654,13 +650,10 @@ void Dsg_Update_work(void)
 	}
 	//
 
-
 	f_discharge_last2 = f_discharge;
 	f_relax_last = f_relax ;
 	f_relax_last_dsgupdate_use = f_relax ; 
 	f_charge_last_dsgupdate_use = f_charge ;
-
-	
 	// t_com39_out = f_count3s_en_b ;
 	// t_com3a_out   =  leiji/3600 ;
 
@@ -721,7 +714,6 @@ void Calc_RSOC(void)
 		{	
 			twork += 5 ;
 		}
-
 		// twork = (uint16_t)(((((long)t_com0f * 200)*10 / t_com10 ) + 20) / 2);   // jin 1 
 		// twork = (uint16_t)((((long)t_com0f * 200)*10 / t_com10 ) / 2);   // sishewuru  1.0001-1.0000009 = 1 
 	}
@@ -846,7 +838,7 @@ void Calc_RSOC(void)
 
 void Calc_iRSOC(void)
 {
-	 uint16_t twork;
+	 uint16_t twork;uint
 	// RSOC = RemainingCapacity / FullChargeCapacity * 100
 	// Calc RSOC and store to temporary area.
 	// The result is rounded off.
@@ -1070,6 +1062,7 @@ void Calc_HoseiRC(uint32_t	lrc)
 {
 	long	lwork;
 	// if( Record_lrc_w != lrccr_w )						// Correction cap. != Chg rel.cap ?
+	 uint16_t soc_temp;
 	// static uint8_t  Count_13s_rsoc_2  ;
 	// {
 	// 	if( lrccr_w < 16 )						// Charge rel.cap = 0 ?
@@ -1130,21 +1123,31 @@ void Calc_HoseiRC(uint32_t	lrc)
 			// 	dis_fac_cpl = 100  ;
 			// }
 
-			dis_fac_cpl = t_com0d*DSG_SMOOTH_MUL +t_com0d/DSG_SMOOTH_DIV ;   
+			// dis_fac_cpl = t_com0d*DSG_SMOOTH_MUL +t_com0d/DSG_SMOOTH_DIV ;   
 
-
-			if (t_com0d < D_CP_L) // t_com0d = rsoc  D_CP_L = 6 ;
+			if( 0! =  D_CP_L)
 			{
-				if (dis_fac_cpl < 30)
-				{
-					dis_fac_cpl = 30 ; // Subtruct correction value
-				}
-				else if( dis_fac_cpl >= 109 ) // 5---92
-				{
-					dis_fac_cpl= 100 ;
-				}
+				soc_temp = t_com0d ;
+				dis_fac_cpl  = t_com0d *100 /D_CP_L ;
+
+			}else
+			{
+				dis_fac_cpl  = 100 ;
 			}
-			else if (t_com0d > D_CP_L)
+	
+			// if (t_com0d < D_CP_L) // t_com0d = rsoc  D_CP_L = 6 ;
+			// {
+			// 	if (dis_fac_cpl < 30)
+			// 	{
+			// 		dis_fac_cpl = 30 ; // Subtruct correction value
+			// 	}
+			// 	else if( dis_fac_cpl >= 109 ) // 5---92
+			// 	{
+			// 		dis_fac_cpl= 100 ;
+			// 	}
+			// }
+			// else 
+			if (t_com0d > D_CP_L)
 			{
 				if (dis_fac_cpl <= 109)
 				{
