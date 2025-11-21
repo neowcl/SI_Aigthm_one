@@ -793,8 +793,6 @@ void Calc_RSOC(void)
 
 
 
-
-
 	if(BatteryMode(CAPM) == ON)
 	{
 		t_com0fCap = (long)t_com0f*D_Design_Voltage/10000; //cWh
@@ -933,7 +931,7 @@ void chg_pinghua(void)
 		// t_com2c  = rsoc   t_com0d
 		//   t_com10 = RemainingCapacity  t_com0f
 
-		if (V_max >(t_com15/4-D_PINGHUA_CHGVOL_THRESH )  && (Current()>=D_PINGHUA_CHGCUR_LOW &&Current()<=D_PINGHUA_CHGCUR_HIGH))
+		if (V_max >(t_com15/4-D_PINGHUA_CHGVOL_THRESH ) && (Current()>=D_PINGHUA_CHGCUR_LOW &&Current()<=D_PINGHUA_CHGCUR_HIGH))
 		{
 			if (f_pinghua_conditon == 0)
 			{
@@ -1062,7 +1060,7 @@ void Calc_HoseiRC(uint32_t	lrc)
 {
 	long	lwork;
 	// if( Record_lrc_w != lrccr_w )						// Correction cap. != Chg rel.cap ?
-	 uint16_t soc_temp;
+	 uint32_t soc_temp;
 	// static uint8_t  Count_13s_rsoc_2  ;
 	// {
 	// 	if( lrccr_w < 16 )						// Charge rel.cap = 0 ?
@@ -1110,8 +1108,6 @@ void Calc_HoseiRC(uint32_t	lrc)
 	} 	
 	else
 	{									// CP_L detected ?
-
-
 		if( f_cp_l_last == OFF)  // to do clear 0 .  / can come here , must means this time cpl ON . 
 		{
 			// dis_fcc = t_com0d / 5.5;    // enlarge 100 times .  100/5.5*t_com0d  = 18.2 about 18 
@@ -1128,7 +1124,7 @@ void Calc_HoseiRC(uint32_t	lrc)
 			if( 0!= D_CP_L)
 			{
 				soc_temp = t_com0d ;
-				dis_fac_cpl  = soc_temp *100 /D_CP_L ;
+				dis_fac_cpl  = soc_temp *1000 /(D_CP_L*10-5) ;
 
 			}else
 			{
@@ -1162,7 +1158,6 @@ void Calc_HoseiRC(uint32_t	lrc)
 			}
 		}
  
-		
 
 		Record_lrc_w  -= dis_fac_cpl*lrc/100;   // muti 
 
@@ -1919,7 +1914,8 @@ void Calc_CPVolt(void)
 	int32_t ccwork;
 	int32_t dcwork;
 
-	uint32_t	res_chabiao,res_jisuan;
+	uint32_t	res_chabiao;
+// 	uint32_t	res_jisuan;
 
 	//Calc [C]x100 from current
 	twork1 = (uint16_t)((long)I_abs * 100 / D_Design_Capacity_mAh);
@@ -2071,27 +2067,31 @@ void Calc_CPVolt(void)
 	// - degC interpolation -
 	tcpl_v = twork1 + (uint16_t)((((long)twork2 - twork1)*awork3/awork4)) - tinreg;
 
-
 	// to do 
 
 
 	res_chabiao = calc_k_res_chabiao ;
-	res_jisuan = calc_k_res_jisuan ;
+	// res_jisuan = calc_k_res_jisuan ;
  
-	if( res_jisuan >res_chabiao) 
+	// if( res_jisuan >res_chabiao) 
+	// {
+	// 	tcpl_v = tcpl_v - (res_jisuan-res_chabiao)* I_abs/10000 ;
+	//}
+	t_com96_out  = tcpl_v  ;
+	
+	if (tcpl_v <= D_0PVOLT + 30)
 	{
-		tcpl_v = tcpl_v - (res_jisuan-res_chabiao)* I_abs/10000 ;
-
-		if(tcpl_v <=D_0PVOLT+30)
-		{
-			tcpl_v = D_0PVOLT+30 ;
-		}
+		tcpl_v = D_0PVOLT + 30;
 	}
-
-	
 	
 
+	t_com97_out  = tcpl_v  ;
+	tcpl_v = tcpl_v - res_chabiao*k_CEDV_average/1000 *I_abs/10000 ;  // shoud / 10000*1000
 
+t_com98_out  = tcpl_v  ;
+	
+
+t_com8f_out  = k_CEDV_average  ;
 	//tcpl_v = 3600 ;
 	
 	

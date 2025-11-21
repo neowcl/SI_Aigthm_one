@@ -108,26 +108,26 @@ uint16_t CBstatus;
 
 uint8_t b_aidx;
 uint16_t k_CEDV = 1000 ;
-uint16_t k_CEDV1 = 1000 ;
-uint16_t k_CEDV2 = 1000 ;
-uint16_t k_CEDV3 = 1000 ;
-uint16_t k_CEDV4 = 1000 ;
+// uint16_t k_CEDV1 = 1000 ;
+// uint16_t k_CEDV2 = 1000 ;
+// uint16_t k_CEDV3 = 1000 ;
+// uint16_t k_CEDV4 = 1000 ;
 
 
 uint16_t calc_Res_k_InitSOC ;
 uint16_t calc_static_k_InitRes ;
-uint16_t calc_static_k_InitRes1 ;
-uint16_t calc_static_k_InitRes2 ;
-uint16_t calc_static_k_InitRes3 ;
-uint16_t calc_static_k_InitRes4 ;
+// uint16_t calc_static_k_InitRes1 ;
+// uint16_t calc_static_k_InitRes2 ;
+// uint16_t calc_static_k_InitRes3 ;
+// uint16_t calc_static_k_InitRes4 ;
 uint16_t  calc_k_initRES ;
 uint16_t calc_Res_k_EndRes;
 
 
 /*    Calc_k_CEDV     */
-uint16_t voltage_last_5_times[4];
+// uint16_t voltage_last_5_times[4];
 
-uint8_t i_j_CEDV = 0 ; 
+// uint8_t i_j_CEDV = 0 ; 
 uint8_t f_discharge_CEDV_last ;
 /*    Calc_k_CEDV     */
 
@@ -155,9 +155,12 @@ uint8_t SOC_CEDV ;
 // uint8_t yanshi_CEDV_k ;
 
 uint16_t calc_k_res_chabiao;
+uint16_t calc_k_res_jisuan;
+
+
 uint8_t calc_RES_soc_chabiao;
 
-uint16_t calc_k_res_jisuan;
+
 uint8_t calc_RES_soc_jisuan;
 uint16_t fcc_use_qmax  ;
 // uint32_t qmax_chu_fcc = 10000 ;
@@ -168,6 +171,10 @@ uint16_t tfc_cnt_CEDV = 0;
 uint32_t rc_integral_CEDV = 0;
 uint16_t ful_dsg_cap_FCC;
  /*  full charge  */
+  
+uint16_t  k_CEDV_average = 1000 ;   //to use to  jisuan cpl voltage 
+
+ // 
 
  uint16_t  Res_C1T1[103] = {3943,3943,3943,3943,3943,3943,3943,3943,3943,3943,3943,3943,3943,3943,2964,2703,2506,2333,2208,2079,\
 1973,1872,1782,1716,1654,1606,1558,1511,1484,1450,1425,1394,1362,1342,1320,1293,1284,1268,1253,1251,\
@@ -376,6 +383,10 @@ void AlarmWarning_Check(void)
                 f_gs_fc = ON;
             }
         }
+
+
+
+
     }
 
     if (f_gs_td)
@@ -510,7 +521,7 @@ void AlarmWarning_Check(void)
     else
     {
         BatteryStatus(FC) = OFF;
-         f_VCT = OFF; // battery charge termination f_VCT = ON;
+        f_VCT = OFF; // battery charge termination f_VCT = ON;
         f_VCT_CEDV = OFF ;
         f_fullchg = OFF;
         f_fullchg_CEDV = OFF ;
@@ -900,6 +911,19 @@ void Calc_k_CEDV(void) // use leiji style
     static uint8_t f_start_calc_k = 0;
   //   uint8_t index_SOC_OCV ;
 
+ static uint8_t k_CEDV_average_cnt = 0;
+static uint32_t k_CEDV_total = 0;
+static uint32_t k_CEDV_average_last = 0;
+
+
+    if ( f_charge)  // can not use on realx 
+    {
+        k_CEDV_total = 0; // at most 102
+        k_CEDV_average_cnt = 0;
+        k_CEDV_average = 1000;
+        k_CEDV_average_last = 1000;
+    }
+
     // if (cnt_vol_calc <= 3)
     // {
     //     vol_calc[cnt_vol_calc] = V_min;
@@ -1032,6 +1056,33 @@ void Calc_k_CEDV(void) // use leiji style
                     //  t_com8a_out = 1;
                     k_CEDV = 1012;
                 }
+                // calc average k_CEDV when discharge and voltage <= V_cpl
+
+                k_CEDV_average_cnt++ ; 
+
+                if(k_CEDV_average_cnt>=102)
+                {
+                    k_CEDV_average_cnt = 102 ;
+                }
+                k_CEDV_total+= k_CEDV ;
+
+                k_CEDV_average =  k_CEDV_total/k_CEDV_average_cnt ;
+
+
+                if(V_min < tcpl_v)
+                {
+                    k_CEDV_average = k_CEDV_average_last ;
+                }
+
+                k_CEDV_average_last = k_CEDV_average; 
+
+
+
+
+
+
+
+
             }
             else
             {
@@ -1230,7 +1281,7 @@ void QMax_Calc_CEDV(void)
                           //  t_com99_out = aidxq1;
                             Record_lrc_w_CEDV =  (uint32_t)qmax_CEDV*SOC_CEDV*144+(uint32_t)qmax_CEDV*SOC_CEDV*71/50; // capcity + capcity /100 ;
 
-                            t_com9a_out = PackQamxInitSOC;
+                            // t_com9a_out = PackQamxInitSOC;
                             for (aidxq1 = 0; (aidxq1 < 102) && (_DAStatus1.CellVoltage1 > SOC_OCV_103_TBL[aidxq1]); aidxq1++)
                                 ;
 
@@ -1325,8 +1376,8 @@ void QMax_Calc_CEDV(void)
                                         PackQamxEndSOC = aidxq1;
                                     }
                                 }
-                                t_com9b_out = aidxq1;         //
-                                t_com9c_out = PackQamxEndSOC; // 
+                               // t_com9b_out = aidxq1;         //
+                              //  t_com9c_out = PackQamxEndSOC; // 
                             SOC_CEDV =  PackQamxEndSOC ;   // f_relax time sufficient time , update SOC .
 
                            //  Record_lrc_w_CEDV = SOC_CEDV * qmax_CEDV/100*14400 ;
@@ -1591,11 +1642,11 @@ void Calc_FCC_CEDV(void)  // read four , % -1.5 0 1 2 3 4 ....101 res  , calc on
             {
                // t_com4c_out = D_Design_Capacity_mAh;
              //   t_com4d_out = Res_Temp_CEDV_Inner[6];  
-               t_com97_out =  SOC_OCV_103_TBL[soc_to_res_index]  ;
+             //  t_com97_out =  SOC_OCV_103_TBL[soc_to_res_index]  ;
               //  t_com98_out =  Ts_max ;
                t_com93_out =  soc_to_res_index ;
               //  t_com95_out   =  I_abs  ; 
-               t_com96_out = Res_Temp_CEDV_Inner_turn  ;
+               // t_com96_out = Res_Temp_CEDV_Inner_turn  ;
                 t_com1f_out = Res_Temp_CEDV_Inner_turn_new;
 
 
@@ -1619,11 +1670,10 @@ void Calc_FCC_CEDV(void)  // read four , % -1.5 0 1 2 3 4 ....101 res  , calc on
             // //    t_com95_out = Res_Temp_CEDV_Inner[5];
             // //       t_com98_out = Res_Temp_CEDV_Inner[8];
 
-            //    t_com95_out = twork1_out;
-            //    t_com98_out = twork2_out;
-              //     t_com98_out = Res_Temp_CEDV_Inner[8];
+   
+              
 
-               // t_com97_out = Res_Temp_CEDV_Inner[7];
+
               
                 
                Res_Temp_CEDV_Inner_out = Res_Temp_CEDV_Inner_turn;
@@ -1705,10 +1755,6 @@ void Calc_fulchg_dsg_cap(void)
 
 	// beilv = (uint16_t)((long)I_abs * 100/D_Design_Capacity_mAh);  //D_Design_Capacity_mAh  _DesignCapacity
 
-
-
-
-
     // only for test
 
 
@@ -1716,7 +1762,7 @@ void Calc_fulchg_dsg_cap(void)
     {
         I_abs_ful = I_abs + I_abs/130 ;
 		ful_dsg_cap_dsg +=I_abs_ful ;
-        t_com8f_out = ful_dsg_cap_dsg/14400;
+       // t_com8f_out = ful_dsg_cap_dsg/14400;
     }
 
 if((f_charge)||(V_min <= D_0PVOLT))
@@ -1769,7 +1815,7 @@ if(!f_charge)
                         if (Count_10s >= 10)
                         {
                             Count_10s = 0;
-                            t_com98_out++;
+                          //  t_com98_out++;
                         }
                     }
 
@@ -1815,35 +1861,36 @@ void chg_pinghua_CEDV(void)
 {
 	if (f_charge == ON)
 	{
-
-		//  t_com0c  = current  t_com0a
-		// t_com30 = Chargingvoltage   t_com15
-		//  t_com08 = Volrage    t_com09
-		// t_com2c  = rsoc   SOC_CEDV_show
-		//   t_com10 = RemainingCapacity  t_com0f
-
 		if (V_max >(t_com15/4-D_PINGHUA_CHGVOL_THRESH )  && (Current()>=D_PINGHUA_CHGCUR_LOW &&Current()<=D_PINGHUA_CHGCUR_HIGH))
 		{
+            t_com9a_out = 1 ;
 			if (f_pinghua_conditon_CE == 0)
 			{
+
+                 t_com9a_out =2 ;
 				temp_Cur_CE = Current();
 				f_pinghua_conditon_CE = 1;
 				pinghua_soc_start_CE = SOC_CEDV_show;
+
 			}
 			//if (f_pinghua_conditon_CE == 1 && buchang_con_cnt < D_PINGHUA_TIME) // must have this , or the next circle will not come in .
 			if (f_pinghua_conditon_CE == 1 && buchang_con_cnt_CE < D_PINGHUA_TIME) // must have this , or the next circle will not come in .
 			{
+
+                t_com9a_out =3 ;
 				buchang_con_cnt_CE++; // condition reach  + 1
 			}
 			// if (f_pinghua_work_CE == 0 && f_pinghua_conditon_CE == 1 && buchang_con_cnt == 40 && (temp_Cur - t_com0a >= D_PINGHUA_CUR_RANGE ))
 			if (f_pinghua_work_CE == 0 && f_pinghua_conditon_CE == 1 && buchang_con_cnt_CE >= 40 && (temp_Cur_CE - Current() >= D_PINGHUA_CUR_RANGE))
 			// use conditon == 1 , in case come into again when condition reach
 			{
+                 t_com9b_out =1 ;
 				// about  100-t_com2c) * FCC /39
 				f_pinghua_work_CE = 1;
 			}
-			if (SOC_CEDV_show < 100 && f_pinghua_work_CE == 1)
+			if (SOC_CEDV_show < 100 && f_pinghua_work_CE == 1) // 
 			{
+                 t_com9b_out =2 ;
 				// chg_smooth_cur = (uint32_t)(100 - pinghua_soc_start) * t_com0f/D_CHG_PINGHUA_FACTOR; // chg_buchang_value = (100-t_com2c) * FCC /100 *3600 /1400;
 				// 	  // can not use 100 -t_com2c , it will make the real less .   cur = cap / t .
 				chg_smooth_cur_CE = (uint32_t)(100 - pinghua_soc_start_CE) * t_com10/D_PINGHUA_CAP;
@@ -1855,6 +1902,9 @@ void chg_pinghua_CEDV(void)
 		}
 		else
 		{
+
+            t_com9a_out =3 ;
+            t_com9b_out =3 ;
 			f_pinghua_conditon_CE = 0;
 			f_pinghua_work_CE = 0;
 			buchang_con_cnt_CE = 0;
@@ -1862,6 +1912,9 @@ void chg_pinghua_CEDV(void)
 	}
 	else
 	{
+
+        t_com9a_out =4 ;
+        t_com9b_out =4 ;
 		f_pinghua_conditon_CE = 0;
 		f_pinghua_work_CE = 0;
 		buchang_con_cnt_CE = 0;
@@ -1873,11 +1926,12 @@ void chg_pinghua_CEDV(void)
 void Calc_HoseiRC_CEDV(uint32_t	lrc)
 {
 	long	lwork;
-    t_com10_out =  dis_fac_cpl ;
 
     static uint16_t  dis_fac_cpl_CEDV ;
-    uint16_t soc_temp_CE;
+    uint32_t soc_temp_CE;
+//  uint16_t dis_fac_cpl;
 
+      t_com10_out =  dis_fac_cpl_CEDV ;
 	if( f_cp_l == ON )							// CP_L not detected ?
 	{									// CP_L detected ?
 		if( f_cp_l_last_CEDV == OFF)  // to do clear 0 .  / can come here , must means this time cpl ON . 
@@ -1897,11 +1951,11 @@ void Calc_HoseiRC_CEDV(uint32_t	lrc)
             if (0 != D_CP_L)
             {
                 soc_temp_CE = SOC_CEDV_show ;
-                dis_fac_cpl = soc_temp_CE * 100 / D_CP_L;
+                dis_fac_cpl_CEDV = soc_temp_CE * 1000 /(D_CP_L*10-5) ;
             }
             else
             {
-                dis_fac_cpl = 100;
+               dis_fac_cpl_CEDV = 100;
             }
 
 
@@ -1918,30 +1972,29 @@ void Calc_HoseiRC_CEDV(uint32_t	lrc)
 			// }
 			
             //else
-             if (SOC_CEDV_show > D_CP_L)
-			{
-				if (dis_fac_cpl_CEDV <= 109)
-				{
-					dis_fac_cpl_CEDV = 100 ; // Subtruct correction value
-				}
-				else if (dis_fac_cpl_CEDV >= 400) // 5---92
-				{
-					dis_fac_cpl_CEDV = 400;
-				}
-			}else
-			{
-				dis_fac_cpl_CEDV = 100 ;
-			}
-		}
+            if (SOC_CEDV_show >= D_CP_L)
+            {
+                if (dis_fac_cpl_CEDV <= 109)
+                {
+                    dis_fac_cpl_CEDV = 100; // Subtruct correction value
+                }
+                else if (dis_fac_cpl_CEDV >= 400) // 5---92
+                {
+                    dis_fac_cpl_CEDV = 400;
+                }
+            }
+            else
+            {
+                dis_fac_cpl_CEDV = 100;
+            }
+        }
  
 		
-
-
         // Record_lrc_w_CEDV_fcc_show -= cur_qmax_chu_fcc ;
         //                     Record_lrc_w_CEDV -= I_abs ;
 
 		Record_lrc_w_CEDV_fcc_show -= dis_fac_cpl_CEDV*cur_qmax_chu_fcc/100;   // muti 
-         Record_lrc_w_CEDV -= I_abs ;
+        Record_lrc_w_CEDV -= I_abs ;
 
 		// t_com39_out = Record_lrc_w /3600/4 ;
 
@@ -2098,7 +2151,6 @@ void Calc_RC_CEDV(void)
 
    
 	static uint8_t	adlogc_CE;							// Power consumption 10times counter
-	
 	uint32_t	lwork;
 	uint16_t	twork;
     static uint16_t VoltagetoRSOCcount_CEDV;
@@ -2149,13 +2201,15 @@ void Calc_RC_CEDV(void)
      
 			if (f_pinghua_work_CE == 1)
 			{
+                t_com9c_out = 1  ;
 				// lrc_w += chg_smooth_cur - divi_by_1k * 3;
 				 Record_lrc_w_CEDV_fcc_show += chg_smooth_cur_CE ;
 			}
 			else
 			{
-				// Record_lrc_w_CEDV +=  cur_qmax_chu_fcc;
-                Record_lrc_w_CEDV_fcc_show += I_abs;
+                t_com9c_out = 2  ;
+				 Record_lrc_w_CEDV_fcc_show +=  cur_qmax_chu_fcc;
+               // Record_lrc_w_CEDV_fcc_show += I_abs;
 			}
                 Record_lrc_w_CEDV += I_abs ;
 			
@@ -2167,11 +2221,9 @@ void Calc_RC_CEDV(void)
 
     }else   // Current()<=0 
     {
-
 		// if(V_min < D_Discharge_0_voltage)		// lower than 0% voltage ? D_0PVOLT
 		if(V_min <= D_0PVOLT) 
 		{
-            
             VoltagetoRSOCcount_CEDV++ ;
 			if(VoltagetoRSOCcount_CEDV >= D_Discharge_0_voltage_Delay*4 )  // D_Discharge_0_voltage_Delay*4
 			{
@@ -2254,8 +2306,6 @@ void Calc_RC_CEDV(void)
 
        
 
-
-
     if (Record_lrc_w_CEDV_fcc_show >= qmax_CEDV * 14400)  // this is show for out 
     {
         Record_lrc_w_CEDV_fcc_show = qmax_CEDV * 14400;
@@ -2335,7 +2385,7 @@ void Calc_RSOC_CEDV(void)
 	{
 		if(D_SBS_Gauging_Configuration_RSOCL == ON)							// More than 99% ?
 		{
-			if(f_VCT)
+			if(f_VCT_CEDV)
 			{
 				atwork1 = 100;						// Set to 100% (Don't make >100)
 			}
@@ -2382,7 +2432,6 @@ void Calc_RSOC_CEDV(void)
 
 	SOC_CEDV_show = atwork1;		
     t_com45_out = SOC_CEDV_show ;					// Set to RSOC  RSOC 
-
 
     atwork2 = (uint16_t)((((long)t_com0f_CEDV*2000)/qmax_CEDV)/ 2);  // jia 0.99%    // to do 20250919
     SOC_CEDV = atwork2/10;		
@@ -2450,10 +2499,15 @@ static void FullCharge_CEDV(void)
     f_fullchg_CEDV = ON; // Set FULLY_CHARGED
     // f_ful_chg_once = 1 ;
    //  f_VCT = ON;
+   f_VCT_CEDV = ON;
     //	acccv_cnt = 0;								// Clear CC/CV time counter
    // t_com0c = 0;     // Clear MaxError
     //lmaxerr_cnt = 0; // Clear MaxError counter
    //  _ChargingCurrent = 0;     // ChargingCurrent() = 0
+
+    f_ful_chg_once = 1 ;
+    lmaxerr_cnt = 0; // Clear MaxError counter
+    _ChargingCurrent = 0;     // ChargingCurrent() = 0
 
    Record_lrc_w_CEDV_fcc_show_last = Record_lrc_w_CEDV_fcc_show ;
 }
@@ -2746,10 +2800,10 @@ static void FullCharge(void)
                           // Update last RemCap
     }
     f_fullchg = ON; // Set FULLY_CHARGED
-    f_ful_chg_once = 1 ;
     f_VCT = ON;
     //	acccv_cnt = 0;								// Clear CC/CV time counter
    // t_com0c = 0;     // Clear MaxError
+    f_ful_chg_once = 1 ;
     lmaxerr_cnt = 0; // Clear MaxError counter
     _ChargingCurrent = 0;     // ChargingCurrent() = 0
 }
