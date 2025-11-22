@@ -3490,7 +3490,7 @@ typedef struct{
 #define D_PINGHUA_CHGCUR_HIGH       flashdata.b_Chg_smooth.chg_pinghua_chgcur_high      // 350 
 #define D_PINGHUA_TIME	            flashdata.b_Chg_smooth.chg_pinghua_time             // 40
 #define D_PINGHUA_CUR_RANGE         flashdata.b_Chg_smooth.chg_pinghua_cur_range        // 3
-#define D_PINGHUA_CAP               flashdata.b_Chg_smooth.chg_pinghua_cap              // 30  *3600/100/1400
+#define D_PINGHUA_CAP_TIME               flashdata.b_Chg_smooth.chg_pinghua_cap              // 30  *3600/100/1400
 
 
 typedef struct{

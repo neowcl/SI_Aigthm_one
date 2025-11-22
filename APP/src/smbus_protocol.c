@@ -139,12 +139,13 @@ uint16_t t_coma1;
 
 /* CEDV fcc——update*/
 uint16_t fcc_CEDV_Ture ;
+
 uint8_t SOC_CEDV_show ;
 uint16_t qmax_CEDV ;
-uint16_t qmax_CEDV1 ;
-uint16_t qmax_CEDV2 ;
-uint16_t qmax_CEDV3 ;
-uint16_t qmax_CEDV4 ;
+// uint16_t qmax_CEDV1 ;
+// uint16_t qmax_CEDV2 ;
+// uint16_t qmax_CEDV3 ;
+// uint16_t qmax_CEDV4 ;
 
 
 

@@ -172,7 +172,7 @@ uint32_t rc_integral_CEDV = 0;
 uint16_t ful_dsg_cap_FCC;
  /*  full charge  */
   
-uint16_t  k_CEDV_average = 1000 ;   //to use to  jisuan cpl voltage 
+int16_t k_CEDV_average = 1000 ;   //to use to  jisuan cpl voltage 
 
  // 
 
@@ -1648,33 +1648,7 @@ void Calc_FCC_CEDV(void)  // read four , % -1.5 0 1 2 3 4 ....101 res  , calc on
               //  t_com95_out   =  I_abs  ; 
                // t_com96_out = Res_Temp_CEDV_Inner_turn  ;
                 t_com1f_out = Res_Temp_CEDV_Inner_turn_new;
-
-
-            //    t_com7e_out = I_abs;
-            //    t_com7f_out = D_Discharge_0_voltage;
-            //    t_com80_out = soc_to_res_index;
-            //    t_com81_out = Res_Temp_CEDV_Inner_turn;
             //    t_com8f_out = Res_Temp_CEDV_Inner_temp; // log r
-            //    t_com82_out = k_CEDV;
-            //    t_com83_out = Ts_max;
-
-            //      t_com85_out = Ts_max;
-
-            //    t_com88_out = awork1_CEDV;
-            //    t_com89_out = awork2_CEDV;
-            //    t_com8a_out = awork3_CEDV;
-       
-
-            // //    t_com90_out = Res_Temp_CEDV_Inner[0];
-            // //    t_com91_out = Res_Temp_CEDV_Inner[1];
-            // //    t_com95_out = Res_Temp_CEDV_Inner[5];
-            // //       t_com98_out = Res_Temp_CEDV_Inner[8];
-
-   
-              
-
-
-              
                 
                Res_Temp_CEDV_Inner_out = Res_Temp_CEDV_Inner_turn;
                fcc_CEDV_Ture = (uint16_t)(long)qmax_CEDV * (102 - soc_to_res_index) / 102;
@@ -1893,7 +1867,9 @@ void chg_pinghua_CEDV(void)
                  t_com9b_out =2 ;
 				// chg_smooth_cur = (uint32_t)(100 - pinghua_soc_start) * t_com0f/D_CHG_PINGHUA_FACTOR; // chg_buchang_value = (100-t_com2c) * FCC /100 *3600 /1400;
 				// 	  // can not use 100 -t_com2c , it will make the real less .   cur = cap / t .
-				chg_smooth_cur_CE = (uint32_t)(100 - pinghua_soc_start_CE) * t_com10/D_PINGHUA_CAP;
+				chg_smooth_cur_CE = (uint32_t)(100 - pinghua_soc_start_CE) * t_com10/D_PINGHUA_CAP_TIME*36;
+
+                //  0.03* fcc *3600 
 			}
 			else
 			{

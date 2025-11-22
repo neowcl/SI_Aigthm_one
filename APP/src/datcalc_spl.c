@@ -899,7 +899,6 @@ void Calc_iRSOC(void)
 	}
 	irsoc_last = t_com8a;
 
-	
 
 	// if(D_Initial_Battery_Mode_CAPM == ON)   // to control not change 
 	// {
@@ -922,6 +921,10 @@ void Calc_iRSOC(void)
 
 void chg_pinghua(void)
 {
+
+	uint32_t fcc_CEDV_Ture_temp ;
+	uint32_t pinghua_soc_start_temp ;
+
 	if (f_charge == ON)
 	{
 
@@ -939,23 +942,32 @@ void chg_pinghua(void)
 				f_pinghua_conditon = 1;
 				pinghua_soc_start = t_com0d;
 			}
+			//  D_PINGHUA_TIME  to confirm it is in heng voltage .
 			//if (f_pinghua_conditon == 1 && buchang_con_cnt < D_PINGHUA_TIME) // must have this , or the next circle will not come in .
 			if (f_pinghua_conditon == 1 && buchang_con_cnt < D_PINGHUA_TIME) // must have this , or the next circle will not come in .
 			{
 				buchang_con_cnt++; // condition reach  + 1
 			}
 			// if (f_pinghua_work == 0 && f_pinghua_conditon == 1 && buchang_con_cnt == 40 && (temp_Cur - t_com0a >= D_PINGHUA_CUR_RANGE ))
-			if (f_pinghua_work == 0 && f_pinghua_conditon == 1 && buchang_con_cnt >= 40 && (temp_Cur - Current() >= D_PINGHUA_CUR_RANGE))
+			if (f_pinghua_work == 0 && f_pinghua_conditon == 1 && buchang_con_cnt >= D_PINGHUA_TIME && (temp_Cur - Current() >= D_PINGHUA_CUR_RANGE))
 			// use conditon == 1 , in case come into again when condition reach
 			{
 				// about  100-t_com2c) * FCC /39
 				f_pinghua_work = 1;
 			}
 			if (t_com0d < 100 && f_pinghua_work == 1)
-			{
+			{ 
+				fcc_CEDV_Ture_temp = fcc_CEDV_Ture ;
+   				 pinghua_soc_start_temp = pinghua_soc_start ;
 				// chg_smooth_cur = (uint32_t)(100 - pinghua_soc_start) * t_com0f/D_CHG_PINGHUA_FACTOR; // chg_buchang_value = (100-t_com2c) * FCC /100 *3600 /1400;
 				// 	  // can not use 100 -t_com2c , it will make the real less .   cur = cap / t .
-				chg_smooth_cur = (uint32_t)(100 - pinghua_soc_start) * t_com10/D_PINGHUA_CAP;
+
+				// chg_smooth_cur = (uint32_t)(100 - pinghua_soc_start )/100 * fcc_CEDV_Ture*3600/(D_PINGHUA_CAP_TIME+2);
+
+				chg_smooth_cur =  = (uint32_t)(100 - pinghua_soc_start_temp ) * fcc_CEDV_Ture_temp*36/(D_PINGHUA_CAP_TIME+2);
+
+		
+				// real mAh *3600 / time = current . 
 			}
 			else
 			{
@@ -2086,7 +2098,7 @@ void Calc_CPVolt(void)
 	
 
 	t_com97_out  = tcpl_v  ;
-	tcpl_v = tcpl_v - res_chabiao*k_CEDV_average/1000 *I_abs/10000 ;  // shoud / 10000*1000
+	tcpl_v = tcpl_v - res_chabiao*(k_CEDV_average-1000)/1000 *I_abs/10000 ;  // shoud / 10000*1000
 
 t_com98_out  = tcpl_v  ;
 	
