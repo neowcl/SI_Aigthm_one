@@ -2098,7 +2098,7 @@ void Calc_CPVolt(void)
 	
 
 	t_com97_out  = tcpl_v  ;
-	tcpl_v = tcpl_v - res_chabiao*(k_CEDV_average-1000)/1000 *I_abs/10000 ;  // shoud / 10000*1000
+	tcpl_v = tcpl_v - res_chabiao*(k_CEDV_average-1000)/1000 *I_abs/10000/2 ;  // shoud / 10000*1000
 
 t_com98_out  = tcpl_v  ;
 	
