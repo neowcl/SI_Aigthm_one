@@ -964,7 +964,7 @@ void chg_pinghua(void)
 
 				// chg_smooth_cur = (uint32_t)(100 - pinghua_soc_start )/100 * fcc_CEDV_Ture*3600/(D_PINGHUA_CAP_TIME+2);
 
-				chg_smooth_cur =  = (uint32_t)(100 - pinghua_soc_start_temp ) * fcc_CEDV_Ture_temp*36/(D_PINGHUA_CAP_TIME+2);
+				chg_smooth_cur = (uint32_t)(100 - pinghua_soc_start_temp ) * fcc_CEDV_Ture_temp*36/(D_PINGHUA_CAP_TIME+2);
 
 		
 				// real mAh *3600 / time = current . 
@@ -2091,9 +2091,9 @@ void Calc_CPVolt(void)
 	//}
 	t_com96_out  = tcpl_v  ;
 	
-	if (tcpl_v <= D_0PVOLT + 30)
+	if (tcpl_v <= D_0PVOLT + 5)  // single battery .
 	{
-		tcpl_v = D_0PVOLT + 30;
+		tcpl_v = D_0PVOLT +5;
 	}
 	
 
