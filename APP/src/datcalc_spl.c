@@ -746,10 +746,10 @@ void Calc_RSOC(void)
 			{
 				if (t_com0d> 0)  // in case , when discharge , voltage raise up . still hold 1 
 				{
-					twork = 1;
+					twork = 1;  // from relax soc = 1 , to  soc =  1 
 				}else
 				{
-					twork = 0;
+					twork = 0; //from relax soc = 0 , 
 				}	
 			}
 			else  // V_min <= D_0PVOLTV
@@ -2091,9 +2091,9 @@ void Calc_CPVolt(void)
 	//}
 	t_com96_out  = tcpl_v  ;
 	
-	if (tcpl_v <= D_0PVOLT + 5)  // single battery .
+	if (tcpl_v <= D_0PVOLT + 30)  // single battery .
 	{
-		tcpl_v = D_0PVOLT +5;
+		tcpl_v = D_0PVOLT +30;
 	}
 	
 
