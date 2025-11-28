@@ -736,8 +736,6 @@ void QMax_Calc(void)
         int32_t ccwork;
         int32_t dcwork;
 
-
-
         // Calc [C]x100 from current   current beilv .
         twork1 = (uint16_t)((long)I_abs * 100 / D_Design_Capacity_mAh);  // 1234 6169 0.2
 
@@ -768,11 +766,10 @@ void QMax_Calc(void)
             // {
                 aidx_c= 3; // Table index = 5
                 // Calculate value index
-              //  awork1 = (uint8_t)(twork1 - D_CRATE_TBL[1]);
+                //  awork1 = (uint8_t)(twork1 - D_CRATE_TBL[1]);
                 // Data area is within C-rate2 to C-rate3
                 awork2 = D_CRATE_TBL[2] - D_CRATE_TBL[1];
-              //  awork1 = awork2;
-
+                //  awork1 = awork2;
              
                awork1 = (uint8_t)(twork1 - D_CRATE_TBL[1]);
               //   awork1 = (uint8_t)(twork1 - D_CRATE_TBL[0]);  wrong . 
@@ -795,12 +792,13 @@ void QMax_Calc(void)
         }
 
         // - Make Temperature index -
+        //  5   25   40 
         awork3 = Ts_max - D_TRATE_TBL[0]; // Make the value of T-rate1 base
-        if (Ts_max >= D_TRATE_TBL[1])     // >= T-rate2 ?
+        if (Ts_max >= D_TRATE_TBL[1])     // >= T-rate2 ?  >= 40 ?
         {
             aidx_c++; // Increment table index
             awork4 = D_TRATE_TBL[2] - D_TRATE_TBL[1];
-            if (Ts_max >= D_TRATE_TBL[2]) // >= T-rate3 ?
+            if (Ts_max >= D_TRATE_TBL[2]) // >= T-rate3 ?   
             {
                 awork3 = awork4; // Value index is max value
             }
@@ -809,15 +807,19 @@ void QMax_Calc(void)
                 awork3 = Ts_max - D_TRATE_TBL[1]; // Calculate value index
             }
         }
-        else
-        { // < T-rate2
+        else  //   <40               >5   awork3 = Ts_max - D_TRATE_TBL[0]; 
+        { // < T-rate2   
             // Data area is within T-rate1 to T-rate2
-            awork4 = D_TRATE_TBL[1] - D_TRATE_TBL[0];
+            awork4 = D_TRATE_TBL[1] - D_TRATE_TBL[0];  // 40 - 5 
 
-            if (Ts_max <= D_TRATE_TBL[0]) // <= T-rate1 ?
+            if (Ts_max <= D_TRATE_TBL[0]) // <= T-rate1 ?   temp <5 
             {
                 awork3 = 0; // Value index = 0
+            }else if(Ts_max <= 15)  // temp   > 5    <=10 
+            {
+                awork3 =awork3/2  ;  // Ts_max - D_TRATE_TBL[0]
             }
+
         }
         
         b_aidx = aidx_c;
@@ -829,8 +831,6 @@ void QMax_Calc(void)
 
         twork1_out = twork1 ;
         twork2_out = twork2 ; 
-
-
 
     }
 
@@ -988,13 +988,11 @@ static uint32_t k_CEDV_average_last = 0;
                 if (f_relax_cal_k_CEDV_last)
                 {
                     //  t_com90_out = 2;
-   
                 }
                 else
                 {
                     calc_RES_soc_chabiao = SOC_CEDV;
                     // t_com96_out = calc_RES_soc_chabiao;
-
                     Calc_b_aidx();
                     Calc_soc_to_res(b_aidx, calc_RES_soc_chabiao); //
                     calc_k_res_chabiao = Res_Temp_CEDV_Inner_temp;
@@ -2343,10 +2341,11 @@ void Calc_RSOC_CEDV(void)
 {
 	uint16_t atwork1;
     uint16_t atwork2;
+    static uint8_t Cnt_40_CE ;
 	// RSOC = RemainingCapacity / FullChargeCapacity * 100
 	// Calc RSOC and store to temporary area.
 	// The result is rounded off.
-	atwork1 = (uint16_t)((((long)t_com0f_CEDV_show * 2000)/qmax_CEDV+10)/ 2);
+	atwork1 = (uint16_t)((((long)t_com0f_CEDV_show * 2000)/qmax_CEDV+10)/2);
 
 	if(!f_charge)  // use on computer , if charge , sishewuru .
 	{
@@ -2384,17 +2383,38 @@ void Calc_RSOC_CEDV(void)
 			{
                 if (SOC_CEDV_show > 0) // in case , when discharge , voltage raise up . still hold 1
                 {
-                    atwork1 = 1;
+                    atwork1 = 1;  // soc >= 1 , from relax to dsg .,hold 1 .  when dsg .
                 }
                 else
                 {
-                    atwork1 = 0;
+                    atwork1 = 0;   // soc = 0 , relax to dsg : voltage raise , not change to 1 .
                 }
+                Cnt_40_CE = 0 ;
             }
-			else
+			else   // V_min <= D_0PVOLT
 			{
-				atwork1 /= 10; 
-			}
+                Cnt_40_CE++;
+                if (Cnt_40_CE >= D_Discharge_0_voltage_Delay*4) // D_Discharge_0_voltage_Delay*4
+                {
+                    Cnt_40_CE = D_Discharge_0_voltage_Delay*4 ;
+                    // Record_lrc_w_CEDV_fcc_show = 0;						// Correction capacity = 0
+                    // t_com0f_CEDV_show = 0;					// RC[mAh] = 0
+                    atwork1 = 0;
+                  //   SOC_CEDV_show = 0;
+                }else // V_min <= D_0PVOLT   Cnt_40_CE <  D_Discharge_0_voltage_Delay*4
+                {
+                    // atwork1 = 0;   when it is soc = 0 first , can not make soc  =1  ;
+                    if(SOC_CEDV_show >0)
+                    {
+                        atwork1 = 1 ;  //  Cnt_40_CE will control ,if 
+                    }else
+                    {
+                        atwork1 = 0 ; 
+                    }
+                    
+                }
+                
+            }
 		}
 		else
 		{
