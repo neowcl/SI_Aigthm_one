@@ -735,9 +735,15 @@ void QMax_Calc(void)
         uint16_t tinreg;
         int32_t ccwork;
         int32_t dcwork;
+         uint16_t beilv_temp ;
+         static uint16_t awork3_last ;
+         static uint8_t  f_charge_last_b_aidx  ;
+        static uint8_t  f_relax_last_b_aidx _ ;
 
         // Calc [C]x100 from current   current beilv .
         twork1 = (uint16_t)((long)I_abs * 100 / D_Design_Capacity_mAh);  // 1234 6169 0.2
+
+        beilv_temp = t_work1 ;
 
         // - Make [C]index -
         // linear interporation: y = (y2-y1)*(x-x1)/(x2-x1) + y1
@@ -815,13 +821,38 @@ void QMax_Calc(void)
             if (Ts_max <= D_TRATE_TBL[0]) // <= T-rate1 ?   temp <5 
             {
                 awork3 = 0; // Value index = 0
-            }else if(Ts_max <= 15)  // temp   > 5    <=10 
-            {
-                awork3 =awork3/2  ;  // Ts_max - D_TRATE_TBL[0]
             }
+            // else if(Ts_max <= 15)  // temp   > 5    <=10 
+            // {
+            //     awork3 =awork3/2  ;  // Ts_max - D_TRATE_TBL[0]
+            // }else if(Ts_max >= 25 )
+            // {   
+                if((f_discharge == 1)&&(f_relax == 0))  //fangdian not jingzhi
+                {
+                    t_com10_out =  awork3_last+2000  ;
+                    if(beilv_temp >30)  //  fangdian not flex  current rate >0.08
+                    {
+                        // cnt_b_aidx++ ;   // 1 second come into 4 times 
+                        if((f_charge_last_b_aidx == 1)||(f_relax_last_b_aidx == 1))   // the first time to fangdian 
+                        {
+                            awork3_last = awork3 ;  
+                            t_com10_out =  awork3_last ;
+                        }else
+                        {
+                            awork3  = awork3_last ;  
+                            t_com10_out =  awork3_last+5000  ;
+                        }
+                    }
+                    t_com10_out =  awork3_last+6000  ;
+                }
+                 t_com10_out =  awork3_last +7000  ;
+
+            // }
 
         }
-        
+              t_com10_out =  awork3_last +8000  ;
+
+
         b_aidx = aidx_c;
         awork1_CEDV = awork1 ;
         awork2_CEDV = awork2 ;
@@ -831,6 +862,10 @@ void QMax_Calc(void)
 
         twork1_out = twork1 ;
         twork2_out = twork2 ; 
+
+        f_relax_last_b_aidx =f_relax ;
+        f_charge_last_b_aidx = f_charge ;
+        
 
     }
 
@@ -1905,7 +1940,7 @@ void Calc_HoseiRC_CEDV(uint32_t	lrc)
     uint32_t soc_temp_CE;
 //  uint16_t dis_fac_cpl;
 
-      t_com10_out =  dis_fac_cpl_CEDV ;
+     // t_com10_out =  dis_fac_cpl_CEDV ;
 	if( f_cp_l == ON )							// CP_L not detected ?
 	{									// CP_L detected ?
 		if( f_cp_l_last_CEDV == OFF)  // to do clear 0 .  / can come here , must means this time cpl ON . 
