@@ -1296,63 +1296,61 @@ void lifetime_time_store(void)
 {
    LifeTimes_Total_Firmware_Runtime += (lifetime_ram._TotalFwRuntime/ TIME_TO_HOUR);
 
-   LifeTimes_Time_Spent_in_UT_RSOC_A += (lifetime_ram._TimeSpentInUTRSOCA/TIME_TO_HOUR);
-   LifeTimes_Time_Spent_in_UT_RSOC_B += (lifetime_ram._TimeSpentInUTRSOCB/TIME_TO_HOUR);
-   LifeTimes_Time_Spent_in_UT_RSOC_C += (lifetime_ram._TimeSpentInUTRSOCC/TIME_TO_HOUR);
-    LifeTimes_Time_Spent_in_UT_RSOC_D += (lifetime_ram._TimeSpentInUTRSOCD/TIME_TO_HOUR);
-    LifeTimes_Time_Spent_in_UT_RSOC_E += (lifetime_ram._TimeSpentInUTRSOCE/TIME_TO_HOUR);
-    LifeTimes_Time_Spent_in_UT_RSOC_F += (lifetime_ram._TimeSpentInUTRSOCF/TIME_TO_HOUR);
-    LifeTimes_Time_Spent_in_UT_RSOC_G += (lifetime_ram._TimeSpentInUTRSOCG/TIME_TO_HOUR);
+   LifeTimes_Time_Spent_in_UT_RSOC_A += (lifetime_ram._TimeSpentInUTRSOCA / TIME_TO_HOUR);
+   LifeTimes_Time_Spent_in_UT_RSOC_B += (lifetime_ram._TimeSpentInUTRSOCB / TIME_TO_HOUR);
+   LifeTimes_Time_Spent_in_UT_RSOC_C += (lifetime_ram._TimeSpentInUTRSOCC / TIME_TO_HOUR);
+   LifeTimes_Time_Spent_in_UT_RSOC_D += (lifetime_ram._TimeSpentInUTRSOCD / TIME_TO_HOUR);
+   LifeTimes_Time_Spent_in_UT_RSOC_E += (lifetime_ram._TimeSpentInUTRSOCE / TIME_TO_HOUR);
+   LifeTimes_Time_Spent_in_UT_RSOC_F += (lifetime_ram._TimeSpentInUTRSOCF / TIME_TO_HOUR);
+   LifeTimes_Time_Spent_in_UT_RSOC_G += (lifetime_ram._TimeSpentInUTRSOCG / TIME_TO_HOUR);
 
-    LifeTimes_Time_Spent_in_LT_RSOC_A += (lifetime_ram._TimeSpentInLTRSOCA/TIME_TO_HOUR);
-    LifeTimes_Time_Spent_in_LT_RSOC_B += (lifetime_ram._TimeSpentInLTRSOCB/TIME_TO_HOUR);
-    LifeTimes_Time_Spent_in_LT_RSOC_C += (lifetime_ram._TimeSpentInLTRSOCC/TIME_TO_HOUR);
-    LifeTimes_Time_Spent_in_LT_RSOC_D += (lifetime_ram._TimeSpentInLTRSOCD/TIME_TO_HOUR);
-    LifeTimes_Time_Spent_in_LT_RSOC_E += (lifetime_ram._TimeSpentInLTRSOCE/TIME_TO_HOUR);
-    LifeTimes_Time_Spent_in_LT_RSOC_F += (lifetime_ram._TimeSpentInLTRSOCF/TIME_TO_HOUR);
-    LifeTimes_Time_Spent_in_LT_RSOC_G += (lifetime_ram._TimeSpentInLTRSOCG/TIME_TO_HOUR);
+   LifeTimes_Time_Spent_in_LT_RSOC_A += (lifetime_ram._TimeSpentInLTRSOCA / TIME_TO_HOUR);
+   LifeTimes_Time_Spent_in_LT_RSOC_B += (lifetime_ram._TimeSpentInLTRSOCB / TIME_TO_HOUR);
+   LifeTimes_Time_Spent_in_LT_RSOC_C += (lifetime_ram._TimeSpentInLTRSOCC / TIME_TO_HOUR);
+   LifeTimes_Time_Spent_in_LT_RSOC_D += (lifetime_ram._TimeSpentInLTRSOCD / TIME_TO_HOUR);
+   LifeTimes_Time_Spent_in_LT_RSOC_E += (lifetime_ram._TimeSpentInLTRSOCE / TIME_TO_HOUR);
+   LifeTimes_Time_Spent_in_LT_RSOC_F += (lifetime_ram._TimeSpentInLTRSOCF / TIME_TO_HOUR);
+   LifeTimes_Time_Spent_in_LT_RSOC_G += (lifetime_ram._TimeSpentInLTRSOCG / TIME_TO_HOUR);
 
-    LifeTimes_Time_Spent_in_STL_RSOC_A += (lifetime_ram._TimeSpentInSTLRSOCA/TIME_TO_HOUR);
-    LifeTimes_Time_Spent_in_STL_RSOC_B += (lifetime_ram._TimeSpentInSTLRSOCB/TIME_TO_HOUR);
-    LifeTimes_Time_Spent_in_STL_RSOC_C += (lifetime_ram._TimeSpentInSTLRSOCC/TIME_TO_HOUR);
-    LifeTimes_Time_Spent_in_STL_RSOC_D += (lifetime_ram._TimeSpentInSTLRSOCD/TIME_TO_HOUR);
-    LifeTimes_Time_Spent_in_STL_RSOC_E += (lifetime_ram._TimeSpentInSTLRSOCE/TIME_TO_HOUR);
-    LifeTimes_Time_Spent_in_STL_RSOC_F += (lifetime_ram._TimeSpentInSTLRSOCF/TIME_TO_HOUR);
-    LifeTimes_Time_Spent_in_STL_RSOC_G += (lifetime_ram._TimeSpentInSTLRSOCG/TIME_TO_HOUR);
+   LifeTimes_Time_Spent_in_STL_RSOC_A += (lifetime_ram._TimeSpentInSTLRSOCA / TIME_TO_HOUR);
+   LifeTimes_Time_Spent_in_STL_RSOC_B += (lifetime_ram._TimeSpentInSTLRSOCB / TIME_TO_HOUR);
+   LifeTimes_Time_Spent_in_STL_RSOC_C += (lifetime_ram._TimeSpentInSTLRSOCC / TIME_TO_HOUR);
+   LifeTimes_Time_Spent_in_STL_RSOC_D += (lifetime_ram._TimeSpentInSTLRSOCD / TIME_TO_HOUR);
+   LifeTimes_Time_Spent_in_STL_RSOC_E += (lifetime_ram._TimeSpentInSTLRSOCE / TIME_TO_HOUR);
+   LifeTimes_Time_Spent_in_STL_RSOC_F += (lifetime_ram._TimeSpentInSTLRSOCF / TIME_TO_HOUR);
+   LifeTimes_Time_Spent_in_STL_RSOC_G += (lifetime_ram._TimeSpentInSTLRSOCG / TIME_TO_HOUR);
 
-    LifeTimes_Time_Spent_in_RT_RSOC_A += (lifetime_ram._TimeSpentInRTRSOCA/TIME_TO_HOUR);
-    LifeTimes_Time_Spent_in_RT_RSOC_B += (lifetime_ram._TimeSpentInRTRSOCB/TIME_TO_HOUR);
-    LifeTimes_Time_Spent_in_RT_RSOC_C += (lifetime_ram._TimeSpentInRTRSOCC/TIME_TO_HOUR);
-    LifeTimes_Time_Spent_in_RT_RSOC_D += (lifetime_ram._TimeSpentInRTRSOCD/TIME_TO_HOUR);
-    LifeTimes_Time_Spent_in_RT_RSOC_E += (lifetime_ram._TimeSpentInRTRSOCE/TIME_TO_HOUR);
-    LifeTimes_Time_Spent_in_RT_RSOC_F += (lifetime_ram._TimeSpentInRTRSOCF/TIME_TO_HOUR);
-    LifeTimes_Time_Spent_in_RT_RSOC_G += (lifetime_ram._TimeSpentInRTRSOCG/TIME_TO_HOUR);
+   LifeTimes_Time_Spent_in_RT_RSOC_A += (lifetime_ram._TimeSpentInRTRSOCA / TIME_TO_HOUR);
+   LifeTimes_Time_Spent_in_RT_RSOC_B += (lifetime_ram._TimeSpentInRTRSOCB / TIME_TO_HOUR);
+   LifeTimes_Time_Spent_in_RT_RSOC_C += (lifetime_ram._TimeSpentInRTRSOCC / TIME_TO_HOUR);
+   LifeTimes_Time_Spent_in_RT_RSOC_D += (lifetime_ram._TimeSpentInRTRSOCD / TIME_TO_HOUR);
+   LifeTimes_Time_Spent_in_RT_RSOC_E += (lifetime_ram._TimeSpentInRTRSOCE / TIME_TO_HOUR);
+   LifeTimes_Time_Spent_in_RT_RSOC_F += (lifetime_ram._TimeSpentInRTRSOCF / TIME_TO_HOUR);
+   LifeTimes_Time_Spent_in_RT_RSOC_G += (lifetime_ram._TimeSpentInRTRSOCG / TIME_TO_HOUR);
 
-    LifeTimes_Time_Spent_in_STH_RSOC_A += (lifetime_ram._TimeSpentInSTHRSOCA/TIME_TO_HOUR);
-    LifeTimes_Time_Spent_in_STH_RSOC_B += (lifetime_ram._TimeSpentInSTHRSOCB/TIME_TO_HOUR);
-    LifeTimes_Time_Spent_in_STH_RSOC_C += (lifetime_ram._TimeSpentInSTHRSOCC/TIME_TO_HOUR);
-    LifeTimes_Time_Spent_in_STH_RSOC_D += (lifetime_ram._TimeSpentInSTHRSOCD/TIME_TO_HOUR);
-    LifeTimes_Time_Spent_in_STH_RSOC_E += (lifetime_ram._TimeSpentInSTHRSOCE/TIME_TO_HOUR);
-    LifeTimes_Time_Spent_in_STH_RSOC_F += (lifetime_ram._TimeSpentInSTHRSOCF/TIME_TO_HOUR);
-    LifeTimes_Time_Spent_in_STH_RSOC_G += (lifetime_ram._TimeSpentInSTHRSOCG/TIME_TO_HOUR);
+   LifeTimes_Time_Spent_in_STH_RSOC_A += (lifetime_ram._TimeSpentInSTHRSOCA / TIME_TO_HOUR);
+   LifeTimes_Time_Spent_in_STH_RSOC_B += (lifetime_ram._TimeSpentInSTHRSOCB / TIME_TO_HOUR);
+   LifeTimes_Time_Spent_in_STH_RSOC_C += (lifetime_ram._TimeSpentInSTHRSOCC / TIME_TO_HOUR);
+   LifeTimes_Time_Spent_in_STH_RSOC_D += (lifetime_ram._TimeSpentInSTHRSOCD / TIME_TO_HOUR);
+   LifeTimes_Time_Spent_in_STH_RSOC_E += (lifetime_ram._TimeSpentInSTHRSOCE / TIME_TO_HOUR);
+   LifeTimes_Time_Spent_in_STH_RSOC_F += (lifetime_ram._TimeSpentInSTHRSOCF / TIME_TO_HOUR);
+   LifeTimes_Time_Spent_in_STH_RSOC_G += (lifetime_ram._TimeSpentInSTHRSOCG / TIME_TO_HOUR);
 
-    LifeTimes_Time_Spent_in_HT_RSOC_A += (lifetime_ram._TimeSpentInHTRSOCA/TIME_TO_HOUR);
-    LifeTimes_Time_Spent_in_HT_RSOC_B += (lifetime_ram._TimeSpentInHTRSOCB/TIME_TO_HOUR);
-    LifeTimes_Time_Spent_in_HT_RSOC_C += (lifetime_ram._TimeSpentInHTRSOCC/TIME_TO_HOUR);
-    LifeTimes_Time_Spent_in_HT_RSOC_D += (lifetime_ram._TimeSpentInHTRSOCD/TIME_TO_HOUR);
-    LifeTimes_Time_Spent_in_HT_RSOC_E += (lifetime_ram._TimeSpentInHTRSOCE/TIME_TO_HOUR);
-    LifeTimes_Time_Spent_in_HT_RSOC_F += (lifetime_ram._TimeSpentInHTRSOCF/TIME_TO_HOUR);
-    LifeTimes_Time_Spent_in_HT_RSOC_G += (lifetime_ram._TimeSpentInHTRSOCG/TIME_TO_HOUR);
+   LifeTimes_Time_Spent_in_HT_RSOC_A += (lifetime_ram._TimeSpentInHTRSOCA / TIME_TO_HOUR);
+   LifeTimes_Time_Spent_in_HT_RSOC_B += (lifetime_ram._TimeSpentInHTRSOCB / TIME_TO_HOUR);
+   LifeTimes_Time_Spent_in_HT_RSOC_C += (lifetime_ram._TimeSpentInHTRSOCC / TIME_TO_HOUR);
+   LifeTimes_Time_Spent_in_HT_RSOC_D += (lifetime_ram._TimeSpentInHTRSOCD / TIME_TO_HOUR);
+   LifeTimes_Time_Spent_in_HT_RSOC_E += (lifetime_ram._TimeSpentInHTRSOCE / TIME_TO_HOUR);
+   LifeTimes_Time_Spent_in_HT_RSOC_F += (lifetime_ram._TimeSpentInHTRSOCF / TIME_TO_HOUR);
+   LifeTimes_Time_Spent_in_HT_RSOC_G += (lifetime_ram._TimeSpentInHTRSOCG / TIME_TO_HOUR);
 
-    LifeTimes_Time_Spent_in_OT_RSOC_A += (lifetime_ram._TimeSpentInOTRSOCA/TIME_TO_HOUR);
-    LifeTimes_Time_Spent_in_OT_RSOC_B += (lifetime_ram._TimeSpentInOTRSOCB/TIME_TO_HOUR);
-    LifeTimes_Time_Spent_in_OT_RSOC_C += (lifetime_ram._TimeSpentInOTRSOCC/TIME_TO_HOUR);
-    LifeTimes_Time_Spent_in_OT_RSOC_D += (lifetime_ram._TimeSpentInOTRSOCD/TIME_TO_HOUR);
-    LifeTimes_Time_Spent_in_OT_RSOC_E += (lifetime_ram._TimeSpentInOTRSOCE/TIME_TO_HOUR);
-    LifeTimes_Time_Spent_in_OT_RSOC_F += (lifetime_ram._TimeSpentInOTRSOCF/TIME_TO_HOUR);
-    LifeTimes_Time_Spent_in_OT_RSOC_G += (lifetime_ram._TimeSpentInOTRSOCG/TIME_TO_HOUR);
-
-   
+   LifeTimes_Time_Spent_in_OT_RSOC_A += (lifetime_ram._TimeSpentInOTRSOCA / TIME_TO_HOUR);
+   LifeTimes_Time_Spent_in_OT_RSOC_B += (lifetime_ram._TimeSpentInOTRSOCB / TIME_TO_HOUR);
+   LifeTimes_Time_Spent_in_OT_RSOC_C += (lifetime_ram._TimeSpentInOTRSOCC / TIME_TO_HOUR);
+   LifeTimes_Time_Spent_in_OT_RSOC_D += (lifetime_ram._TimeSpentInOTRSOCD / TIME_TO_HOUR);
+   LifeTimes_Time_Spent_in_OT_RSOC_E += (lifetime_ram._TimeSpentInOTRSOCE / TIME_TO_HOUR);
+   LifeTimes_Time_Spent_in_OT_RSOC_F += (lifetime_ram._TimeSpentInOTRSOCF / TIME_TO_HOUR);
+   LifeTimes_Time_Spent_in_OT_RSOC_G += (lifetime_ram._TimeSpentInOTRSOCG / TIME_TO_HOUR);
 }
 
 

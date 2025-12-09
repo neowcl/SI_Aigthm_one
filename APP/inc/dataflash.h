@@ -6,10 +6,10 @@
 #define TRUE	1
 #define FALSE	0
 
-#define	BLOCK_A		((uint32_t)0x08032800)						// Block A Erase address
-#define BLOCK_B   ((uint32_t)0x08032C00)
-#define BLOCK_A_ST	0x08032840						// Block A Data start address
-#define BLOCK_B_ST	0x08032C40						// Block B Data start address
+#define	BLOCK_A		((uint32_t)0x08033800)						// Block A Erase address
+#define BLOCK_B   ((uint32_t)0x08033C00)
+#define BLOCK_A_ST	0x08033840						// Block A Data start address
+#define BLOCK_B_ST	0x08033C40						// Block B Data start address
 #define DF_ST_OFF	0x0040						// DataFlash data start offset
 #define DFBLOCK		16							// DataFlash?g?p?G???A??												// Number of area of DataFlash
 #define DF_LEN		240							// DataFlash?G???A?P??T?C?Y
@@ -17,10 +17,10 @@
 #define  LTBLOCK              8
 #define  LT_LEN               480
 #define  LF_DATA_OFFSET	      0x0040						// DataFlash data start offset
-#define  LF_BLOCK_A           0x08033000
-#define  LIFETIME_A_ST        0x08033040 
-#define  LF_BLOCK_B           0x08033400
-#define  LIFETIME_B_ST        0x08033440 
+#define  LF_BLOCK_A           0x08034400
+#define  LIFETIME_A_ST        0x08034440 
+#define  LF_BLOCK_B           0x08034800
+#define  LIFETIME_B_ST        0x08034840 
 #define USER_KEY_REGION       0x1F001A00
 #define USER_KEY_LEN          16
 
@@ -37,16 +37,17 @@
 #define f_ltreqW	DEF_BIT5(&adfflg)           // LifeTime Write
 #define f_lf_areq	DEF_BIT6(&adfflg)			// LF_BlockA erase request											// BlockA erase request flag
 #define f_lf_breq	DEF_BIT7(&adfflg)			// LF_BlockB erase request
+#define f_si_ocv_update DEF_BIT8(&adfflg)       // SI OCV update flag
 
 
 
 #define FLASH_PAGE_SIZE  ((uint32_t)0x00000400)        // FLASH Page Size
 #define FLASH_START_ADDR ((uint32_t)0x08000000) // Start of user test Flash area
-#define FLASH_END_ADDR   ((uint32_t)0x0803c000)
+#define FLASH_END_ADDR   ((uint32_t)0x0803C000)
 #define   DF_FLASH_OFFSET  0x0802E000
 
-#define  RECORD_OFFSET      0x4800
-#define  LIFETIMES_OFFSET   0x5000
+#define  RECORD_OFFSET      0x5800
+#define  LIFETIMES_OFFSET   0x6000
 
 /* Forbid cipher RAM&ROM configure */
 #define CIPHER_CONFIG_ADDR         0x1FFFFC5C
@@ -91,6 +92,8 @@ void lifetime_init(void);
 uint8_t efuse_key_write(uint8_t *key);
 
 void revision_stage(void);
+
+void update_si_ocv(void);
 
 void DF_Erase_Record(void);
 uint8_t OSCM_EnterExit_Write(void);

@@ -168,8 +168,8 @@ const _ST_SMB scom_no_tbl[] =
         {0x02, (uint8_t *)&t_com0d},                         // 0x0d RelativeStateOfCharge()
         {0x02, (uint8_t *)&t_com0e},                         // 0x0e AbsoluteStateOfCharge()
         {0x02, (uint8_t *)&t_com0fCap},                      // 0x0f RemainingCapacity()
-        // {0x02, (uint8_t *)&t_com10Cap},                      // 0x10 FullChargeCapacity()
-         {0x02, (uint8_t *)&t_com10_out},                      // 0x10 FullChargeCapacity()
+        {0x02, (uint8_t *)&t_com10Cap},                      // 0x10 FullChargeCapacity()
+        // {0x02, (uint8_t *)&t_com10_out},                      // 0x10 FullChargeCapacity()
         {0x02, (uint8_t *)&_RunTimeToEmpty},                 // 0x11 RunTimeToEmpty()
         {0x02, (uint8_t *)&_AverageTimeToEmpty},             // 0x12 AverageTimeToEmpty()
         {0x02, (uint8_t *)&_AverageTimeToFull},              // 0x13 AverageTimeToFull()
@@ -306,7 +306,7 @@ const _ST_SMB scom_no_tbl[] =
         {0x02, (uint8_t *)&t_com96_out},                             // 0x96 ()
         {0x02, (uint8_t *)&t_com97_out},                             // 0x97 ()
         {0x02, (uint8_t *)&t_com98_out},                             // 0x98 ()
-        {0x02, (uint8_t *)&(t_com99_out)},                           // 0x99 ()
+        {0x02, (uint8_t *)&t_com99_out},                           // 0x99 ()
         {0x02, (uint8_t *)&t_com9a_out},                             // 0x9a ()
         {0x02, (uint8_t *)&t_com9b_out},                             // 0x9b ()
         {0x02, (uint8_t *)&t_com9c_out},                             // 0x9c ()
@@ -2059,7 +2059,7 @@ void SmbusMACWriteInstruction(void)
 
   if (write_flag)
   {
-    //write_processmsg(rx_buffer, iic_rx_cnt);
+    // write_processmsg(rx_buffer, iic_rx_cnt);
     write_flag = 0;
   }
 
@@ -2072,24 +2072,23 @@ void SmbusMACWriteInstruction(void)
 
   // if(_OptCommand2.value != D_3E)
   //{
-    // DataFlash_Write(&D_3E, (uint8_t *)&_OptCommand2, 2);
+  // DataFlash_Write(&D_3E, (uint8_t *)&_OptCommand2, 2);
   //}
   if (f_reset_mcu)
   {
     Write_UpFlash();
     Soft_Reset();
-    
   }
   if (f_Seal_trip)
   {
     f_Seal_trip = OFF;
     f_sec0 = ON;
     f_sec1 = ON;
-    UF_SEAL_COUNT+=2;
-    //printf("Seal Count = %d\n", UF_SEAL_COUNT);
+    UF_SEAL_COUNT += 2;
+    // printf("Seal Count = %d\n", UF_SEAL_COUNT);
     DFDataSave();
     DF_Write();
-    //Write_UpFlash();
+    // Write_UpFlash();
   }
   if (f_debugMode)
   {
@@ -2105,7 +2104,7 @@ void SmbusMACWriteInstruction(void)
   }
   if (f_updata_en)
   {
-   
+
     f_updata_en = OFF;
     UF_FLAG = ON;
     Write_UpFlash();
@@ -2162,10 +2161,15 @@ void SmbusMACWriteInstruction(void)
         lifetime_time_clear();
       }
     }
-    if(f_AUTH)
-    {
-      f_AUTH =0;
-        Write_UpFlash();
-    }
+  }
+  if (f_AUTH)
+  {
+    f_AUTH = 0;
+    Write_UpFlash();
+  }
+  if(f_si_ocv_update)
+  {
+    f_si_ocv_update=0;
+    update_si_ocv();
   }
 }

@@ -858,3 +858,15 @@ void revision_stage(void)
 	// 复位芯片
 	NVIC_SystemReset();
 }
+
+void update_si_ocv(void)
+{
+	uint16_t ocv_table_new[89];
+	uint8_t i_dex=0;
+	for(i_dex=0;i_dex<89;i_dex++)
+	{
+		ocv_table_new[i_dex] = SOC_OCV_103_TBL[7+i_dex];
+	}
+	DataFlash_Write((uint32_t) & (SOC_OCV_103_TBL[7]), ocv_table_new, 89);
+
+}

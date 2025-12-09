@@ -172,75 +172,12 @@ uint32_t rc_integral_CEDV = 0;
 uint16_t ful_dsg_cap_FCC;
  /*  full charge  */
   
-int16_t k_CEDV_average = 1000 ;   //to use to  jisuan cpl voltage 
+int16_t k_CEDV_average = 1000 ;   
 
- // 
 
- uint16_t  Res_C1T1[103] = {3943,3943,3943,3943,3943,3943,3943,3943,3943,3943,3943,3943,3943,3943,2964,2703,2506,2333,2208,2079,\
-1973,1872,1782,1716,1654,1606,1558,1511,1484,1450,1425,1394,1362,1342,1320,1293,1284,1268,1253,1251,\
-1244,1236,1233,1230,1231,1224,1231,1230,1233,1230,1234,1233,1237,1246,1252,1269,1306,1350,1395,1417,\
-1421,1429,1433,1429,1427,1421,1414,1412,1406,1395,1387,1386,1384,1381,1379,1370,1367,1368,1363,1361,\
-1358,1362,1363,1359,1357,1346,1345,1340,1331,1323,1309,1300,1281,1264,1247,1228,1206,1184,1165,1138,\
-1107,1107,1107,}  ;
-  uint16_t    Res_C1T2[103] = {1386,1386,1386,827,652,583,553,494,448,424,399,374,359,359,359,354,340,335,339,329,\
-329,318,317,319,323,334,339,339,354,359,364,365,364,359,359,344,353,344,339,340,\
-329,326,324,319,319,310,314,305,304,299,299,298,298,304,299,314,339,369,394,399,\
-391,384,379,374,368,364,354,353,349,340,339,334,334,334,329,327,323,323,318,318,\
-318,324,323,324,324,319,324,323,324,329,329,329,329,324,329,326,324,335,334,333,\
-318,318,318,}  ;
-  uint16_t    Res_C1T3[103] = {474,474,474,391,362,342,331,274,240,233,231,220,214,238,248,237,241,234,243,234,\
-233,224,224,229,226,228,222,209,214,208,205,201,189,190,185,177,184,172,167,171,\
-170,162,159,156,157,150,153,154,149,148,150,145,150,156,152,163,182,205,222,217,\
-211,209,209,202,206,203,200,200,196,192,188,187,192,194,192,188,174,188,186,188,\
-185,187,186,190,190,186,188,187,188,190,191,192,187,186,189,188,183,189,192,202,\
-209,209,209,}  ;
- uint16_t    Res_C2T1[103] = {1650,1650,1650,1650,1650,1650,1650,1650,1650,1650,1650,1650,1650,1650,1650,1650,1650,1552,1484,1418,\
-1367,1318,1276,1244,1216,1190,1163,1140,1121,1101,1084,1064,1044,1031,1014,997,985,971,960,951,\
-941,932,925,919,914,908,906,901,900,898,895,894,895,898,900,909,923,943,961,969,\
-973,977,982,983,986,987,986,988,988,988,988,988,989,988,990,989,988,989,988,987,\
-987,989,987,987,985,982,982,981,980,977,974,970,969,963,960,956,951,948,941,934,\
-899,899,899,}  ;
- uint16_t    Res_C2T2[103] = {1386,1386,1386,960,946,741,655,575,515,475,444,413,392,387,390,385,379,376,375,369,\
-369,364,361,362,364,368,369,369,376,379,381,381,380,378,378,373,373,368,365,366,\
-360,357,356,352,351,345,344,340,337,336,333,331,331,331,330,339,351,368,381,392,\
-394,395,398,395,400,397,395,395,394,392,389,387,388,387,386,383,383,383,381,381,\
-381,381,381,381,383,384,386,385,385,388,392,394,391,392,391,392,389,390,387,383,\
-370,370,370,}  ;
- uint16_t    Res_C2T3[103]= {404,404,404,369,355,369,371,334,297,285,273,260,252,256,266,269,265,263,267,261,\
-261,252,250,252,252,257,257,256,261,262,263,262,260,259,257,254,254,249,246,246,\
-243,239,237,233,232,227,227,223,221,219,218,217,217,217,218,224,238,254,266,274,\
-274,275,275,273,273,271,268,268,266,264,261,253,257,256,255,253,251,250,249,248,\
-247,249,246,246,244,243,243,244,243,243,242,244,243,239,241,239,240,241,243,242,\
-240,240,240,}  ;
- uint16_t    Res_C3T1[103] = {868,868,868,868,868,868,868,868,868,868,868,868,868,868,868,868,868,868,868,868,\
-868,819,799,781,765,754,742,730,722,711,703,693,683,676,667,658,652,643,637,631,\
-626,620,614,610,607,603,601,597,596,594,592,591,591,592,592,596,604,615,624,630,\
-632,636,639,640,643,645,645,648,650,651,653,655,658,660,662,665,667,670,672,676,\
-678,683,686,690,695,698,702,706,712,717,722,729,736,742,751,758,768,777,782,774,\
-727,727,727,}  ;
- uint16_t    Res_C3T2[103] = {1386,1386,1386,894,556,457,440,409,382,387,365,345,331,326,326,324,321,321,322,321,\
-319,317,315,315,316,316,316,316,317,317,317,317,313,313,312,309,310,307,306,306,\
-303,301,300,298,297,296,294,292,291,289,288,287,286,286,286,289,295,304,310,314,\
-315,317,319,319,319,319,318,319,318,317,318,318,319,319,319,319,319,320,320,320,\
-321,323,323,324,325,326,327,329,330,331,332,334,335,336,337,337,337,337,337,335,\
-321,321,321,}  ;
- uint16_t   Res_C3T3[103] = {347,347,347,347,348,355,349,322,296,276,263,249,243,242,245,246,245,246,249,246,\
-245,242,240,241,240,242,242,241,243,244,245,245,243,243,242,240,240,238,236,236,\
-234,232,230,228,226,225,224,222,220,217,218,216,216,216,215,218,224,233,240,244,\
-245,246,248,247,248,248,247,248,247,246,245,245,246,245,245,243,243,242,241,241,\
-240,240,240,239,239,238,239,238,238,239,237,237,237,236,235,235,235,234,233,231,\
-225,225,225,}  ;
 
-uint16_t  SOC_OCV_103_TBL[103] = {3100,3200,3392,3497,3568,3621,3655,3666,3671,3674,3676,3677,3680,3687,3695,3702,3708,3714,3722,3727,\
-3732,3735,3739,3745,3749,3755,3759,3764,3769,3773,3778,3782,3785,3789,3793,3796,3801,3804,3808,3813,\
-3818,3822,3827,3832,3837,3842,3848,3854,3860,3866,3873,3880,3887,3895,3903,3914,3926,3940,3954,3965,\
-3975,3986,3996,4006,4016,4027,4037,4048,4058,4069,4080,4091,4103,4114,4126,4138,4149,4162,4173,4186,\
-4198,4211,4223,4235,4248,4259,4272,4283,4295,4307,4318,4329,4339,4349,4360,4370,4379,4390,4400,4412,\
-4425,4448,4465} ;
 
-// 为什么计算放电开始的内阻没有用到 单位放大缩小 ？ 
 
-/*     void Calc_FCC_CEDV()      */
 
 void AlarmWarning_Check(void)
 {
@@ -738,120 +675,83 @@ void QMax_Calc(void)
          uint16_t beilv_temp ;
          static uint16_t awork3_last ;
          static uint8_t  f_charge_last_b_aidx  ;
-        static uint8_t  f_relax_last_b_aidx _ ;
+        static uint8_t  f_relax_last_b_aidx ;
 
-        // Calc [C]x100 from current   current beilv .
+       
         twork1 = (uint16_t)((long)I_abs * 100 / D_Design_Capacity_mAh);  // 1234 6169 0.2
 
-        beilv_temp = t_work1 ;
-
-        // - Make [C]index -
-        // linear interporation: y = (y2-y1)*(x-x1)/(x2-x1) + y1
-        //						   = y1 - (y1-y2)*(x-x1)/(x2-x1)
-        // awork1: x-x1
-        // awork2: x2-x1
-        if (twork1 <= D_CRATE_TBL[1]) // <= C-rate2 ?
+        beilv_temp = twork1 ;
+        if (twork1 <= D_RA_CRATE_TBL[1]) // <= C-rate2 ?
         {
             aidx_c = 0;                     // Table index = 0
-            if (twork1 <= D_CRATE_TBL[0]) // <= C-rate1 ?
+            if (twork1 <= D_RA_CRATE_TBL[0]) // <= C-rate1 ?
             {
                 awork1 = 0; // SetC-rate1
             }
             else
-            { // > C-rate1
-                // Calculate value index
-                awork1 = (uint8_t)(twork1 - D_CRATE_TBL[0]);  
+            { 
+                awork1 = (uint8_t)(twork1 - D_RA_CRATE_TBL[0]);  
 
             }
             // Data area is within C-rate1 to C-rate2
-            awork2 = D_CRATE_TBL[1] - D_CRATE_TBL[0];   //50
+            awork2 = D_RA_CRATE_TBL[1] - D_RA_CRATE_TBL[0];   //50
         }
-        else // > C-rate2 ?  di 2 ge C2            D_CRATE_TBL[1]
-        {                                 // > C-rate2
-            // if (twork1 <= D_CRATE_TBL[2]) // <= C-rate3 ?
-            // {
-                aidx_c= 3; // Table index = 5
-                // Calculate value index
-                //  awork1 = (uint8_t)(twork1 - D_CRATE_TBL[1]);
-                // Data area is within C-rate2 to C-rate3
-                awork2 = D_CRATE_TBL[2] - D_CRATE_TBL[1];
-                //  awork1 = awork2;
-             
-               awork1 = (uint8_t)(twork1 - D_CRATE_TBL[1]);
-              //   awork1 = (uint8_t)(twork1 - D_CRATE_TBL[0]);  wrong . 
+        else            
+        {               
+            aidx_c = 3; // Table index = 5
+            awork2 = D_RA_CRATE_TBL[2] - D_RA_CRATE_TBL[1];
+            awork1 = (uint8_t)(twork1 - D_RA_CRATE_TBL[1]);
 
-                if(twork1 >= D_CRATE_TBL[2])
-                {
-                    awork1 = awork2 ;
-                }
-
-            // }
-            // else
-            // {
-            //     aidx = 10; // Table index = 5
-            //                // Calculate value index
-            //     // awork1 = (uint8_t)(twork1 - D_CRATE_TBL[2]);
-            //     // Data area is within C-rate2 to C-rate3
-            //     awork2 = D_CRATE_TBL[3] - D_CRATE_TBL[2];
-            //     awork1 = awork2;
-            // }
+            if (twork1 >= D_RA_CRATE_TBL[2])
+            {
+                awork1 = awork2;
+            }
         }
-
-        // - Make Temperature index -
-        //  5   25   40 
-        awork3 = Ts_max - D_TRATE_TBL[0]; // Make the value of T-rate1 base
-        if (Ts_max >= D_TRATE_TBL[1])     // >= T-rate2 ?  >= 40 ?
+        //  5   25   40
+        awork3 = Ts_max - D_RA_TRATE_TBL[0]; // Make the value of T-rate1 base
+        if (Ts_max >= D_RA_TRATE_TBL[1])     // >= T-rate2 ?  >= 40 ?
         {
             aidx_c++; // Increment table index
-            awork4 = D_TRATE_TBL[2] - D_TRATE_TBL[1];
-            if (Ts_max >= D_TRATE_TBL[2]) // >= T-rate3 ?   
+            awork4 = D_RA_TRATE_TBL[2] - D_RA_TRATE_TBL[1];
+            if (Ts_max >= D_RA_TRATE_TBL[2]) // >= T-rate3 ?   
             {
                 awork3 = awork4; // Value index is max value
             }
             else
             {                                     // T-rate2 <= Temp. < T-rate3
-                awork3 = Ts_max - D_TRATE_TBL[1]; // Calculate value index
+                awork3 = Ts_max - D_RA_TRATE_TBL[1]; // Calculate value index
             }
         }
-        else  //   <40               >5   awork3 = Ts_max - D_TRATE_TBL[0]; 
-        { // < T-rate2   
-            // Data area is within T-rate1 to T-rate2
-            awork4 = D_TRATE_TBL[1] - D_TRATE_TBL[0];  // 40 - 5 
+        else  
+        { 
+            awork4 = D_RA_TRATE_TBL[1] - D_RA_TRATE_TBL[0];  // 40 - 5
 
-            if (Ts_max <= D_TRATE_TBL[0]) // <= T-rate1 ?   temp <5 
+            if (Ts_max <= D_RA_TRATE_TBL[0]) // <= T-rate1 ?   temp <5
             {
                 awork3 = 0; // Value index = 0
             }
-            // else if(Ts_max <= 15)  // temp   > 5    <=10 
-            // {
-            //     awork3 =awork3/2  ;  // Ts_max - D_TRATE_TBL[0]
-            // }else if(Ts_max >= 25 )
-            // {   
-                if((f_discharge == 1)&&(f_relax == 0))  //fangdian not jingzhi
+            if ((f_discharge == 1) && (f_relax == 0)) // fangdian not jingzhi
+            {
+                t_com31_out = awork3_last + 2000;
+                if (beilv_temp > 30) //  fangdian not flex  current rate >0.08
                 {
-                    t_com10_out =  awork3_last+2000  ;
-                    if(beilv_temp >30)  //  fangdian not flex  current rate >0.08
+                    // cnt_b_aidx++ ;   // 1 second come into 4 times
+                    if ((f_charge_last_b_aidx == 1) || (f_relax_last_b_aidx == 1)) // the first time to fangdian
                     {
-                        // cnt_b_aidx++ ;   // 1 second come into 4 times 
-                        if((f_charge_last_b_aidx == 1)||(f_relax_last_b_aidx == 1))   // the first time to fangdian 
-                        {
-                            awork3_last = awork3 ;  
-                            t_com10_out =  awork3_last ;
-                        }else
-                        {
-                            awork3  = awork3_last ;  
-                            t_com10_out =  awork3_last+5000  ;
-                        }
+                        awork3_last = awork3;
+                        t_com31_out = awork3_last;
                     }
-                    t_com10_out =  awork3_last+6000  ;
+                    else
+                    {
+                        awork3 = awork3_last;
+                        t_com31_out = awork3_last + 5000;
+                    }
                 }
-                 t_com10_out =  awork3_last +7000  ;
-
-            // }
-
+                t_com31_out = awork3_last + 6000;
+            }
+            t_com31_out = awork3_last + 7000;
         }
-              t_com10_out =  awork3_last +8000  ;
-
+        t_com31_out = awork3_last + 8000;
 
         b_aidx = aidx_c;
         awork1_CEDV = awork1 ;
@@ -1056,7 +956,7 @@ static uint32_t k_CEDV_average_last = 0;
                 
                 calc_k_res_chabiao = Res_Temp_CEDV_Inner_temp;
 
-                t_com92_out = calc_k_res_chabiao;
+                //t_com92_out = calc_k_res_chabiao;
                 // chabiao neizu .
 
                // t_com98_out = 1;
@@ -1077,7 +977,7 @@ static uint32_t k_CEDV_average_last = 0;
                         calc_k_res_jisuan = (uint16_t)((long)(V_OCV - V_min) * 10000 / I_abs);
                     }
 
-                    t_com99_out = calc_k_res_jisuan;
+                    //t_com99_out = calc_k_res_jisuan;
                 }
 
                 if (calc_k_res_chabiao != 0)
@@ -1168,7 +1068,7 @@ uint16_t QMaxUpdateJudge_CEDV(uint8_t InitSOC, uint8_t EndSOC)
     // qmax_CEDV = QmaxCapcity_Calc*100/144/dropSoc/100 ;   // (dropSoc/100)  = soc / 100 
     // qmax_CEDV_temp = QmaxCapcity_Calc*25/36/dropSoc/100 ;   // (dropSoc/100)  = soc / 100        
     // qmax_CEDV_temp = QmaxCapcity_Calc*1/36/dropSoc/4 ;   // (dropSoc/100)  = soc / 100 
-    t_com94_out =  QmaxCapcity_Calc/14400  ;  
+    //t_com94_out =  QmaxCapcity_Calc/14400  ;  
     qmax_CEDV_temp = QmaxCapcity_Calc/dropSoc/144 ;   // (dropSoc/100)  = soc / 100   
     
 
@@ -1187,23 +1087,6 @@ void QMax_Calc_CEDV(void)
     int8_t dropSoc;
     uint16_t CEDV_soc_range = 0 ;
 
-    // uint16_t temp_result  ; //  temp_result  =  QmaxCapcity_Calc/qmax_CEDV  ;
-
-    // if (Ts_max >= D_Qmax_Temp_Low_limit && Ts_max <= D_Qmax_Temp_High_limit && _CycleCount > D_Qmax_Cycle_limit)
-    // if (Ts_max >= 10 && Ts_max <= 40 )
-
-   //  t_com7e_out =  Ts_max ;
-   //  t_com7f_out = f_relax;
-   //  t_com80_out = f_Qmax_start ;
-    //t_com81_out = V_min ; 
-    // t_com82_out =  at_startqmax_cnt ;
-    // t_com83_out = at_endqmax_cnt  ;
-    // t_com84_out  =  f_Qmax_end  ;
-    // t_com9e_out = PackQamxInitSOC;
-    
-  
-    // t_com1e_out = f_chg_dsg_confirmed;
-    // t_com87_out =  QmaxCapcity_Calc/14400;
 
     if (f_relax)  // update soc_out_how every one hour .
     {
@@ -1354,13 +1237,6 @@ void QMax_Calc_CEDV(void)
                             f_Qmax_end = OFF;
                             at_endqmax_cnt = 0;
                         }
-                        //     calc_Res_k_InitSOC = PackQamxInitSOC;
-                        //     t_com9e_out = PackQamxInitSOC;
-                        //     Calc_b_aidx();
-                        //     Calc_soc_to_res(b_aidx, calc_Res_k_InitSOC); //
-                        //     // Calc_soc_to_res(b_aidx,  PackQamxInitSOC);  //
-                        //   //  calc_static_k_InitRes = Res_Temp_CEDV_Inner_temp;
-                        //     calc_k_initRES =  Res_Temp_CEDV_Inner_temp;
                     }
                     else
                     {
@@ -1409,14 +1285,8 @@ void QMax_Calc_CEDV(void)
                                         PackQamxEndSOC = aidxq1;
                                     }
                                 }
-                               // t_com9b_out = aidxq1;         //
-                              //  t_com9c_out = PackQamxEndSOC; // 
+                            
                             SOC_CEDV =  PackQamxEndSOC ;   // f_relax time sufficient time , update SOC .
-
-                           //  Record_lrc_w_CEDV = SOC_CEDV * qmax_CEDV/100*14400 ;
-                        // relax  + %0.09    
-                          
-                          //  t_com0f_CEDV =  SOC_CEDV *qmax_CEDV /100 ;
                            t_com8d_out  =  SOC_CEDV  ;  // this should in front of    Record_lrc_w_CEDV = 
                            Record_lrc_w_CEDV =  (uint32_t)qmax_CEDV*SOC_CEDV*144+(uint32_t)qmax_CEDV*SOC_CEDV*71/50; // capcity + capcity /100 ;
 
@@ -1446,35 +1316,22 @@ void QMax_Calc_CEDV(void)
 
                     if (CEDV_soc_range >= 55)
                     {
-                        // when calc_fcc , calc_qmax first
-                        // when calc_Qmax , calc_k first
-                        // whe calc k , calc res_init and res_end_first .
-                        // res_init already know when calc init soc
-                        // calc res_end  , calc  PackQamxEndSOC_leiji_Qcap_soc first .
-                        // Calc_k_CEDV() ;
+
                         qmax_CEDV = QMaxUpdateJudge_CEDV(PackQamxInitSOC, PackQamxEndSOC);
-                        // qmax_CEDV1 = QMaxUpdateJudge_CEDV(Qamx1InitSOC, Qamx1EndSOC);
-                        // qmax_CEDV2 = QMaxUpdateJudge_CEDV(Qamx2InitSOC, Qamx2EndSOC);
-                        // qmax_CEDV3 = QMaxUpdateJudge_CEDV(Qamx3InitSOC, Qamx3EndSOC);
-                        // qmax_CEDV4 = QMaxUpdateJudge_CEDV(Qamx4InitSOC, Qamx4EndSOC);
-                        //  Record_lrc_w_CEDV_fcc_show = qmax_CEDV * 14400 * SOC_CEDV_show /100;
 
-
-
-
-                        Record_lrc_w_CEDV =  (uint32_t)qmax_CEDV*SOC_CEDV*144+(uint32_t)qmax_CEDV*SOC_CEDV*71/50; // capcity + capcity /100 ;
+                        Record_lrc_w_CEDV = (uint32_t)qmax_CEDV * SOC_CEDV * 144 + (uint32_t)qmax_CEDV * SOC_CEDV * 71 / 50; // capcity + capcity /100 ;
 
                         Record_lrc_w_CEDV_fcc_show = (int32_t)(((long)qmax_CEDV * 144) * SOC_CEDV_show);
-                        Record_lrc_w_CEDV_fcc_show_last = Record_lrc_w_CEDV_fcc_show ;
+                        Record_lrc_w_CEDV_fcc_show_last = Record_lrc_w_CEDV_fcc_show;
                         // Record_lrc_w_CEDV  =  (int32_t)(((long)qmax_CEDV * 144)*SOC_CEDV_show);
-                        t_com0f_CEDV_show = (Record_lrc_w_CEDV_fcc_show/(60 * 60 * 4));
-                        SOC_CEDV_show  = (uint16_t)((((long)t_com0f_CEDV_show*2000)/ qmax_CEDV + 10)/2)/10;
-                        t_com45_out = SOC_CEDV_show ;
+                        t_com0f_CEDV_show = (Record_lrc_w_CEDV_fcc_show / (60 * 60 * 4));
+                        SOC_CEDV_show = (uint16_t)((((long)t_com0f_CEDV_show * 2000) / qmax_CEDV + 10) / 2) / 10;
+                        t_com0d = SOC_CEDV_show;
 
                         fcc_use_qmax = qmax_CEDV;
-                        t_com31_out = qmax_CEDV;
+                        t_com10Cap = qmax_CEDV;
                         t_com32_out = fcc_CEDV_Ture;
-     
+
                         // QMaxUpdateReset_CEDV();
                     }
                     // else
@@ -1511,29 +1368,20 @@ void QMax_Calc_CEDV(void)
             if (f_chg_dsg_confirmed == 0) //  chg or not dsg use have not confirm
             {
 
-                f_chg_dsg_confirmed = 1;
-                //    chg_dsg_confirmed_count = 1;
-                // PackQamxInitSOC = (char)aidxq1 * 5 + (short)((short)(V_min - SOC_OCV_103_TBL[aidxq1]) * 5) / (short)(SOC_OCV_103_TBL[aidxq1 + 1] - SOC_OCV_103_TBL[aidxq1]);
-            //     calc_Res_k_InitSOC = SOC_OCV_103_TBL[aidxq1];
-            //     Calc_soc_to_res(b_aidx, calc_Res_k_InitSOC);
-            //    //  calc_static_k_InitRes = Res_Temp_CEDV_Inner_temp;
-            //     calc_k_initRES =  Res_Temp_CEDV_Inner_temp; 
-                //   for( aidxq1=0; V_min >= SOC_OCV_103_TBL[aidxq1+1] && aidxq1 < 19; aidxq1++ );
-                // first time checked ,and now not relax .
-
-                    calc_Res_k_InitSOC = PackQamxInitSOC;
-                    t_com9e_out = PackQamxInitSOC;
-                    Calc_b_aidx();
-                    Calc_soc_to_res(b_aidx, calc_Res_k_InitSOC); //
-                    // Calc_soc_to_res(b_aidx,  PackQamxInitSOC);  //
-                  //  calc_static_k_InitRes = Res_Temp_CEDV_Inner_temp;
-                    calc_k_initRES =  Res_Temp_CEDV_Inner_temp; 
+                f_chg_dsg_confirmed = 1;//??????
+                calc_Res_k_InitSOC = PackQamxInitSOC;
+                t_com9e_out = PackQamxInitSOC;
+                Calc_b_aidx();
+                Calc_soc_to_res(b_aidx, calc_Res_k_InitSOC); //
+                // Calc_soc_to_res(b_aidx,  PackQamxInitSOC);  //
+                //  calc_static_k_InitRes = Res_Temp_CEDV_Inner_temp;
+                calc_k_initRES = Res_Temp_CEDV_Inner_temp;
 
                 if ((f_relax_last_CEDV != 0) && (f_relax == 0)) // last time relax , this time not relax .
                 {
-                 
+
                     f_chg_dsg_confirmed = 1;
-                   // t_com1e_out = f_chg_dsg_confirmed;
+                    // t_com1e_out = f_chg_dsg_confirmed;
                     // can not be put here
                     if (f_charge)
                     {
@@ -1544,17 +1392,8 @@ void QMax_Calc_CEDV(void)
                     {
                         f_CHG_CEDV = 0;
                         f_DSG_CEDV = 1;
-
-                        // add calc_k here . 
-                        // 1. use  dsg start 
-                        // 2. use (ocv - realvolrage ) / r 
-
-                      //   Calc_k_CEDV() ;  // if  add here will calculate right now . 
-                      // need to put a place where and recongnize and hold several several minutes . 
                     }
                 }
-               // t_com1f_out = f_CHG_CEDV;
-               // t_com41_out = f_DSG_CEDV;
             }
             else // confirmed CHG or DSG already   first time come in , not relax
             {
@@ -1642,15 +1481,6 @@ void Calc_FCC_CEDV(void)  // read four , % -1.5 0 1 2 3 4 ....101 res  , calc on
             // diao yong  获取 00 电电压内阻函数
             Calc_soc_to_res(b_aidx, soc_to_res_index);
             Res_Temp_CEDV_Inner_turn = Res_Temp_CEDV_Inner_temp;
-                                                                     // Res_Temp_CEDV_Inner_turn_new = Res_Temp_CEDV_Inner_turn*(k_CEDV/1000) + Res_Temp_CEDV_Inner_turn*(k_CEDV%1000/100)/10 +  \
-        //    Res_Temp_CEDV_Inner_turn*(k_CEDV%100/10)/100+Res_Temp_CEDV_Inner_turn*(k_CEDV%10/1)/1000; // ？
-                                                                     // t_com39_out = Res_Temp_CEDV_Inner_turn_new ;
-           //  judge_greater_than_0 = SOC_OCV_103_TBL[soc_to_res_index] - I_abs * Res_Temp_CEDV_Inner_turn/10000 - D_0PVOLT;
-            // t_com45_out = Res_Temp_CEDV_Inner_turn;
-           // t_com4c_out = SOC_OCV_103_TBL[soc_to_res_index];
-            //   t_com4d_out  =  judge_greater_than_0  ;
-            //  t_com4e_out = soc_to_res_index;
-            // with k  calc REs 
             Res_Temp_CEDV_Inner_turn_new = Res_Temp_CEDV_Inner_turn*(k_CEDV/1000) + Res_Temp_CEDV_Inner_turn*(k_CEDV%1000/100)/10 +  \
             Res_Temp_CEDV_Inner_turn*(k_CEDV%100/10)/100+Res_Temp_CEDV_Inner_turn*(k_CEDV%10/1)/1000; //
 
@@ -1673,11 +1503,8 @@ void Calc_FCC_CEDV(void)  // read four , % -1.5 0 1 2 3 4 ....101 res  , calc on
            // if (judge_greater_than_0 >= 0)
            if (judge_greater_than_0_add_k >= 0)
             {
-               // t_com4c_out = D_Design_Capacity_mAh;
-             //   t_com4d_out = Res_Temp_CEDV_Inner[6];  
-             //  t_com97_out =  SOC_OCV_103_TBL[soc_to_res_index]  ;
-              //  t_com98_out =  Ts_max ;
-               t_com93_out =  soc_to_res_index ;
+             
+              // t_com93_out =  soc_to_res_index ;
               //  t_com95_out   =  I_abs  ; 
                // t_com96_out = Res_Temp_CEDV_Inner_turn  ;
                 t_com1f_out = Res_Temp_CEDV_Inner_turn_new;
@@ -1691,7 +1518,7 @@ void Calc_FCC_CEDV(void)  // read four , % -1.5 0 1 2 3 4 ....101 res  , calc on
                    fcc_CEDV_Ture =  ful_dsg_cap_FCC ;
                 }
                t_com32_out = fcc_CEDV_Ture;
-               t_com31_out = qmax_CEDV;
+               t_com10Cap = qmax_CEDV;
               // t_com8b_out = fcc_use_qmax;
                break;
             }
@@ -1721,7 +1548,7 @@ void Make_RC_CEDV(void)
         t_com0f_CEDV_show = tworka;
     }
 
-    t_com42_out = t_com0f_CEDV_show;
+    t_com0fCap = t_com0f_CEDV_show;
 
      twork2 = (uint16_t)(Record_lrc_w_CEDV / (60*60*4));   // CEDV at most = 102 .
    //  if (twork2 >= qmax_CEDV+qmax_CEDV/50-1 )  // cause soc_CEDV index : less than 102 , can reach 101 .
@@ -1735,134 +1562,99 @@ void Make_RC_CEDV(void)
     }
 }
 
-
-
-void Calc_fulchg_dsg_cap(void)   
-
-
-// TO DO  
-// 1. wendu beilv condition 
-// 2.  add f_study_d3_ful 
+void Calc_fulchg_dsg_cap(void)
 {
-	uint8_t beilv;
+    uint8_t beilv;
 
-	static int32_t ful_dsg_cap;
+    static int32_t ful_dsg_cap;
     static int32_t ful_dsg_cap_dsg;
-     static int32_t ful_dsg_cap_chg;
-	static uint8_t  Count_xiao_beilv_3s ;
-    static uint8_t  Count_10s ;
-    uint16_t I_abs_ful ;
+    static int32_t ful_dsg_cap_chg;
+    static uint8_t Count_xiao_beilv_3s;
+    static uint8_t Count_10s;
+    uint16_t I_abs_ful;
 
-	// t_com2d_f_study_d3_ful = f_study_d3_ful  ;
-	// t_com2e_ful_dsg_cap = ful_dsg_cap / 3600 ;  //single 
-
-   //  t_com2e_ful_dsg_cap = ful_dsg_cap / 14400 ;  //muti
-
-	// static uint16_t ful_dsg_cap_FCC;
-
-	// beilv = (uint16_t)((long)I_abs * 100/D_Design_Capacity_mAh);  //D_Design_Capacity_mAh  _DesignCapacity
-
-    // only for test
-
-
-    if(!f_charge)
+    if (!f_charge)
     {
-        I_abs_ful = I_abs + I_abs/130 ;
-		ful_dsg_cap_dsg +=I_abs_ful ;
-       // t_com8f_out = ful_dsg_cap_dsg/14400;
+        I_abs_ful = I_abs + I_abs / 130;
+        ful_dsg_cap_dsg += I_abs_ful;
+        // t_com8f_out = ful_dsg_cap_dsg/14400;
     }
 
-if((f_charge)||(V_min <= D_0PVOLT))
-{
-    ful_dsg_cap_dsg = 0 ;
-}
+    if ((f_charge) || (V_min <= D_0PVOLT))
+    {
+        ful_dsg_cap_dsg = 0;
+    }
 
-
-
-    if(f_charge)
+    if (f_charge)
     {
         // I_abs_ful = I_abs  ;
-		ful_dsg_cap_chg +=I_abs  ;
-        t_com95_out = ful_dsg_cap_chg/14400;
+        ful_dsg_cap_chg += I_abs;
+        //t_com95_out = ful_dsg_cap_chg / 14400;
     }
 
-if(!f_charge)
-{
-    ful_dsg_cap_chg = 0 ;
-}
-
-
-
-	if ((f_charge == ON) && (Current() > 0)) // Charging ?
-	{
-        ful_dsg_cap = 0 ;
-	}
-
-    if ((f_charge==1)||(f_relax ==1 ) )// must dsg not relax 
+    if (!f_charge)
     {
-        Count_10s = 0 ;
+        ful_dsg_cap_chg = 0;
     }
 
- 
-	//if (((CellTemp > 15) && (CellTemp <= 45)) && ((beilv >= 10) && (beilv <= 70)))  // must charge or dsg .
-	//{// chg clear . dsg : use 
-		if (V_min >= D_Discharge_0_voltage)   
-		{
-			if (!f_charge) // must dsg not relax 
-			{
-				if (f_study_d3_ful == ON)
-				{
-                    I_abs_ful = I_abs + I_abs/130 ;
-					ful_dsg_cap +=I_abs_ful ;
-                    t_com8e_out = ful_dsg_cap/14400;
+    if ((f_charge == ON) && (Current() > 0)) // Charging ?
+    {
+        ful_dsg_cap = 0;
+    }
 
-                    if (f_relax == 0)
+    if ((f_charge == 1) || (f_relax == 1)) // must dsg not relax
+    {
+        Count_10s = 0;
+    }
+
+    // if (((CellTemp > 15) && (CellTemp <= 45)) && ((beilv >= 10) && (beilv <= 70)))  // must charge or dsg .
+    //{// chg clear . dsg : use
+    if (V_min >= D_Discharge_0_voltage)
+    {
+        if (!f_charge) // must dsg not relax
+        {
+            if (f_study_d3_ful == ON)
+            {
+                I_abs_ful = I_abs + I_abs / 130;
+                ful_dsg_cap += I_abs_ful;
+                t_com8e_out = ful_dsg_cap / 14400;
+
+                if (f_relax == 0)
+                {
+                    Count_10s++;
+                    if (Count_10s >= 10)
                     {
-                        Count_10s++;
-                        if (Count_10s >= 10)
-                        {
-                            Count_10s = 0;
-                          //  t_com98_out++;
-                        }
+                        Count_10s = 0;
+                        //  t_com98_out++;
                     }
-
-
-                }else
-				{
-                    t_com8b_out = 2;
-					ful_dsg_cap = 0;
-				}
-			} // else  no need else , cause f_charge will clear all 
-		}else   //  V_min <= D_Discharge_0_voltage
-		{
-			if (!f_charge)
-			{
-				if (f_study_d3_ful == ON)    //98 
-				{
-					// can go here , must have updated cpl . 
-					//cause  f_study_d3_ful == ON means have f_study_d2 have dupdated ..
-					ful_dsg_cap += I_abs;
-					f_study_d3_ful = OFF;
-					// ful_dsg_cap_FCC = ful_dsg_cap/3600;  // single 
-                    ful_dsg_cap_FCC = ful_dsg_cap/14400;   //14400 
-					fcc_CEDV_Ture = ful_dsg_cap_FCC  ; //update 0_voltage FCC 
-                    t_com32_out = fcc_CEDV_Ture;
-                    f_fulchg_fuldsg = 1 ;
-				}
-				else
-				{
-
-					// f_study_d3_ful = OFF;
-					// ful_dsg_cap = 0;
-
-				}
-			}
-		}
-
-	 //  t_com95_out = f_study_d3_ful;
+                }
+            }
+            else
+            {
+                t_com8b_out = 2;
+                ful_dsg_cap = 0;
+            }
+        } // else  no need else , cause f_charge will clear all
+    }
+    else //  V_min <= D_Discharge_0_voltage
+    {
+        if (!f_charge)
+        {
+            if (f_study_d3_ful == ON) // 98
+            {
+                // can go here , must have updated cpl .
+                // cause  f_study_d3_ful == ON means have f_study_d2 have dupdated ..
+                ful_dsg_cap += I_abs;
+                f_study_d3_ful = OFF;
+                // ful_dsg_cap_FCC = ful_dsg_cap/3600;  // single
+                ful_dsg_cap_FCC = ful_dsg_cap / 14400; // 14400
+                fcc_CEDV_Ture = ful_dsg_cap_FCC;       // update 0_voltage FCC
+                t_com32_out = fcc_CEDV_Ture;
+                f_fulchg_fuldsg = 1;
+            }
+        }
+    }
 }
-
-
 
 void chg_pinghua_CEDV(void)
 {
@@ -1945,51 +1737,24 @@ void Calc_HoseiRC_CEDV(uint32_t	lrc)
 	{									// CP_L detected ?
 		if( f_cp_l_last_CEDV == OFF)  // to do clear 0 .  / can come here , must means this time cpl ON . 
 		{
-			// dis_fcc = SOC_CEDV_show / 5.5;    // enlarge 100 times .  100/5.5*SOC_CEDV_show  = 18.2 about 18 
-			// dis_fcc = (SOC_CEDV_show-1 )/ 6;    // enlarge 100 times .  100/5.5*SOC_CEDV_show  = 18.2 about 18 
-			// dis_fac_cpl = SOC_CEDV_show*18 +SOC_CEDV_show/5  ;              // discharge factor when reach cpl .
-			// dis_fac_cpl = (SOC_CEDV_show-1)*DSG_SMOOTH_MUL +(SOC_CEDV_show-1)*6/DSG_SMOOTH_DIV ;              // discharge factor when reach cpl .
-			// if((SOC_CEDV_show==7)||(SOC_CEDV_show==6)|| (SOC_CEDV_show==1))
-			// {
-			// 	dis_fac_cpl = 100  ;
-			// }
-
-            // CEDV  only make speed faster 
-		//	dis_fac_cpl_CEDV = SOC_CEDV_show*DSG_SMOOTH_MUL +SOC_CEDV_show/DSG_SMOOTH_DIV ;
-
             if (0 != D_CP_L)
             {
                 soc_temp_CE = SOC_CEDV_show ;
-                dis_fac_cpl_CEDV = soc_temp_CE * 1000 /(D_CP_L*10-5) ;
+                dis_fac_cpl_CEDV = soc_temp_CE * 1000 /(D_CP_L*10) ;
             }
             else
             {
                dis_fac_cpl_CEDV = 100;
             }
-
-
-            // if (SOC_CEDV_show< D_CP_L) // SOC_CEDV_show = rsoc  D_CP_L = 6 ;
-			// {
-			// 	if (dis_fac_cpl < 30)
-			// 	{
-			// 		dis_fac_cpl = 30 ; // Subtruct correction value
-			// 	}
-			// 	else if( dis_fac_cpl >= 109 ) // 5---92
-			// 	{
-			// 		dis_fac_cpl= 100 ;
-			// 	}
-			// }
-			
-            //else
             if (SOC_CEDV_show >= D_CP_L)
             {
                 if (dis_fac_cpl_CEDV <= 109)
                 {
                     dis_fac_cpl_CEDV = 100; // Subtruct correction value
                 }
-                else if (dis_fac_cpl_CEDV >= 400) // 5---92
+                else if (dis_fac_cpl_CEDV >= 150) // 5---92
                 {
-                    dis_fac_cpl_CEDV = 400;
+                    dis_fac_cpl_CEDV = 150;
                 }
             }
             else
@@ -1997,10 +1762,6 @@ void Calc_HoseiRC_CEDV(uint32_t	lrc)
                 dis_fac_cpl_CEDV = 100;
             }
         }
- 
-		
-        // Record_lrc_w_CEDV_fcc_show -= cur_qmax_chu_fcc ;
-        //                     Record_lrc_w_CEDV -= I_abs ;
 
 		Record_lrc_w_CEDV_fcc_show -= dis_fac_cpl_CEDV*cur_qmax_chu_fcc/100;   // muti 
         Record_lrc_w_CEDV -= I_abs ;
@@ -2167,13 +1928,6 @@ void Calc_RC_CEDV(void)
 
 
    static uint8_t  acpl_cnt_CE ;
-    // if (f_fullchg_CEDV == OFF) // No OVER_CHARGED_ALARM ?
-    // {
-    //     // f_study_d = OFF;				// Clear discharge relearn flag
-    //     // f_study_d1 = OFF;
-    //     // f_study_d2 = OFF;
-    //     f_study_d3_ful = OFF;
-    // }
 	if ((f_charge == ON) && (Current() > 0)) // Charging ?
 	{
 		if (f_fullchg_CEDV== OFF)
@@ -2195,40 +1949,32 @@ void Calc_RC_CEDV(void)
 
     Calc_fulchg_dsg_cap(); //
 
-    // dianliu is wrong .
-    // should  I_abs + I_abs / 130 ; time not true .
 
     cur_qmax_chu_fcc = I_abs*(qmax_chu_fcc/10000) + I_abs*(qmax_chu_fcc%10000/1000)/10+ \
          I_abs*(qmax_chu_fcc%1000/100)/100 + I_abs*(qmax_chu_fcc%100/10)/1000+  \
          I_abs*(qmax_chu_fcc%10)/10000   ;
 
-    // t_com8e_out =  cur_qmax_chu_fcc ;
-    
-	if (Current() > 0) 
+    if (Current() > 0)
     {
         chg_pinghua_CEDV();
-     
-			if (f_pinghua_work_CE == 1)
-			{
-                t_com9c_out = 1  ;
-				// lrc_w += chg_smooth_cur - divi_by_1k * 3;
-				 Record_lrc_w_CEDV_fcc_show += chg_smooth_cur_CE ;
-			}
-			else
-			{
-                t_com9c_out = 2  ;
-				 Record_lrc_w_CEDV_fcc_show +=  cur_qmax_chu_fcc;
-               // Record_lrc_w_CEDV_fcc_show += I_abs;
-			}
-                Record_lrc_w_CEDV += I_abs ;
-			
 
-        VoltagetoRSOCcount_CEDV = 0 ;
-       // Record_lrc_w_CEDV_fcc_show += I_abs   ;
-     //   Record_lrc_w_CEDV_fcc_show += cur_qmax_chu_fcc;  // when 
-        //   Record_lrc_w_CEDV_fcc_show += cur_qmax_chu_fcc*99/100;  // when smooth , no need .
+        if (f_pinghua_work_CE == 1)
+        {
+            t_com9c_out = 1;
+            // lrc_w += chg_smooth_cur - divi_by_1k * 3;
+            Record_lrc_w_CEDV_fcc_show += chg_smooth_cur_CE;
+        }
+        else
+        {
+            t_com9c_out = 2;
+            Record_lrc_w_CEDV_fcc_show += cur_qmax_chu_fcc;
+            // Record_lrc_w_CEDV_fcc_show += I_abs;
+        }
+        Record_lrc_w_CEDV += I_abs;
 
-    }else   // Current()<=0 
+        VoltagetoRSOCcount_CEDV = 0;
+    }
+    else // Current()<=0
     {
 		// if(V_min < D_Discharge_0_voltage)		// lower than 0% voltage ? D_0PVOLT
 		if(V_min <= D_0PVOLT) 
@@ -2250,10 +1996,6 @@ void Calc_RC_CEDV(void)
 		{
 			VoltagetoRSOCcount_CEDV= 0 ;
 		}
-
-
-    //   Record_lrc_w_CEDV_fcc_show -= cur_qmax_chu_fcc ;
-    //   Record_lrc_w_CEDV -= I_abs ;
 
         if( I_abs <= D_FCC_Min_current_of_cap_calc )					// Current < not count curr ?
 		{
@@ -2462,7 +2204,7 @@ void Calc_RSOC_CEDV(void)
 	}
 
 	SOC_CEDV_show = atwork1;		
-    t_com45_out = SOC_CEDV_show ;					// Set to RSOC  RSOC 
+    t_com0d = SOC_CEDV_show ;					// Set to RSOC  RSOC 
 
     atwork2 = (uint16_t)((((long)t_com0f_CEDV*2000)/qmax_CEDV)/ 2);  // jia 0.99%    // to do 20250919
     SOC_CEDV = atwork2/10;		
@@ -2486,20 +2228,7 @@ static void FullCharge_CEDV(void)
    // if (Ts_max < D_FCC_relearn_temp_limit || f_study_c == OFF) // Less than relearn limit temp  // or Charge relearn flag=OFF ?
     if (Ts_max < D_FCC_relearn_temp_limit ) 
     {
-        // if (Record_trek_cnt != 0 && D_FCC_Deterioration_capacity != 0) // Degradation cnt is not 0 ?
-        // {
-        //     twork = (uint16_t)(((long)Record_trek_cnt * D_FCC_Deterioration_capacity) / 100);
-        //     if (fcc_use_qmax > twork) // Not Under flow ?
-        //     {
-        //        fcc_use_qmax = fcc_use_qmax - twork;
-        //         fcc_use_qmax = (uint16_t)((long)fcc_use_qmax * ABS(D_Cycle_Count_Percentage)/100);
-        //     }
-        //     else
-        //     {
-        //         // fcc_use_qmax = 10; // Under flow
-        //         // tccup = (uint16_t)((long)fcc_use_qmax * ABS(D_Cycle_Count_Percentage)/100);
-        //     }
-        // }
+        
     }
     else
     {                                            // Make relearning
@@ -2521,7 +2250,7 @@ static void FullCharge_CEDV(void)
         Record_lrc_w_CEDV_fcc_show = (long)fcc_use_qmax * 14400; // Calc RC integration work
         t_com0f_CEDV_show = fcc_use_qmax; // Update RemainingCapacity()
         SOC_CEDV_show = 100;     // RSOC=100%
-        t_com42_out = t_com0f_CEDV_show  ;
+        t_com0fCap = t_com0f_CEDV_show  ;
 
         Record_lrc_w_CEDV =  (uint32_t)qmax_CEDV * 14686;  // full qmax* 1.0199    casue calc soc_CEDV use :  rc /fcc 
         SOC_CEDV = 101;     // soc_CEDV =101 ; 
@@ -2550,16 +2279,6 @@ void FullCharge_Chk_CEDV(void)
     // FCCCEDV
     
     uint16_t twork;
-
-    // if (SOC_CEDV_show < 99)  // t_com0d = soc < 99 
-    // {
-    //     f_fullchg_CEDV = OFF;
-    // }
-
-    //   if (SOC_CEDV_show < 100)
-    // {
-    //     f_VCT = OFF;
-    // }
  
     if (f_charge == ON && f_chg) // Charging current detection ?
     {
@@ -2584,10 +2303,6 @@ void FullCharge_Chk_CEDV(void)
                 // Full charge determination time elapsed ?
                 if (tfc_cnt_CEDV >= D_Termination_Fullcharge_judgement_time )
                 {
-
-                    // t_com7e_out = rc_integral_CEDV%14400  ;
-                    //  t_com7f_out = rc_integral_CEDV/14400 ;
-
 
                     if (rc_integral_CEDV /4/ 3600 >= D_Termination_Charge_Term_Taper_Capacity)
                     {

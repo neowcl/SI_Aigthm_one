@@ -18,6 +18,8 @@
 #define INREG_TBL   Ptr8u(D_CEDV_Internal_impedance_table1)
 #define D_CRATE_TBL Ptr8u(D_CP_table_C_rate_1)
 #define D_TRATE_TBL Ptr8i(D_CP_table_T_rate_1)
+#define D_RA_CRATE_TBL Ptr8u(D_RA_table_C_rate_1)
+#define D_RA_TRATE_TBL Ptr8i(D_RA_table_T_rate_1)
 #define CPH_TBL     Ptr16u(D_CPH_voltage_table_C1_T1)
 #define CPL_TBL     Ptr16u(D_CPL_voltage_table_C1_T1)
 #define QCAP_TBL    Ptr16u(D_QCap_Capcity_table_C1_T1)

@@ -49,6 +49,8 @@ extern void Calc_RC(void);						// RemainingCapacity() calc
 extern void Make_RC(void);						// RC calc from integration
 extern void Calc_CC(void);						// CycleCount() calc
 extern void Init_Cap(void);						// Initial capacity calc
+void Si_Loss_Init(void);
+void SI_Loss_Calc(void);
 extern void Calc_RSOC(void);
 extern void Calc_iRSOC(void);
 extern void Calc_CPVolt(void);
@@ -87,6 +89,46 @@ extern uint8_t bit_chg_smooth;
 #define f_pinghua_work     		 DEF_BIT1(&bit_chg_smooth)
 
 
+#define THIRDWEEK (24*7*3) 
+#define TEENDAYS (24*10) 
+#define DELTA_OCV_MAX 10
+#define CALC_COUNT_MAX 72
+
+typedef struct
+{
+	uint8_t si_start;
+	uint8_t si_ready_dsg;
+	uint8_t si_loss_ready;
+	uint8_t si_loss_update;
+	float packSiStartSoc;
+	float packSiEndSoc ;
+	uint32_t si_Capcity_Calc;
+	uint16_t si_Capcity;
+    uint16_t si_loss;
+	uint16_t Delta_OCV;
+	uint8_t calc_count;
+	uint32_t total_runtime_hrs;
+	uint16_t si_cycle_count;
+	uint32_t  si_hitemp_runtime_hrs;
+
+}t_Si_Loss_Para;
+
+#define f_si_start        t_si_loss_para.si_start
+#define f_si_ready_dsg    t_si_loss_para.si_ready_dsg
+#define f_si_loss_ready    t_si_loss_para.si_loss_ready
+#define f_si_loss_update    t_si_loss_para.si_loss_update
+#define T_SI_PACK_START_SOC    t_si_loss_para.packSiStartSoc 
+#define T_SI_PACK_END_SOC    t_si_loss_para.packSiEndSoc 
+#define T_SI_PACK_CAP_CALC    t_si_loss_para.si_Capcity_Calc
+#define T_SI_PACK_CAP    t_si_loss_para.si_Capcity
+#define T_SI_PACK_LOSS    t_si_loss_para.si_loss
+#define T_SI_DELTA_OCV    t_si_loss_para.Delta_OCV
+#define T_SI_CALC_COUNT    t_si_loss_para.calc_count	
+#define T_SI_TOTAL_RUNTIME_HRS    t_si_loss_para.total_runtime_hrs
+#define T_SI_CYCLE_COUNT    t_si_loss_para.si_cycle_count
+#define T_SI_HT_TIME    t_si_loss_para.si_hitemp_runtime_hrs
+
+extern t_Si_Loss_Para t_si_loss_para;
 
 extern uint8_t bit_rc_use;
 #define f_cp_h_fccupdated    	DEF_BIT0(&bit_rc_use)
@@ -118,6 +160,13 @@ extern uint8_t bit_rc_use;
 #define f_studied	DEF_BIT2(&arcflg)			// relearned flag
 #define f_firstFlg   DEF_BIT0(&arcflg)
 #define f_secondFlg  DEF_BIT1(&arcflg)
+
+
+
+
+
+
+
 
 
 #endif

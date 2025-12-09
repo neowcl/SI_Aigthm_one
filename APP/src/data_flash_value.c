@@ -96,26 +96,12 @@ const volatile FlashData flashdata __attribute__((used)) __attribute__((section(
 		15,		/* CP table T-rate 3                  	*                                  	*                                  	*/
 		25,		/* CP table T-rate 4                  	*                                  	*                                  	*/
 		45,		/* CP table T-rate 5                  	*                                  	*                                  	*/
-		3680,	/* CPH voltage table (C1/T1)          	CPH Table                          	*                                  	*/
-		3847,	/* CPH voltage table (C1/T2)          	*                                  	*                                  	*/
-		3912,	/* CPH voltage table (C1/T3)          	*                                  	*                                  	*/
-		3938,	/* CPH voltage table (C1/T4)          	*                                  	*                                  	*/
-		3962,	/* CPH voltage table (C1/T5)          	*                                  	*                                  	*/
-		3600,	/* CPH voltage table (C2/T1)          	*                                  	*                                  	*/
-		3692,	/* CPH voltage table (C2/T2)          	*                                  	*                                  	*/
-		3800,	/* CPH voltage table (C2/T3)          	*                                  	*                                  	*/
-		3857,	/* CPH voltage table (C2/T4)          	*                                  	*                                  	*/
-		3901,	/* CPH voltage table (C2/T5)          	*                                  	*                                  	*/
-		3520,	/* CPH voltage table (C3/T1)          	*                                  	*                                  	*/
-		3549,	/* CPH voltage table (C3/T2)          	*                                  	*                                  	*/
-		3631,	/* CPH voltage table (C3/T3)          	*                                  	*                                  	*/
-		3734,	/* CPH voltage table (C3/T4)          	*                                  	*                                  	*/
-		3811,	/* CPH voltage table (C3/T5)          	*                                  	*                                  	*/
-		3500,	/* CPH voltage table (C4/T1)          	*                                  	*                                  	*/
-		3530,	/* CPH voltage table (C4/T2)          	*                                  	*                                  	*/
-		3556,	/* CPH voltage table (C4/T3)          	*                                  	*                                  	*/
-		3623,	/* CPH voltage table (C4/T4)          	*                                  	*                                  	*/
-		3725,	/* CPH voltage table (C4/T5)          	*                                  	*                                  	*/
+		20,     /* RA table C-rate 1                  	*                                  	*                                  	*/
+		50,	    /* RA table C-rate 2                  	*                                  	*                                  	*/
+		100,    /* RA table C-rate 3                  	*                                  	*                                  	*/
+		5,      /* RA table T-rate 1                  	*                                  	*                                  	*/
+		25,   /* RA table T-rate 2                  	*                                  	*                                  	*/ 
+		40,   /* RA table T-rate 3                  	*                                  	*                                  	*/
 		3274,	/* CPL voltage table (C1/T1)          	CPL Table                          	*                                  	*/
 		3433,	/* CPL voltage table (C1/T2)          	*                                  	*                                  	*/
 		3540,	/* CPL voltage table (C1/T3)          	*                                  	*                                  	*/
@@ -156,6 +142,11 @@ const volatile FlashData flashdata __attribute__((used)) __attribute__((section(
 		908,	/* QCap Capcity table (C4/T3)         	*                                  	*                                  	*/
 		980,	/* QCap Capcity table (C4/T4)         	*                                  	*                                  	*/
 		1014,	/* QCap Capcity table (C4/T5)         	*                                  	*                                  	*/
+		6355,   /* Si New Capacity                       	*                                  	*                                  	*/
+		27,    /* Si Loss Start SOC                    	*                                  	*                                  	*/
+		2,     /*si Loss End SOC                       	*                                  	*                                  	*/
+		3699,  /* Si Loss Start Voltage               	*                                  	*                                  	*/
+		3210,  /* Si Loss End Voltage                 	*                                  	*                                  	*/
 		50,		/* Internal impedance cycle1          	CEDV_Cycle Compensate              	Gas Gauging                        	*/
 		100,	/* Internal impedance cycle2          	*                                  	*                                  	*/
 		200,	/* Internal impedance cycle3          	*                                  	*                                  	*/

@@ -35,7 +35,7 @@ extern volatile uint32_t COFF_delay;
 extern uint16_t QmaxControl;
 extern uint16_t  k_CEDV  ;
 
-extern  uint16_t  SOC_OCV_103_TBL[103] ;
+
 extern int32_t Record_lrc_w_CEDV_fcc_show ;
 extern int32_t  Record_lrc_w_CEDV_fcc_show_last ; 
 extern int32_t Record_lrc_w_CEDV ;

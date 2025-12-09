@@ -41,6 +41,7 @@
 #define _DATCALC_SPL
 
 #include "main.h"								// union/define definition
+#include "datcalc_spl.h"
 
 /***********************************************************************
 ** Announcement of internal function prototype
@@ -52,6 +53,7 @@ uint16_t  t_com0dsoclast ;  // RelativeStateOfCharge// RelativeStateOfCharge=t_c
 uint16_t firstCurrentCnt=0;
 uint16_t secondCurrentCnt=0;
 float currentRultiple=1.0;
+
 
 uint16_t   t_com0fCap;
 uint32_t   t_com10Cap;
@@ -66,9 +68,10 @@ uint16_t  tcpl_v;							// CP_L
 uint8_t   arcflg;							// Flags for RC
 // uint16_t Vol_0RSOC_time  ;
 uint16_t VoltagetoRSOCcount = 0 ;
+t_Si_Loss_Para t_si_loss_para;
 
-
-
+static uint32_t onedelay = 0;
+static uint32_t seconddelay = 0;
 // uint8_t dsg_point_test;
 uint8_t Qmax_update_DSG_test  ; 
 uint8_t RSOC_USE_DF_test  ;
@@ -797,13 +800,13 @@ void Calc_RSOC(void)
 	{
 		t_com0fCap = (long)t_com0f*D_Design_Voltage/10000; //cWh
 		// t_com10Cap = (long)t_com10*D_Design_Voltage/10000;//cWh
-		if((long)t_com10*D_Design_Voltage%10000==0)
-		{
-			t_com10Cap = (long)t_com10*D_Design_Voltage/10000;
+		// if((long)t_com10*D_Design_Voltage%10000==0)
+		// {
+		// 	t_com10Cap = (long)t_com10*D_Design_Voltage/10000;
 
-		}else{
-			t_com10Cap = (long)t_com10*D_Design_Voltage/10000 + 1;
-		}
+		// }else{
+		// 	t_com10Cap = (long)t_com10*D_Design_Voltage/10000 + 1;
+		// }
 
 
 
@@ -816,7 +819,7 @@ void Calc_RSOC(void)
 	else
 	{
 		t_com0fCap = t_com0f;//mAh
-		t_com10Cap = t_com10;//mAh
+		//t_com10Cap = t_com10;//mAh
 		// t_com18 = D_Design_Capacity_mAh;//mAh
 		_DesignCapacity  =D_Design_Capacity_mAh ;
 		_RemainingCapacityAlarm = D_Data_Remaining_Ah_Capacity_Alarm; // cWh//
@@ -1682,7 +1685,7 @@ void Make_Relearning(uint8_t acp)
 		CellTemp_last_time_update= CellTemp ;
 		// CellTemp_last_time_update= (t_com08-2731)/10 ;
 
-		t_com31_out = save_fac_dsg_upd ;
+		//t_com31_out = save_fac_dsg_upd ;
 
 	} 
 	else 
@@ -1932,11 +1935,6 @@ void Calc_CPVolt(void)
 	//Calc [C]x100 from current
 	twork1 = (uint16_t)((long)I_abs * 100 / D_Design_Capacity_mAh);
 	
-	// - Make [C]index -
-	// linear interporation: y = (y2-y1)*(x-x1)/(x2-x1) + y1
-	//						   = y1 - (y1-y2)*(x-x1)/(x2-x1)
-	// awork1: x-x1
-	// awork2: x2-x1
 	if( twork1 <= D_CRATE_TBL[1] )				// <= C-rate2 ?
 	{
 		aidx = 0;								// Table index = 0
@@ -2031,32 +2029,26 @@ void Calc_CPVolt(void)
 
 	tinreg = Calc_InReg();						// Calc internal resistance V
 
+//	if( (aidx >= 10) && (awork1>awork2) )			// > C-Rate 4 ?
+//	{
+//		// Calculate by coefficient
+//		twork1 = CPH_TBL[aidx + 5] - // Coefficient/((C-rate4 - C-rate3)*10
+//				 (uint16_t)(((long)CPH_TBL[aidx] - CPH_TBL[aidx + 5]) * (awork1 - awork2) * D_CP_CPH_Coefficcient / ((uint16_t)awork2 * 10));
 
-	// - Calculate CP_H voltage -
-	// - [C] interpolation -
-	if( (aidx >= 10) && (awork1>awork2) )			// > C-Rate 4 ?
-	{
-		// Calculate by coefficient
-		twork1 = CPH_TBL[aidx + 5] - // Coefficient/((C-rate4 - C-rate3)*10
-				 (uint16_t)(((long)CPH_TBL[aidx] - CPH_TBL[aidx + 5]) * (awork1 - awork2) * D_CP_CPH_Coefficcient / ((uint16_t)awork2 * 10));
-
-		twork2 = CPH_TBL[aidx + 6] -
-				 (uint16_t)((((long)CPH_TBL[aidx + 1] - CPH_TBL[aidx + 6]) * (awork1 - awork2) * D_CP_CPH_Coefficcient / ((uint16_t)awork2 * 10)));
-	}
-	else 
-	{									// <= C-Rate 4
-		twork1 = CPH_TBL[aidx] - 
-					(uint16_t)((((long)CPH_TBL[aidx]-CPH_TBL[aidx+5])*awork1/awork2));
-		
-		twork2 = CPH_TBL[aidx+1] - 
-					(uint16_t)((((long)CPH_TBL[aidx+1]-CPH_TBL[aidx+6])*awork1/awork2));
-	}
-	
-	// - degC interpolation -
-	tcph_v = twork1 + (uint16_t)(((long)twork2 - twork1)*awork3/awork4) - tinreg;
-	 //tcph_v = 4000 ;
-	// - Calculate CP_L voltage -
-	// - [C] interpolation -
+//		twork2 = CPH_TBL[aidx + 6] -
+//				 (uint16_t)((((long)CPH_TBL[aidx + 1] - CPH_TBL[aidx + 6]) * (awork1 - awork2) * D_CP_CPH_Coefficcient / ((uint16_t)awork2 * 10)));
+//	}
+//	else 
+//	{									// <= C-Rate 4
+//		twork1 = CPH_TBL[aidx] - 
+//					(uint16_t)((((long)CPH_TBL[aidx]-CPH_TBL[aidx+5])*awork1/awork2));
+//		
+//		twork2 = CPH_TBL[aidx+1] - 
+//					(uint16_t)((((long)CPH_TBL[aidx+1]-CPH_TBL[aidx+6])*awork1/awork2));
+//	}
+//	
+//	// - degC interpolation -
+//	tcph_v = twork1 + (uint16_t)(((long)twork2 - twork1)*awork3/awork4) - tinreg;
 	if( aidx>=10 && awork1>awork2 )				// > C-Rate4 ?
 	{
 		// Calculate by coefficient
@@ -2083,27 +2075,19 @@ void Calc_CPVolt(void)
 
 
 	res_chabiao = calc_k_res_chabiao ;
-	// res_jisuan = calc_k_res_jisuan ;
- 
-	// if( res_jisuan >res_chabiao) 
-	// {
-	// 	tcpl_v = tcpl_v - (res_jisuan-res_chabiao)* I_abs/10000 ;
-	//}
-	t_com96_out  = tcpl_v  ;
+	//t_com96_out  = tcpl_v  ;
 	
 	if (tcpl_v <= D_0PVOLT + 30)  // single battery .
 	{
 		tcpl_v = D_0PVOLT +30;
 	}
-	
 
-	t_com97_out  = tcpl_v  ;
-	tcpl_v = tcpl_v - res_chabiao*(k_CEDV_average-1000)/1000 *I_abs/10000/2 ;  // shoud / 10000*1000
+	//t_com97_out = tcpl_v;
+	tcpl_v = tcpl_v - res_chabiao * (k_CEDV_average - 1000) / 1000 * I_abs / 10000 / 2; // shoud / 10000*1000
 
-t_com98_out  = tcpl_v  ;
-	
+	//t_com98_out = tcpl_v;
 
-t_com8f_out  = k_CEDV_average  ;
+	t_com8f_out = k_CEDV_average;
 	//tcpl_v = 3600 ;
 	
 	
@@ -2766,7 +2750,7 @@ void Init_Cap(void)
 	fcc_CEDV_Ture = qmax_CEDV ;
 	fcc_use_qmax =  qmax_CEDV ;
 
-	t_com31_out = qmax_CEDV ;
+	t_com10Cap = qmax_CEDV ;
 	t_com32_out = fcc_CEDV_Ture;
 	t_com8b_out =  fcc_use_qmax ;
 	dsg_CEDV_Record_lrc_w_update_k = 0 ; 
@@ -2833,7 +2817,7 @@ void Init_Cap(void)
 
 	Record_lrc_w_CEDV_fcc_show_last =  Record_lrc_w_CEDV_fcc_show ;
 
-	t_com45_out = SOC_CEDV_show ;
+	t_com0d = SOC_CEDV_show ;
 									// Search using table
 	for( aidx=0; V_min >= OCV_SOC[aidx+1] && aidx < 19; aidx++ );
 	if( V_min <= OCV_SOC[0] )							// Smaller than 0% voltage ?
@@ -2883,9 +2867,9 @@ void Init_Cap(void)
 
 	CellTemp_last_time_update= CellTemp ;
 	t_com0dsoclast = t_com0d ;  // RelativeStateOfCharge// RelativeStateOfCharge=t_com0d; 20230409 updated part 1 
-	Make_RC();												// Calculate RemainingCapacity
-	Calc_RSOC();											// Calculate RSOC
-	Make_iRC();
+	// Make_RC();												// Calculate RemainingCapacity
+	// Calc_RSOC();											// Calculate RSOC
+	//Make_iRC();
 	Calc_iRSOC();	
 	Make_RC_CEDV() ; 
 	Calc_RSOC_CEDV();
@@ -2902,6 +2886,150 @@ void Init_Cap(void)
 
 	f_pi_pinghua = 0;
 }
+
+
+
+void SI_Loss_Calc(void)
+{
+	uint16_t dsg_cap=0;
+    uint16_t aidxq1 = 0;
+	uint16_t Del_OCV;
+	uint8_t i_dex=0;
+	uint32_t factor_ht_time=0;
+	if (f_relax )
+	{
+		if (t_com0d <= D_Si_Loss_Start_SOC && t_com0d >= D_Si_Loss_End_SOC)
+		{
+			if (!f_si_start)
+			{
+				onedelay += Periodtime;
+				if (onedelay / TIME_TO_HOUR >= 1)
+				{
+					if (V_min >= D_Si_Loss_End_Voltage && V_min <= D_Si_Loss_Start_Voltage)
+					{
+						f_si_start = 1;
+						for (aidxq1 = 0; (aidxq1 < 102) && (V_min > SOC_OCV_103_TBL[aidxq1]); aidxq1++)
+							;
+						T_SI_PACK_START_SOC=(float)(V_min - SOC_OCV_103_TBL[aidxq1])/(SOC_OCV_103_TBL[aidxq1 + 1] 
+							- SOC_OCV_103_TBL[aidxq1])+aidxq1-1;
+			            t_com94_out=T_SI_PACK_START_SOC;
+						
+					}
+					else
+					{
+						Si_Loss_Init();
+					}
+				}
+			}
+			else
+			{
+				if (f_si_ready_dsg)
+				{
+					seconddelay += Periodtime;
+					if (seconddelay / TIME_TO_HOUR >= 1)
+					{
+						if (V_min >= D_Si_Loss_End_Voltage && V_min <= D_Si_Loss_Start_Voltage)
+						{
+							for (aidxq1 = 0; (aidxq1 < 102) && (V_min > SOC_OCV_103_TBL[aidxq1]); aidxq1++)
+								;
+							T_SI_PACK_END_SOC = (float)(V_min - SOC_OCV_103_TBL[aidxq1]) / (SOC_OCV_103_TBL[aidxq1 + 1] - SOC_OCV_103_TBL[aidxq1]) + aidxq1 - 1;
+							t_com95_out = T_SI_PACK_END_SOC;
+							dsg_cap=T_SI_PACK_CAP_CALC/4/3600;
+							t_com96_out=dsg_cap;
+							if (T_SI_PACK_START_SOC <= T_SI_PACK_END_SOC ||
+								dsg_cap <= 0.05 * D_Design_Capacity_mAh)
+							{
+								Si_Loss_Init();
+								return;
+							}
+							T_SI_PACK_CAP = dsg_cap * (D_Si_Loss_Start_SOC - D_Si_Loss_End_SOC) / (T_SI_PACK_START_SOC - T_SI_PACK_END_SOC);
+							t_com97_out=T_SI_PACK_CAP;
+							T_SI_PACK_LOSS = (D_Si_New_Capacity - T_SI_PACK_CAP) * 100 / D_Si_New_Capacity;
+							t_com98_out=T_SI_PACK_LOSS;
+							Del_OCV = ((D_Si_Loss_A * T_SI_PACK_LOSS) / 100 + D_Si_Loss_B) / 1000;
+							t_com93_out=Del_OCV;
+							if (T_SI_DELTA_OCV < DELTA_OCV_MAX)
+							{
+								T_SI_DELTA_OCV = Del_OCV;
+								f_si_loss_ready = 1;
+							}
+							T_SI_CALC_COUNT++;
+							if(T_SI_CALC_COUNT>CALC_COUNT_MAX)
+							{
+								Si_Loss_Init();
+							}
+							seconddelay = 0;
+						}
+						else
+						{
+							Si_Loss_Init();
+						}
+					}
+				}
+			}
+		}
+	}
+	else
+	{
+		if(f_si_start)
+		{
+			if(!f_discharge)
+			{
+				Si_Loss_Init();
+			}
+			else
+			{ 
+            T_SI_PACK_CAP_CALC += I_abs; 
+			  seconddelay=0;
+			  f_si_ready_dsg=1;
+			}
+
+			if(f_si_loss_ready)
+			{
+               f_si_loss_ready=0;
+			   f_si_loss_update=1;
+			}
+		}
+		else
+		{
+			Si_Loss_Init();
+		}
+
+	}
+	if (f_si_loss_update)
+	{
+		for (i_dex = 0; i_dex < 14; i_dex++)
+		{
+			factor_ht_time += *(((uint32_t *)&LifeTimes_Time_Spent_in_HT_RSOC_A) + i_dex);
+		}
+        t_com99_out=factor_ht_time;
+		if ((LifeTimes_Total_Firmware_Runtime - T_SI_TOTAL_RUNTIME_HRS) >= THIRDWEEK ||
+			(_CycleCount - T_SI_CYCLE_COUNT) >= 50 || (factor_ht_time-T_SI_HT_TIME) >= TEENDAYS)
+			{
+				f_si_ocv_update=1;
+				f_si_loss_update=0;
+				T_SI_TOTAL_RUNTIME_HRS=LifeTimes_Total_Firmware_Runtime;
+				T_SI_CYCLE_COUNT=_CycleCount;
+				T_SI_HT_TIME=factor_ht_time;
+			}
+	}
+}
+
+void Si_Loss_Init(void)
+{
+	onedelay = 0 ;
+	seconddelay=0;
+	f_si_start = 0 ;
+	T_SI_PACK_CAP_CALC=0;
+	T_SI_PACK_START_SOC=0;
+	T_SI_PACK_END_SOC=0;
+	f_si_ready_dsg=0;
+	T_SI_CALC_COUNT=0;
+}
+
+
+
+
 
 // void ful_chg_acc_cap_updated(void)
 // {

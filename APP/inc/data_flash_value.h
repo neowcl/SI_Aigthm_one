@@ -1320,47 +1320,21 @@ typedef struct{
 #define D_CP_table_T_rate_5                               	flashdata.b_CP_Correction.s_CP_Para_table.m_CP_table_T_rate_5
 
 typedef struct{
-	uint16_t                          	m_CPH_voltage_table_C1_T1;         	/*说明:*/
-	uint16_t                          	m_CPH_voltage_table_C1_T2;         	/*说明:*/
-	uint16_t                          	m_CPH_voltage_table_C1_T3;         	/*说明:*/
-	uint16_t                          	m_CPH_voltage_table_C1_T4;         	/*说明:*/
-	uint16_t                          	m_CPH_voltage_table_C1_T5;         	/*说明:*/
-	uint16_t                          	m_CPH_voltage_table_C2_T1;         	/*说明:*/
-	uint16_t                          	m_CPH_voltage_table_C2_T2;         	/*说明:*/
-	uint16_t                          	m_CPH_voltage_table_C2_T3;         	/*说明:*/
-	uint16_t                          	m_CPH_voltage_table_C2_T4;         	/*说明:*/
-	uint16_t                          	m_CPH_voltage_table_C2_T5;         	/*说明:*/
-	uint16_t                          	m_CPH_voltage_table_C3_T1;         	/*说明:*/
-	uint16_t                          	m_CPH_voltage_table_C3_T2;         	/*说明:*/
-	uint16_t                          	m_CPH_voltage_table_C3_T3;         	/*说明:*/
-	uint16_t                          	m_CPH_voltage_table_C3_T4;         	/*说明:*/
-	uint16_t                          	m_CPH_voltage_table_C3_T5;         	/*说明:*/
-	uint16_t                          	m_CPH_voltage_table_C4_T1;         	/*说明:*/
-	uint16_t                          	m_CPH_voltage_table_C4_T2;         	/*说明:*/
-	uint16_t                          	m_CPH_voltage_table_C4_T3;         	/*说明:*/
-	uint16_t                          	m_CPH_voltage_table_C4_T4;         	/*说明:*/
-	uint16_t                          	m_CPH_voltage_table_C4_T5;         	/*说明:*/
-}S_CPH_Table;
-#define D_CPH_voltage_table_C1_T1                         	flashdata.b_CP_Correction.s_CPH_Table.m_CPH_voltage_table_C1_T1
-#define D_CPH_voltage_table_C1_T2                         	flashdata.b_CP_Correction.s_CPH_Table.m_CPH_voltage_table_C1_T2
-#define D_CPH_voltage_table_C1_T3                         	flashdata.b_CP_Correction.s_CPH_Table.m_CPH_voltage_table_C1_T3
-#define D_CPH_voltage_table_C1_T4                         	flashdata.b_CP_Correction.s_CPH_Table.m_CPH_voltage_table_C1_T4
-#define D_CPH_voltage_table_C1_T5                         	flashdata.b_CP_Correction.s_CPH_Table.m_CPH_voltage_table_C1_T5
-#define D_CPH_voltage_table_C2_T1                         	flashdata.b_CP_Correction.s_CPH_Table.m_CPH_voltage_table_C2_T1
-#define D_CPH_voltage_table_C2_T2                         	flashdata.b_CP_Correction.s_CPH_Table.m_CPH_voltage_table_C2_T2
-#define D_CPH_voltage_table_C2_T3                         	flashdata.b_CP_Correction.s_CPH_Table.m_CPH_voltage_table_C2_T3
-#define D_CPH_voltage_table_C2_T4                         	flashdata.b_CP_Correction.s_CPH_Table.m_CPH_voltage_table_C2_T4
-#define D_CPH_voltage_table_C2_T5                         	flashdata.b_CP_Correction.s_CPH_Table.m_CPH_voltage_table_C2_T5
-#define D_CPH_voltage_table_C3_T1                         	flashdata.b_CP_Correction.s_CPH_Table.m_CPH_voltage_table_C3_T1
-#define D_CPH_voltage_table_C3_T2                         	flashdata.b_CP_Correction.s_CPH_Table.m_CPH_voltage_table_C3_T2
-#define D_CPH_voltage_table_C3_T3                         	flashdata.b_CP_Correction.s_CPH_Table.m_CPH_voltage_table_C3_T3
-#define D_CPH_voltage_table_C3_T4                         	flashdata.b_CP_Correction.s_CPH_Table.m_CPH_voltage_table_C3_T4
-#define D_CPH_voltage_table_C3_T5                         	flashdata.b_CP_Correction.s_CPH_Table.m_CPH_voltage_table_C3_T5
-#define D_CPH_voltage_table_C4_T1                         	flashdata.b_CP_Correction.s_CPH_Table.m_CPH_voltage_table_C4_T1
-#define D_CPH_voltage_table_C4_T2                         	flashdata.b_CP_Correction.s_CPH_Table.m_CPH_voltage_table_C4_T2
-#define D_CPH_voltage_table_C4_T3                         	flashdata.b_CP_Correction.s_CPH_Table.m_CPH_voltage_table_C4_T3
-#define D_CPH_voltage_table_C4_T4                         	flashdata.b_CP_Correction.s_CPH_Table.m_CPH_voltage_table_C4_T4
-#define D_CPH_voltage_table_C4_T5                         	flashdata.b_CP_Correction.s_CPH_Table.m_CPH_voltage_table_C4_T5
+	uint8_t                           	m_RA_table_C_rate_1;               	/*说明:*/
+	uint8_t                           	m_RA_table_C_rate_2;               	/*说明:*/
+	uint8_t                           	m_RA_table_C_rate_3;               	/*说明:*/
+	int8_t                            	m_RA_table_T_rate_1;               	/*说明:*/
+	int8_t                            	m_RA_table_T_rate_2;               	/*说明:*/
+	int8_t                            	m_RA_table_T_rate_3;               	/*说明:*/
+}S_RA_Para_table;
+
+#define D_RA_table_C_rate_1                                	flashdata.b_CP_Correction.s_RA_Para_table.m_RA_table_C_rate_1
+#define D_RA_table_C_rate_2									flashdata.b_CP_Correction.s_RA_Para_table.m_RA_table_C_rate_2
+#define D_RA_table_C_rate_3									flashdata.b_CP_Correction.s_RA_Para_table.m_RA_table_C_rate_3
+#define D_RA_table_T_rate_1									flashdata.b_CP_Correction.s_RA_Para_table.m_RA_table_T_rate_1
+#define D_RA_table_T_rate_2									flashdata.b_CP_Correction.s_RA_Para_table.m_RA_table_T_rate_2
+#define D_RA_table_T_rate_3									flashdata.b_CP_Correction.s_RA_Para_table.m_RA_table_T_rate_3
+
 
 typedef struct{
 	uint16_t                          	m_CPL_voltage_table_C1_T1;         	/*说明:*/
@@ -1447,6 +1421,26 @@ typedef struct{
 #define D_QCap_Capcity_table_C4_T3                        	flashdata.b_CP_Correction.s_QCap_Table.m_QCap_Capcity_table_C4_T3
 #define D_QCap_Capcity_table_C4_T4                        	flashdata.b_CP_Correction.s_QCap_Table.m_QCap_Capcity_table_C4_T4
 #define D_QCap_Capcity_table_C4_T5                        	flashdata.b_CP_Correction.s_QCap_Table.m_QCap_Capcity_table_C4_T5
+
+
+typedef struct{
+	uint16_t                            m_Si_New_Capacity;                    	/*说明:*/
+	uint8_t                          	m_Si_Loss_Start_SOC;                	/*说明:*/
+	uint8_t                          	m_Si_Loss_End_SOC;              	/*说明:*/
+	uint16_t                            m_Si_Loss_Start_Voltage; 
+	uint16_t						  	m_Si_Loss_End_Voltage;
+	int32_t                             m_Si_Loss_A;
+	int32_t                             m_Si_Loss_B;
+}S_Si_Loss_Para;
+
+#define D_Si_New_Capacity                                	flashdata.b_CP_Correction.s_Si_Loss_Para.m_Si_New_Capacity
+#define D_Si_Loss_Start_SOC                               	flashdata.b_CP_Correction.s_Si_Loss_Para.m_Si_Loss_Start_SOC
+#define D_Si_Loss_End_SOC                                 	flashdata.b_CP_Correction.s_Si_Loss_Para.m_Si_Loss_End_SOC
+#define D_Si_Loss_Start_Voltage                           	flashdata.b_CP_Correction.s_Si_Loss_Para.m_Si_Loss_Start_Voltage
+#define D_Si_Loss_End_Voltage                             	flashdata.b_CP_Correction.s_Si_Loss_Para.m_Si_Loss_End_Voltage
+#define D_Si_Loss_A                                      	flashdata.b_CP_Correction.s_Si_Loss_Para.m_Si_Loss_A
+#define D_Si_Loss_B                                      	flashdata.b_CP_Correction.s_Si_Loss_Para.m_Si_Loss_B
+
 
 typedef struct{
 	uint16_t                          	m_Internal_impedance_cycle1;       	/*说明:*/
@@ -3314,9 +3308,10 @@ typedef struct{
 typedef struct{
 	S_CP_Para                          	s_CP_Para;
 	S_CP_Para_table                    	s_CP_Para_table;
-	S_CPH_Table                        	s_CPH_Table;
+	S_RA_Para_table                    	s_RA_Para_table;
 	S_CPL_Table                        	s_CPL_Table;
 	S_QCap_Table                       	s_QCap_Table;
+	S_Si_Loss_Para                      s_Si_Loss_Para;
 }B_CP_Correction;
 
 typedef struct{

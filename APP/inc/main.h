@@ -80,6 +80,7 @@
 #include  "cbm858xm_flash.h"
 #include "cbm858xm_fwdt.h"
 #include "cbm8580m_int.h"
+#include "ra_value.h"
 #define ON  1U
 #define OFF 0U
 #define I2C_LONG_TIMEOUT         ((uint32_t)(10 * I2C_FLAG_TIMEOUT))
