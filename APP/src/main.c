@@ -12,7 +12,6 @@ volatile uint8_t fallingcnt = 0;
 uint16_t ff=0;
 int main(void)
 {	
-	printf("Enter APP!\n");
 	McuDrvInit();
 	FlashDataHandle();
 	bi2cs_dataCmd_init();
@@ -81,7 +80,7 @@ int main(void)
 			//delay_ms(100);
 		}
 		
-		//SmbusTimeout_Chk(); // Check IIC communication Timeout
+		SmbusTimeout_Chk(); // Check IIC communication Timeout
 		//afe_dtdrv_vc_enable_ctrl(DTDRV_CVBLC_CB_VC1, ENABLE);
 		DFUdata_Chk();
 		SmbusMACWriteInstruction();

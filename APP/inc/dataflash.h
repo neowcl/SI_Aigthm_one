@@ -46,6 +46,8 @@
 #define FLASH_END_ADDR   ((uint32_t)0x0803C000)
 #define   DF_FLASH_OFFSET  0x0802E000
 
+
+#define  RATE_OFFSET      0x4800
 #define  RECORD_OFFSET      0x5800
 #define  LIFETIMES_OFFSET   0x6000
 

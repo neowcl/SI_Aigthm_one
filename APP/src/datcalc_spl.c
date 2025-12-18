@@ -164,7 +164,7 @@ int16_t dis_fac_cpl = 100  ; // discharge factor when reach cpl voltage .
 
 
 
-int8_t CellTemp_use_rsoc;
+
 
 
 uint8_t  Count_13s_rsoc_1  ;
@@ -2209,28 +2209,28 @@ void Calc_RC(void)
 	RSOC_USE_DF_test = D_Control_flag_1_RSOC_USE_DF ;
 	Qmax_update_DSG_test =D_Control_flag_1_Qmax_update_DSG  ;  
 
-	CellTemp_use_rsoc = CellTemp ;
+	// CellTemp_use_rsoc = CellTemp ;
 
-	if ((uint16_t)((long)I_abs * 100 / D_Design_Capacity_mAh) >= 50)
-	{
-		if (CellTemp_use_rsoc >= 10)
-		{
-			D_0PVOLT = D_Discharge_0_voltage; // D_Discharge_0_voltage D_0PVOLT
-		}
-		if ((CellTemp_use_rsoc >= 5) && (CellTemp_use_rsoc < 10))
-		{
-			D_0PVOLT = D_Discharge_0_voltage-D_5_10_LIMIT; // D_0PVOLT5_Tempera_10   多串还是单串  ？   电压
-		}
-		else if (CellTemp_use_rsoc < 5)
-		{
-			// D_0PVOLT= D_0PVOLT_Tempera_less_than_5 ;
-			D_0PVOLT = D_Discharge_0_voltage-D_5_LIMIT;
-		}
-	}
-	else
-	{
-		D_0PVOLT = D_Discharge_0_voltage;
-	}
+	// if ((uint16_t)((long)I_abs * 100 / D_Design_Capacity_mAh) >= 50)
+	// {
+	// 	if (CellTemp_use_rsoc >= 10)
+	// 	{
+	// 		D_0PVOLT = D_Discharge_0_voltage; // D_Discharge_0_voltage D_0PVOLT
+	// 	}
+	// 	if ((CellTemp_use_rsoc >= 5) && (CellTemp_use_rsoc < 10))
+	// 	{
+	// 		D_0PVOLT = D_Discharge_0_voltage-D_5_10_LIMIT; // D_0PVOLT5_Tempera_10   多串还是单串  ？   电压
+	// 	}
+	// 	else if (CellTemp_use_rsoc < 5)
+	// 	{
+	// 		// D_0PVOLT= D_0PVOLT_Tempera_less_than_5 ;
+	// 		D_0PVOLT = D_Discharge_0_voltage-D_5_LIMIT;
+	// 	}
+	// }
+	// else
+	// {
+	// 	D_0PVOLT = D_Discharge_0_voltage;
+	// }
 
 	
  
@@ -2942,7 +2942,7 @@ void SI_Loss_Calc(void)
 								Si_Loss_Init();
 								return;
 							}
-							T_SI_PACK_CAP = dsg_cap * (D_Si_Loss_Start_SOC - D_Si_Loss_End_SOC) / (T_SI_PACK_START_SOC - T_SI_PACK_END_SOC);
+							T_SI_PACK_CAP = dsg_cap * (D_Si_Loss_Start_SOC - D_Si_Loss_End_SOC) / ((T_SI_PACK_START_SOC - T_SI_PACK_END_SOC)*100);
 							t_com97_out=T_SI_PACK_CAP;
 							T_SI_PACK_LOSS = (D_Si_New_Capacity - T_SI_PACK_CAP) * 100 / D_Si_New_Capacity;
 							t_com98_out=T_SI_PACK_LOSS;

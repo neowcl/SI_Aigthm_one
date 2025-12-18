@@ -13,10 +13,9 @@ void Power_Modes_Fun()
     ship_mode();       // ship mode
     ShutdownMode();
 	SmbusTimeout_Chk(); 
-	if (UF_BackupREG & 0x1)
-	{
+	#ifndef DEBUG_MODE
 		DeepSleep_Enter();
-	}
+	#endif
 }
 void DeepSleep_Enter(void)
 {

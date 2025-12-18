@@ -1425,8 +1425,8 @@ typedef struct{
 
 typedef struct{
 	uint16_t                            m_Si_New_Capacity;                    	/*说明:*/
-	uint8_t                          	m_Si_Loss_Start_SOC;                	/*说明:*/
-	uint8_t                          	m_Si_Loss_End_SOC;              	/*说明:*/
+	uint16_t                          	m_Si_Loss_Start_SOC;                	/*说明:*/
+	uint16_t                          	m_Si_Loss_End_SOC;              	/*说明:*/
 	uint16_t                            m_Si_Loss_Start_Voltage; 
 	uint16_t						  	m_Si_Loss_End_Voltage;
 	int32_t                             m_Si_Loss_A;

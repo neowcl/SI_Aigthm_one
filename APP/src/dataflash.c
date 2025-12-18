@@ -447,28 +447,26 @@ void DFUdata_Chk(void)
 
 	if (DFUpdate.FLAG)
 	{
-		
 
 		if (DFUpdate.DataFlash)
 		{
-
 			Accaddress = eMac.MAC_T.nAltManufacturerAccess;
 			offset = (uint16_t)(Accaddress & 0x0FFF) + (MACDataLength - 2);
-
-			if ((Accaddress & 0x0FFF) <= FDSIZE)
+			if (Accaddress >= 0x4000 && Accaddress < RATE_OFFSET)
 			{
-				fdLimitW = FDSIZE - (Accaddress & 0x0FFF); // Description Write the flash address out of range
-				if (fdLimitW >= (MACDataLength - 2))
+				if ((Accaddress & 0x0FFF) <= FDSIZE)
 				{
-					fdLenW = MACDataLength - 2;
-				}
-				else
-				{
-					fdLenW = fdLimitW;
-				}
-				__disable_irq();
-				if (Accaddress >= 0x4000 && Accaddress < 0x4800)
-				{
+					fdLimitW = FDSIZE - (Accaddress & 0x0FFF); // Description Write the flash address out of range
+					if (fdLimitW >= (MACDataLength - 2))
+					{
+						fdLenW = MACDataLength - 2;
+					}
+					else
+					{
+						fdLenW = fdLimitW;
+					}
+					__disable_irq();
+
 					if ((offset >= FLASH_PAGE_SIZE) && ((Accaddress & 0x0FFF) < FLASH_PAGE_SIZE))
 					{
 						advanceLen = FLASH_PAGE_SIZE - (Accaddress & 0x0FFF);
@@ -481,26 +479,52 @@ void DFUdata_Chk(void)
 						DataFlash_Write((DF_FLASH_OFFSET + Accaddress), &eMac.MAC_T.nMACData[0], fdLenW);
 					}
 				}
+				calc_DFSignature();
+				__enable_irq();
 			}
-			calc_DFSignature();
+			else if (Accaddress >= RATE_OFFSET && Accaddress < RECORD_OFFSET)
+			{
+
+				fdLimitW = RECORD_OFFSET - Accaddress; // Description Write the flash address out of range
+				if (fdLimitW >= (MACDataLength - 2))
+				{
+					fdLenW = MACDataLength - 2;
+				}
+				else
+				{
+					fdLenW = fdLimitW;
+				}
+				__disable_irq();
+
+				if ((offset >= FLASH_PAGE_SIZE) && ((Accaddress & 0x0FFF) < FLASH_PAGE_SIZE))
+				{
+					advanceLen = FLASH_PAGE_SIZE - (Accaddress & 0x0FFF);
+					remainLen = fdLenW - advanceLen;
+					DataFlash_Write((DF_FLASH_OFFSET + Accaddress), &eMac.MAC_T.nMACData[0], advanceLen);
+					DataFlash_Write((DF_FLASH_OFFSET + Accaddress + advanceLen), &eMac.MAC_T.nMACData[advanceLen], remainLen);
+				}
+				else
+				{
+					DataFlash_Write((DF_FLASH_OFFSET + Accaddress), &eMac.MAC_T.nMACData[0], fdLenW);
+				}
+
+				__enable_irq();
+			}
 			DFUpdate.FLAG = 0;
-			__enable_irq();
 		}
 
 		if (DFUpdate.SecKeys)
 		{
-			//printf("MACDataLength = %d\r\n",MACDataLength);
-			if (MACDataLength - 2 ==0x08)
+			// printf("MACDataLength = %d\r\n",MACDataLength);
+			if (MACDataLength - 2 == 0x08)
 			{
-			
-			__disable_irq();
-			DataFlash_Write((uint32_t)&D_US_KEY1, &eMac.MAC_T.nMACData[0], 0x08);
-			__enable_irq();
+
+				__disable_irq();
+				DataFlash_Write((uint32_t)&D_US_KEY1, &eMac.MAC_T.nMACData[0], 0x08);
+				__enable_irq();
 			}
 			DFUpdate.SecKeys = 0;
 		}
-
-		
 	}
 	// if (DFUpdate.PcmbCode)
 	// {
